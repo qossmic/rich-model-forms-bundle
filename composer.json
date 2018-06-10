@@ -1,0 +1,25 @@
+{
+    "name": "sensiolabs-de/rich-model-forms-bundle",
+    "description": "Provides additional data mappers that ease the use of the Symfony Form component with rich models.",
+    "keywords": ["Symfony", "form", "forms", "bundle", "rich model", "DDD", "domain-driven design"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Flothmann",
+            "email": "christian.flothmann@sensiolabs.de"
+        },
+        {
+            "name": "Christopher Hertel",
+            "email": "christopher.hertel@sensiolabs.de"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
