@@ -15,7 +15,20 @@
         }
     ],
     "require": {
-        "php": "^7.1.3"
+        "php": "^7.1.3",
+        "symfony/dependency-injection": "^3.4||^4.0",
+        "symfony/http-kernel": "^3.4||^4.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^4.3"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "SensioLabs\\RichModelForms\\": "src"
+        }
     },
     "extra": {
         "branch-alias": {
