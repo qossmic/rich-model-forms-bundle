@@ -17,16 +17,21 @@ namespace SensioLabs\RichModelForms\Tests\DataMapper;
 use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\PauseSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Form\TypeMismatchPriceChangeType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Product;
+use SensioLabs\RichModelForms\Tests\Fixtures\Model\ProductWithTypeError;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Subscription;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class PropertyPathDataMapperTest extends TestCase
+class DataMapperTest extends TestCase
 {
     public function testDataIsNotMappedToFormWithoutReadPropertyPathIfFormIsNotMapped()
     {
@@ -35,7 +40,7 @@ class PropertyPathDataMapperTest extends TestCase
         $formBuilder->get('name')->setData('A way more fancy product');
 
         $form = $formBuilder->getForm();
-        $form->setData(new Product('A fancy product'));
+        $form->setData(new Product('A fancy product', Price::fromAmount(500)));
 
         $this->assertSame('A way more fancy product', $form['name']->getData());
     }
@@ -113,7 +118,7 @@ class PropertyPathDataMapperTest extends TestCase
 
     public function testDataForFieldsWithoutReadPropertyPathOptionAreStillMappedUsingDecoratedDataMapper()
     {
-        $form = $this->createForm(ProductDataType::class, new Product('A fancy product'));
+        $form = $this->createForm(ProductDataType::class, new Product('A fancy product', Price::fromAmount(500)));
 
         $this->assertSame('A fancy product', $form['name']->getData());
     }
@@ -128,7 +133,7 @@ class PropertyPathDataMapperTest extends TestCase
 
     public function testSubmittedDataForFieldsWithoutWritePropertyPathOptionAreStillMappedUsingDecoratedDataMapper()
     {
-        $product = new Product('A fancy product');
+        $product = new Product('A fancy product', Price::fromAmount(500));
         $form = $this->createForm(ProductDataType::class, $product);
         $form->submit([
             'name' => 'A way more fancy product',
@@ -154,7 +159,7 @@ class PropertyPathDataMapperTest extends TestCase
 
     public function testSubmittingNonMappedTypesDoesNotChangeUnderlyingData()
     {
-        $product = new Product('A fancy product');
+        $product = new Product('A fancy product', Price::fromAmount(500));
         $formBuilder = $this->createFormBuilder(ProductDataType::class, $product);
         $formBuilder->get('name')->setMapped(false);
 
@@ -212,6 +217,60 @@ class PropertyPathDataMapperTest extends TestCase
         ]);
 
         $this->assertFalse($form->isValid());
+    }
+
+    public function testMismatchingArgumentTypesWillBeConvertedToErrors()
+    {
+        $form = $this->createForm(ChangeProductStockType::class, new Product('A fancy product', Price::fromAmount(500)));
+        $form->submit([
+            'stock' => '',
+        ]);
+
+        $this->assertFalse($form->get('stock')->isValid());
+        $this->assertCount(1, $form->get('stock')->getErrors());
+        $this->assertSame('This value should be of type integer.', $form->get('stock')->getErrors()[0]->getMessage());
+        $this->assertInstanceOf(\TypeError::class, $form->get('stock')->getErrors()[0]->getCause());
+    }
+
+    public function testPropertyAccessInvalidArgumentExceptionsAreTreatedTheSameAsTypeErrors()
+    {
+        $form = $this->createForm(TypeMismatchPriceChangeType::class, new Product('A fancy product', Price::fromAmount(500)));
+        $form->submit([
+            'price' => '750',
+        ]);
+
+        $this->assertFalse($form->get('price')->isValid());
+        $this->assertCount(1, $form->get('price')->getErrors());
+        $this->assertSame('This value should be of type SensioLabs\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
+        $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
+        $this->assertSame('Expected argument of type "SensioLabs\RichModelForms\Tests\Fixtures\Model\Price", "integer" given.', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+    }
+
+    /**
+     * @expectedException \TypeError
+     */
+    public function testNonArgumentTypeMismatchErrorsWillNotBeHandled()
+    {
+        $form = $this->createForm(ChangeProductStockType::class, new ProductWithTypeError(), [
+            'data_class' => ProductWithTypeError::class,
+        ]);
+        $form->submit([
+            'stock' => '5',
+        ]);
+    }
+
+    public function testExceptionsWillBeConvertedToErrors()
+    {
+        $form = $this->createForm(ProductDataType::class, new Product('A fancy product', Price::fromAmount(500)));
+        $form->submit([
+            'name' => 'A product',
+        ]);
+
+        $this->assertFalse($form->get('name')->isValid());
+        $this->assertCount(1, $form->get('name')->getErrors());
+        $this->assertSame('This value is not valid.', $form->get('name')->getErrors()[0]->getMessage());
+        $this->assertInstanceOf(\InvalidArgumentException::class, $form->get('name')->getErrors()[0]->getCause());
+        $this->assertSame('The product name must have a length of 10 characters or more.', $form->get('name')->getErrors()[0]->getCause()->getMessage());
     }
 
     private function createFormBuilder(string $type, $data = null, array $options = []): FormBuilderInterface

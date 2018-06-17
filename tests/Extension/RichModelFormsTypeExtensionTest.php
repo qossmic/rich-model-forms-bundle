@@ -15,7 +15,7 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\Tests\Extension;
 
 use PHPUnit\Framework\TestCase;
-use SensioLabs\RichModelForms\DataMapper\PropertyPathDataMapper;
+use SensioLabs\RichModelForms\DataMapper\DataMapper;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryBuilder;
@@ -44,7 +44,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $formBuilder = (new FormFactoryBuilder())->getFormFactory()->createBuilder();
         $this->extension->buildForm($formBuilder, []);
 
-        $this->assertInstanceOf(PropertyPathDataMapper::class, $formBuilder->getDataMapper());
+        $this->assertInstanceOf(DataMapper::class, $formBuilder->getDataMapper());
     }
 
     public function testReadPropertyPathAndWritePropertyPathAreBothNullByDefault()
