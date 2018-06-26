@@ -19,9 +19,6 @@
         "symfony/dependency-injection": "^3.4||^4.0",
         "symfony/http-kernel": "^3.4||^4.0"
     },
-    "require-dev": {
-        "phpspec/phpspec": "^4.3"
-    },
     "config": {
         "sort-packages": true
     },
