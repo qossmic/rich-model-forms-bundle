@@ -1,0 +1,15 @@
+---------------------------------------------------------------------------
+
+by chr-hertel at 2018-06-26T19:06:17Z
+
+right now the extension expects that read and write path are used together, but do we really need to enforce that?
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2018-06-27T06:32:44Z
+
+> right now the extension expects that read and write path are used together, but do we really need to enforce that?
+
+Right now I would stick with it. We can reconsider this decision when we have a clear use case where only a read or write path seems reasonable.
+
+We could even go one step further and throw an exception when the default `property_path` option is used with any of the newly added ones.
