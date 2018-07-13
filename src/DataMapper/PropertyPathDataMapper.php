@@ -16,6 +16,7 @@ namespace SensioLabs\RichModelForms\DataMapper;
 
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -86,11 +87,23 @@ final class PropertyPathDataMapper implements DataMapperInterface
                 continue;
             }
 
-            if (is_object($data) && $config->getByReference() && $form->getData() === $this->propertyAccessor->getValue($data, $readPropertyPath)) {
+            if (is_object($data) && $config->getByReference() && $form->getData() === $this->propertyAccessor->getValue($data, $readPropertyPath) && !$writePropertyPath instanceof \Closure) {
                 continue;
             }
 
-            $this->propertyAccessor->setValue($data, $writePropertyPath, $form->getData());
+            if ($writePropertyPath instanceof \Closure) {
+                if (null !== $writePropertyPath = $writePropertyPath($form->getData())) {
+                    // The property accessor expects the method to accept exactly one argument for write access. Since
+                    // our write option here is chosen based on the submitted value we do not need to (and explicitly do
+                    // not want to) pass and value we use the property accessor's read operation which will call the
+                    // method without any argument.
+                    $this->propertyAccessor->getValue($data, $writePropertyPath);
+                } else {
+                    $form->addError(new FormError($config->getOption('invalid_message') ?? 'This value is not valid.', null, $config->getOption('invalid_message_parameters') ?? []));
+                }
+            } else {
+                $this->propertyAccessor->setValue($data, $writePropertyPath, $form->getData());
+            }
         }
 
         $this->dataMapper->mapFormsToData($formsToBeMapped, $data);
