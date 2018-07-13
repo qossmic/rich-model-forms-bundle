@@ -27,7 +27,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class PropertyPathDataMapperTest extends TestCase
 {
-    public function testDataIsNotMappedToFormWithoutReadPropertyPathIfTheFormIsNotMapped()
+    public function testDataIsNotMappedToFormWithoutReadPropertyPathIfFormIsNotMapped()
     {
         $formBuilder = $this->createFormBuilder(ProductDataType::class);
         $formBuilder->get('name')->setMapped(false);
@@ -39,7 +39,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertSame('A way more fancy product', $form['name']->getData());
     }
 
-    public function testDataIsNotMappedToFormWithReadPropertyPathIfTheFormIsNotMapped()
+    public function testDataIsNotMappedToFormWithReadPropertyPathIfFormIsNotMapped()
     {
         $formBuilder = $this->createFormBuilder(CancelSubscriptionType::class);
         $formBuilder->get('cancellation_date')->setMapped(false);
@@ -51,7 +51,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $form['cancellation_date']->getData());
     }
 
-    public function testTheDataOptionIsMappedToTheFormWithoutReadPropertyPathIfTheDataToBeMappedIsNull()
+    public function testDataOptionIsMappedToFormWithoutReadPropertyPathIfDataToBeMappedIsNull()
     {
         $formBuilder = $this->createFormBuilder(ProductDataType::class);
         $formBuilder->get('name')->setData('A way more fancy product');
@@ -62,7 +62,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertSame('A way more fancy product', $form['name']->getData());
     }
 
-    public function testTheDataOptionIsMappedToTheFormWithReadPropertyPathIfTheDataToBeMappedIsNull()
+    public function testDataOptionIsMappedToFormWithReadPropertyPathIfDataToBeMappedIsNull()
     {
         $formBuilder = $this->createFormBuilder(CancelSubscriptionType::class);
         $formBuilder->get('cancellation_date')->setData(new \DateTimeImmutable('2019-01-07'));
@@ -73,7 +73,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $form['cancellation_date']->getData());
     }
 
-    public function testTheDataOptionIsMappedToTheFormWithoutReadPropertyPathIfTheDataToBeMappedIsTheEmptyArray()
+    public function testDataOptionIsMappedToFormWithoutReadPropertyPathIfDataToBeMappedIsEmptyArray()
     {
         $formBuilder = $this->createFormBuilder(ProductDataType::class, null, [
             'data_class' => null,
@@ -86,7 +86,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertSame('A way more fancy product', $form['name']->getData());
     }
 
-    public function testTheDataOptionIsMappedToTheFormWithReadPropertyPathIfTheDataToBeMappedIsTheEmptyArray()
+    public function testDataOptionIsMappedToFormWithReadPropertyPathIfDataToBeMappedIsEmptyArray()
     {
         $formBuilder = $this->createFormBuilder(CancelSubscriptionType::class, null, [
             'data_class' => null,
@@ -110,14 +110,14 @@ class PropertyPathDataMapperTest extends TestCase
         $form->setData('foo');
     }
 
-    public function testDataForFieldsWithoutTheReadPropertyPathOptionAreStillMappedUsingTheDecoratedDataMapper()
+    public function testDataForFieldsWithoutReadPropertyPathOptionAreStillMappedUsingDecoratedDataMapper()
     {
         $form = $this->createForm(ProductDataType::class, new Product('A fancy product'));
 
         $this->assertSame('A fancy product', $form['name']->getData());
     }
 
-    public function testDataToBeMappedIsReadUsingTheReadPropertyPathOption()
+    public function testDataToBeMappedIsReadUsingReadPropertyPathOption()
     {
         $cancellationDate = new \DateTimeImmutable('2018-07-01');
         $form = $this->createForm(CancelSubscriptionType::class, new Subscription($cancellationDate));
@@ -125,7 +125,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertEquals($cancellationDate, $form['cancellation_date']->getData());
     }
 
-    public function testSubmittedDataForFieldsWithoutTheWritePropertyPathOptionAreStillMappedUsingTheDecoratedDataMapper()
+    public function testSubmittedDataForFieldsWithoutWritePropertyPathOptionAreStillMappedUsingDecoratedDataMapper()
     {
         $product = new Product('A fancy product');
         $form = $this->createForm(ProductDataType::class, $product);
@@ -136,7 +136,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertSame('A way more fancy product', $product->getName());
     }
 
-    public function testSubmittedDataForFieldsWithTheWritePropertyPathOptionAreMapped()
+    public function testSubmittedDataForFieldsWithWritePropertyPathOptionAreMapped()
     {
         $subscription = new Subscription(new \DateTimeImmutable('2018-07-01'));
         $form = $this->createForm(CancelSubscriptionType::class, $subscription);
@@ -151,7 +151,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $subscription->cancelledFrom());
     }
 
-    public function testSubmittingNonMappedTypesDoesNotChangeTheUnderlyingData()
+    public function testSubmittingNonMappedTypesDoesNotChangeUnderlyingData()
     {
         $product = new Product('A fancy product');
         $formBuilder = $this->createFormBuilder(ProductDataType::class, $product);
@@ -165,7 +165,7 @@ class PropertyPathDataMapperTest extends TestCase
         $this->assertSame('A fancy product', $product->getName());
     }
 
-    public function testSubmittingNonMappedTypesWithReadPropertyPathDoesNotChangeTheUnderlyingData()
+    public function testSubmittingNonMappedTypesWithReadPropertyPathDoesNotChangeUnderlyingData()
     {
         $subscription = new Subscription(new \DateTimeImmutable('2018-07-01'));
 
