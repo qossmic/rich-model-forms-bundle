@@ -35,6 +35,11 @@
             "SensioLabs\\RichModelForms\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "SensioLabs\\RichModelForms\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "0.1-dev"
