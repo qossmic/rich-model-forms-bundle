@@ -1,0 +1,12 @@
+image: registry.gitlab.com/sensiolabs-de/php-build
+
+test:app:
+  before_script:
+    - 'composer install'
+
+  script:
+    - 'php ./vendor/bin/phpunit'
+
+  cache:
+    paths:
+      - vendor/
