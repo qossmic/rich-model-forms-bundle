@@ -1,4 +1,0 @@
-suites:
-  default:
-    namespace: SensioLabs\RichModelForms
-    psr4_prefix: SensioLabs\RichModelForms
