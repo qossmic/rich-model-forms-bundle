@@ -17,6 +17,7 @@ namespace SensioLabs\RichModelForms\Tests\DataMapper;
 use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Form\PauseSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Product;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Subscription;
@@ -182,6 +183,35 @@ class PropertyPathDataMapperTest extends TestCase
         ]);
 
         $this->assertEquals(new \DateTimeImmutable('2018-07-01'), $subscription->cancelledFrom());
+    }
+
+    public function testSubmittedDataDependentWritePropertyPath()
+    {
+        $subscription = new Subscription(new \DateTimeImmutable());
+
+        $form = $this->createForm(PauseSubscriptionType::class, $subscription);
+        $form->submit([
+            'state' => '0',
+        ]);
+
+        $this->assertTrue($subscription->isSuspended());
+
+        $form = $this->createForm(PauseSubscriptionType::class, $subscription);
+        $form->submit([
+            'state' => '1',
+        ]);
+
+        $this->assertFalse($subscription->isSuspended());
+    }
+
+    public function testSubmittingValuesNotResolvingToWritePropertyPathsInvalidateTheForm()
+    {
+        $form = $this->createForm(PauseSubscriptionType::class, new Subscription(new \DateTimeImmutable()));
+        $form->submit([
+            'state' => '',
+        ]);
+
+        $this->assertFalse($form->isValid());
     }
 
     private function createFormBuilder(string $type, $data = null, array $options = []): FormBuilderInterface

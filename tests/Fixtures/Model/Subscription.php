@@ -17,6 +17,7 @@ namespace SensioLabs\RichModelForms\Tests\Fixtures\Model;
 class Subscription
 {
     private $cancelledBy;
+    private $suspended = false;
 
     public function __construct(\DateTimeInterface $cancellationDate)
     {
@@ -31,5 +32,20 @@ class Subscription
     public function cancelledFrom(): ?\DateTimeImmutable
     {
         return $this->cancelledBy;
+    }
+
+    public function suspend(): void
+    {
+        $this->suspended = true;
+    }
+
+    public function reactivate(): void
+    {
+        $this->suspended = false;
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->suspended;
     }
 }
