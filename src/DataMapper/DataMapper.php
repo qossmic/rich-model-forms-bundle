@@ -19,6 +19,7 @@ use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
@@ -28,12 +29,16 @@ final class DataMapper implements DataMapperInterface
     private $dataMapper;
     private $propertyAccessor;
     private $exceptionHandler;
+    private $translator;
+    private $translationDomain;
 
-    public function __construct(DataMapperInterface $dataMapper, PropertyAccessorInterface $propertyAccessor, ExceptionHandler $exceptionHandler)
+    public function __construct(DataMapperInterface $dataMapper, PropertyAccessorInterface $propertyAccessor, ExceptionHandler $exceptionHandler, TranslatorInterface $translator = null, string $translationDomain = null)
     {
         $this->dataMapper = $dataMapper;
         $this->propertyAccessor = $propertyAccessor;
         $this->exceptionHandler = $exceptionHandler;
+        $this->translator = $translator;
+        $this->translationDomain = $translationDomain;
     }
 
     public function mapDataToForms($data, $forms): void
@@ -98,7 +103,16 @@ final class DataMapper implements DataMapperInterface
                         // method without any argument.
                         $this->propertyAccessor->getValue($data, $writePropertyPath);
                     } else {
-                        $form->addError(new FormError($config->getOption('invalid_message') ?? 'This value is not valid.', null, $config->getOption('invalid_message_parameters') ?? []));
+                        $messageTemplate = $form->getConfig()->getOption('invalid_message') ?? 'This value is not valid.';
+                        $parameters = $form->getConfig()->getOption('invalid_message_parameters') ?? [];
+
+                        if (null !== $this->translator) {
+                            $message = $this->translator->trans($messageTemplate, $parameters, $this->translationDomain);
+                        } else {
+                            $message = strtr($messageTemplate, $parameters);
+                        }
+
+                        $form->addError(new FormError($message, $messageTemplate, $parameters));
                     }
                 } else {
                     $this->propertyAccessor->setValue($data, $writePropertyPath, $form->getData());

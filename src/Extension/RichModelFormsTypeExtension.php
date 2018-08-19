@@ -54,7 +54,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
             new FallbackExceptionHandler($this->translator, $this->translationDomain),
         ]);
 
-        $builder->setDataMapper(new DataMapper($dataMapper, $this->propertyAccessor, $exceptionHandler));
+        $builder->setDataMapper(new DataMapper($dataMapper, $this->propertyAccessor, $exceptionHandler, $this->translator, $this->translationDomain));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
