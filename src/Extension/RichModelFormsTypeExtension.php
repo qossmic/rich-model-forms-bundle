@@ -14,7 +14,10 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\Extension;
 
-use SensioLabs\RichModelForms\DataMapper\PropertyPathDataMapper;
+use SensioLabs\RichModelForms\DataMapper\DataMapper;
+use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ArgumentTypeMismatchExceptionHandler;
+use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ChainExceptionHandler;
+use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\FallbackExceptionHandler;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -22,6 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
@@ -29,10 +33,14 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 final class RichModelFormsTypeExtension extends AbstractTypeExtension
 {
     private $propertyAccessor;
+    private $translator;
+    private $translationDomain;
 
-    public function __construct(PropertyAccessorInterface $propertyAccessor)
+    public function __construct(PropertyAccessorInterface $propertyAccessor, TranslatorInterface $translator = null, string $translationDomain = null)
     {
         $this->propertyAccessor = $propertyAccessor;
+        $this->translator = $translator;
+        $this->translationDomain = $translationDomain;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -41,7 +49,12 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
             return;
         }
 
-        $builder->setDataMapper(new PropertyPathDataMapper($dataMapper, $this->propertyAccessor));
+        $exceptionHandler = new ChainExceptionHandler([
+            new ArgumentTypeMismatchExceptionHandler($this->translator, $this->translationDomain),
+            new FallbackExceptionHandler($this->translator, $this->translationDomain),
+        ]);
+
+        $builder->setDataMapper(new DataMapper($dataMapper, $this->propertyAccessor, $exceptionHandler));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
