@@ -18,7 +18,9 @@ use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\DataMapper\DataMapper;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -37,7 +39,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
     public function testNoDataMapperWillBeSetIfNoneWasConfigured(): void
     {
         $formBuilder = (new FormFactoryBuilder())->getFormFactory()->createBuilder(FormType::class, null, ['compound' => false]);
-        $this->extension->buildForm($formBuilder, []);
+        $this->buildForm($formBuilder, []);
 
         $this->assertNull($formBuilder->getDataMapper());
     }
@@ -45,7 +47,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
     public function testPreConfiguredDataMappersWillBeReplaced(): void
     {
         $formBuilder = (new FormFactoryBuilder())->getFormFactory()->createBuilder();
-        $this->extension->buildForm($formBuilder, []);
+        $this->buildForm($formBuilder, []);
 
         $this->assertInstanceOf(DataMapper::class, $formBuilder->getDataMapper());
     }
@@ -123,5 +125,37 @@ class RichModelFormsTypeExtensionTest extends TestCase
     public function testItExtendsTheBaseFormType(): void
     {
         $this->assertSame(FormType::class, $this->extension->getExtendedType());
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
+     */
+    public function testFactoryStringsMustReferenceExistingClasses(): void
+    {
+        $resolver = new OptionsResolver();
+        $this->extension->configureOptions($resolver);
+        $resolver->resolve([
+            'factory' => __NAMESPACE__.'\\NotExistent',
+        ]);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
+     */
+    public function testFactoryArraysMustBeCallables(): void
+    {
+        $resolver = new OptionsResolver();
+        $this->extension->configureOptions($resolver);
+        $resolver->resolve([
+            'factory' => [GrossPrice::class, 'createGrossPrice'],
+        ]);
+    }
+
+    private function buildForm(FormBuilderInterface $formBuilder, array $options): void
+    {
+        $resolver = new OptionsResolver();
+        $this->extension->configureOptions($resolver);
+
+        $this->extension->buildForm($formBuilder, $resolver->resolve($options));
     }
 }
