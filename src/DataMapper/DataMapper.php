@@ -14,7 +14,9 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\DataMapper;
 
+use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ChainExceptionHandler;
 use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandler;
+use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormError;
@@ -28,15 +30,15 @@ final class DataMapper implements DataMapperInterface
 {
     private $dataMapper;
     private $propertyAccessor;
-    private $exceptionHandler;
+    private $exceptionHandlerRegistry;
     private $translator;
     private $translationDomain;
 
-    public function __construct(DataMapperInterface $dataMapper, PropertyAccessorInterface $propertyAccessor, ExceptionHandler $exceptionHandler, TranslatorInterface $translator = null, string $translationDomain = null)
+    public function __construct(DataMapperInterface $dataMapper, PropertyAccessorInterface $propertyAccessor, ExceptionHandlerRegistry $exceptionHandlerRegistry, TranslatorInterface $translator = null, string $translationDomain = null)
     {
         $this->dataMapper = $dataMapper;
         $this->propertyAccessor = $propertyAccessor;
-        $this->exceptionHandler = $exceptionHandler;
+        $this->exceptionHandlerRegistry = $exceptionHandlerRegistry;
         $this->translator = $translator;
         $this->translationDomain = $translationDomain;
     }
@@ -118,7 +120,19 @@ final class DataMapper implements DataMapperInterface
                     $this->propertyAccessor->setValue($data, $writePropertyPath, $form->getData());
                 }
             } catch (\Throwable $e) {
-                if (null !== $error = $this->exceptionHandler->getError($form, $data, $e)) {
+                $exceptionHandlers = [];
+
+                foreach ($form->getConfig()->getOption('exception_handling_strategy') as $strategy) {
+                    $exceptionHandlers[] = $this->exceptionHandlerRegistry->get($strategy);
+                }
+
+                if (count($exceptionHandlers) === 1) {
+                    $exceptionHandler = reset($exceptionHandlers);
+                } else {
+                    $exceptionHandler = new ChainExceptionHandler($exceptionHandlers);
+                }
+
+                if (null !== $error = $exceptionHandler->getError($form, $data, $e)) {
                     $form->addError($error);
                 } else {
                     throw $e;
