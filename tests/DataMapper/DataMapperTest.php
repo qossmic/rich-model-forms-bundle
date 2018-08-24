@@ -251,8 +251,6 @@ class DataMapperTest extends TestCase
      */
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandled()
     {
-        $this->markTestSkipped('requires https://github.com/symfony/symfony/pull/28220');
-
         $form = $this->createForm(ChangeProductStockType::class, new ProductWithTypeError(), [
             'data_class' => ProductWithTypeError::class,
         ]);
