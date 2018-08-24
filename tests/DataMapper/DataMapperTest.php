@@ -243,7 +243,7 @@ class DataMapperTest extends TestCase
         $this->assertCount(1, $form->get('price')->getErrors());
         $this->assertSame('This value should be of type SensioLabs\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertSame('Expected argument of type "SensioLabs\RichModelForms\Tests\Fixtures\Model\Price", "integer" given.', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertStringStartsWith('Expected argument of type "SensioLabs\RichModelForms\Tests\Fixtures\Model\Price", "integer" given', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
     /**
