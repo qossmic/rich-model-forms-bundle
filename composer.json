@@ -22,14 +22,12 @@
         "symfony/framework-bundle": "^3.4||^4.0",
         "symfony/http-kernel": "^3.4||^4.0",
         "symfony/options-resolver": "^3.4||^4.0",
-        "symfony/property-access": "^3.4.15||~4.0.15||^4.1.4"
+        "symfony/property-access": "^3.4.15||^4.1.4"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.4||^4.0",
         "symfony/translation": "^3.4||^4.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "config": {
         "sort-packages": true
     },
