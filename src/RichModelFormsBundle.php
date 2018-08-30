@@ -14,6 +14,8 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms;
 
+use SensioLabs\RichModelForms\DependencyInjection\Compiler\RegisterExceptionHandlersPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -21,4 +23,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class RichModelFormsBundle extends Bundle
 {
+    public function build(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass(new RegisterExceptionHandlersPass());
+    }
 }

@@ -15,9 +15,7 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\Extension;
 
 use SensioLabs\RichModelForms\DataMapper\DataMapper;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ArgumentTypeMismatchExceptionHandler;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ChainExceptionHandler;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\FallbackExceptionHandler;
+use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -33,12 +31,14 @@ use Symfony\Component\Translation\TranslatorInterface;
 final class RichModelFormsTypeExtension extends AbstractTypeExtension
 {
     private $propertyAccessor;
+    private $exceptionHandlerRegistry;
     private $translator;
     private $translationDomain;
 
-    public function __construct(PropertyAccessorInterface $propertyAccessor, TranslatorInterface $translator = null, string $translationDomain = null)
+    public function __construct(PropertyAccessorInterface $propertyAccessor, ExceptionHandlerRegistry $exceptionHandlerRegistry, TranslatorInterface $translator = null, string $translationDomain = null)
     {
         $this->propertyAccessor = $propertyAccessor;
+        $this->exceptionHandlerRegistry = $exceptionHandlerRegistry;
         $this->translator = $translator;
         $this->translationDomain = $translationDomain;
     }
@@ -49,12 +49,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
             return;
         }
 
-        $exceptionHandler = new ChainExceptionHandler([
-            new ArgumentTypeMismatchExceptionHandler($this->translator, $this->translationDomain),
-            new FallbackExceptionHandler($this->translator, $this->translationDomain),
-        ]);
-
-        $builder->setDataMapper(new DataMapper($dataMapper, $this->propertyAccessor, $exceptionHandler, $this->translator, $this->translationDomain));
+        $builder->setDataMapper(new DataMapper($dataMapper, $this->propertyAccessor, $this->exceptionHandlerRegistry, $this->translator, $this->translationDomain));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -72,6 +67,20 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
 
             if (null !== $options['write_property_path'] && null === $value) {
                 throw new InvalidConfigurationException('Cannot use "write_property_path" without "read_property_path".');
+            }
+
+            return $value;
+        });
+
+        $resolver->setDefault('exception_handling_strategy', ['type_error', 'fallback']);
+
+        $resolver->setNormalizer('exception_handling_strategy', function (Options $options, $value) {
+            $value = (array) $value;
+
+            foreach ($value as $strategy) {
+                if (!$this->exceptionHandlerRegistry->has($strategy)) {
+                    throw new InvalidConfigurationException(sprintf('The "%s" error handling strategy is not registered.', $strategy));
+                }
             }
 
             return $value;

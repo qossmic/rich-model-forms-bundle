@@ -12,5 +12,22 @@
             <argument type="string">%validator.translation_domain%</argument>
             <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
+
+        <service id="sensiolabs.rich_model_forms.exception_handler.registry" class="SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry">
+            <argument>null</argument> <!-- service locator will be injected during compilation -->
+            <argument type="collection" /> <!-- exception handling strategies, will be injected during compilation -->
+        </service>
+
+        <service id="sensiolabs.rich_model_forms.exception_handler.strategy.argument_type_mismatch" class="SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ArgumentTypeMismatchExceptionHandler">
+            <argument type="service" id="translator" on-invalid="ignore" />
+            <argument type="string">%validator.translation_domain%</argument>
+            <tag name="sensiolabs.rich_model_forms.exception_handler" strategy="type_error" />
+        </service>
+
+        <service id="sensiolabs.rich_model_forms.exception_handler.strategy.fallback" class="SensioLabs\RichModelForms\DataMapper\ExceptionHandler\FallbackExceptionHandler">
+            <argument type="service" id="translator" on-invalid="ignore" />
+            <argument type="string">%validator.translation_domain%</argument>
+            <tag name="sensiolabs.rich_model_forms.exception_handler" strategy="fallback" />
+        </service>
     </services>
 </container>

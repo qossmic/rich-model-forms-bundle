@@ -16,6 +16,7 @@ namespace SensioLabs\RichModelForms\Tests\DataMapper;
 
 use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
+use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockTypeExtension;
@@ -34,6 +35,8 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class DataMapperTest extends TestCase
 {
+    use ExceptionHandlerRegistryTrait;
+
     public function testDataIsNotMappedToFormWithoutReadPropertyPathIfFormIsNotMapped()
     {
         $formBuilder = $this->createFormBuilder(ProductDataType::class);
@@ -277,7 +280,7 @@ class DataMapperTest extends TestCase
     private function createFormBuilder(string $type, $data = null, array $options = [], array $additionalExtensions = []): FormBuilderInterface
     {
         $formFactory = (new FormFactoryBuilder())
-            ->addTypeExtension(new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor()))
+            ->addTypeExtension(new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor(), $this->createExceptionHandlerRegistry()))
             ->addTypeExtensions($additionalExtensions)
             ->getFormFactory();
 
