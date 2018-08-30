@@ -3,10 +3,11 @@ image: registry.gitlab.com/sensiolabs-de/php-build
 test:app:
   before_script:
     - 'composer install'
+    - ./vendor/bin/simple-phpunit install
 
   script:
-    - 'php ./vendor/bin/phpunit'
+    - 'php ./vendor/bin/simple-phpunit'
 
   cache:
     paths:
-      - vendor/
+      - "$HOME/.composer/cache/files"
