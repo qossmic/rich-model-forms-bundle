@@ -18,6 +18,7 @@ use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockTypeExtension;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\PauseSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\TypeMismatchPriceChangeType;
@@ -221,7 +222,7 @@ class DataMapperTest extends TestCase
 
     public function testMismatchingArgumentTypesWillBeConvertedToErrors()
     {
-        $form = $this->createForm(ChangeProductStockType::class, new Product('A fancy product', Price::fromAmount(500)));
+        $form = $this->createForm(ChangeProductStockType::class, new Product('A fancy product', Price::fromAmount(500)), [], [new ChangeProductStockTypeExtension(PropertyAccess::createPropertyAccessor())]);
         $form->submit([
             'stock' => '',
         ]);
@@ -273,17 +274,18 @@ class DataMapperTest extends TestCase
         $this->assertSame('The product name must have a length of 10 characters or more.', $form->get('name')->getErrors()[0]->getCause()->getMessage());
     }
 
-    private function createFormBuilder(string $type, $data = null, array $options = []): FormBuilderInterface
+    private function createFormBuilder(string $type, $data = null, array $options = [], array $additionalExtensions = []): FormBuilderInterface
     {
         $formFactory = (new FormFactoryBuilder())
             ->addTypeExtension(new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor()))
+            ->addTypeExtensions($additionalExtensions)
             ->getFormFactory();
 
         return $formFactory->createBuilder($type, $data, $options);
     }
 
-    private function createForm(string $type, $data, array $options = []): FormInterface
+    private function createForm(string $type, $data, array $options = [], array $additionalExtensions = []): FormInterface
     {
-        return $this->createFormBuilder($type, $data, $options)->getForm();
+        return $this->createFormBuilder($type, $data, $options, $additionalExtensions)->getForm();
     }
 }
