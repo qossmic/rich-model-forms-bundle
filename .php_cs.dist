@@ -1,0 +1,42 @@
+<?php
+
+/*
+ * This file is part of the RichModelFormsBundle package.
+ *
+ * (c) Christian Flothmann <christian.flothmann@sensiolabs.de>
+ * (c) Christopher Hertel <christopher.hertel@sensiolabs.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types = 1);
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+        '@PHPUnit60Migration:risky' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'declare_equal_normalize' => ['space' => 'single'],
+        'declare_strict_types' => true,
+        'header_comment' => [
+            'header' => 'This file is part of the RichModelFormsBundle package.
+
+(c) Christian Flothmann <christian.flothmann@sensiolabs.de>
+(c) Christopher Hertel <christopher.hertel@sensiolabs.de>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.',
+            'location' => 'after_open',
+        ],
+        'ordered_imports' => true,
+        'void_return' => true,
+    ])
+    ->setRiskyAllowed(true)
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->in(__DIR__.'/src')
+            ->append([__FILE__])
+    )
+;

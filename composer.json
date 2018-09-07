@@ -26,6 +26,7 @@
         "symfony/property-access": "^3.4.15||^4.1.4"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.13",
         "symfony/phpunit-bridge": "^3.4||^4.0",
         "symfony/translation": "^3.4||^4.0"
     },

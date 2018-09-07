@@ -15,7 +15,6 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\DataMapper;
 
 use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ChainExceptionHandler;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandler;
 use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
@@ -47,7 +46,7 @@ final class DataMapper implements DataMapperInterface
     {
         $isDataEmpty = null === $data || [] === $data;
 
-        if (!$isDataEmpty && !is_array($data) && !is_object($data)) {
+        if (!$isDataEmpty && !\is_array($data) && !\is_object($data)) {
             throw new UnexpectedTypeException($data, 'object, array or null');
         }
 
@@ -74,7 +73,7 @@ final class DataMapper implements DataMapperInterface
             return;
         }
 
-        if (!is_array($data) && !is_object($data)) {
+        if (!\is_array($data) && !\is_object($data)) {
             throw new UnexpectedTypeException($data, 'object, array or null');
         }
 
@@ -90,7 +89,7 @@ final class DataMapper implements DataMapperInterface
                 // write-back is disabled if the form is not synchronized (transformation failed),
                 // if the form was not submitted and if the form is disabled (modification not allowed)
                 $forwardToWrappedDataMapper = true;
-            } elseif (is_object($data) && $config->getByReference() && $form->getData() === $this->propertyAccessor->getValue($data, $readPropertyPath) && !$writePropertyPath instanceof \Closure) {
+            } elseif (\is_object($data) && $config->getByReference() && $form->getData() === $this->propertyAccessor->getValue($data, $readPropertyPath) && !$writePropertyPath instanceof \Closure) {
                 $forwardToWrappedDataMapper = true;
             }
 
@@ -126,7 +125,7 @@ final class DataMapper implements DataMapperInterface
                     $exceptionHandlers[] = $this->exceptionHandlerRegistry->get($strategy);
                 }
 
-                if (count($exceptionHandlers) === 1) {
+                if (1 === \count($exceptionHandlers)) {
                     $exceptionHandler = reset($exceptionHandlers);
                 } else {
                     $exceptionHandler = new ChainExceptionHandler($exceptionHandlers);
