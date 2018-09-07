@@ -21,6 +21,15 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RichModelFormsExtensionTest extends KernelTestCase
 {
+    public function testServicesCanBeBuilt()
+    {
+        $container = $this->bootKernel()->getContainer();
+
+        foreach ($container->getParameter('sensiolabs.rich_model_forms.test_service_aliases') as $id => $type) {
+            $this->assertInstanceOf($type, $container->get($id));
+        }
+    }
+
     public function testArgumentTypeMismatchExceptionHandlingStrategyIsRegistered()
     {
         $container = $this->bootKernel()->getContainer();
