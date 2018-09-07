@@ -38,7 +38,7 @@ class ExceptionHandlerRegistry
     public function get(string $strategy): ExceptionHandler
     {
         if (!isset($this->strategies[$strategy])) {
-            throw new \InvalidArgumentException(sprintf('The exception handling strategy "%s" is not registered (use one of ["%s"]).', $strategy, implode(array_keys($this->strategies))));
+            throw new \InvalidArgumentException(sprintf('The exception handling strategy "%s" is not registered (use one of ["%s"]).', $strategy, implode(', ', array_keys($this->strategies))));
         }
 
         return $this->container->get($this->strategies[$strategy]);
