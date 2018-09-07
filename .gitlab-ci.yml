@@ -6,6 +6,7 @@ test:app:
     - ./vendor/bin/simple-phpunit install
 
   script:
+    - 'php vendor/bin/php-cs-fixer fix --diff --dry-run'
     - 'php ./vendor/bin/simple-phpunit'
 
   cache:
