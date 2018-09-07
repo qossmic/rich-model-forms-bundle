@@ -6,8 +6,9 @@
     <services>
         <defaults public="false" />
 
-        <service id="sensiolabs.rich_model_forms_extension" class="SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension">
+        <service id="sensiolabs.rich_model_forms.type_extension" class="SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension">
             <argument type="service" id="property_accessor" />
+            <argument type="service" id="sensiolabs.rich_model_forms.exception_handler.registry" />
             <argument type="service" id="translator" on-invalid="ignore" />
             <argument type="string">%validator.translation_domain%</argument>
             <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />

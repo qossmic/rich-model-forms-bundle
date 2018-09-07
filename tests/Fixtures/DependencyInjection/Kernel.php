@@ -17,7 +17,7 @@ namespace SensioLabs\RichModelForms\Tests\Fixtures\DependencyInjection;
 use SensioLabs\RichModelForms\RichModelFormsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
@@ -34,8 +34,8 @@ class Kernel extends BaseKernel
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(function (ContainerBuilder $container) {
+            $container->addCompilerPass(new PublicTestAliasPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1000);
             $container->setParameter('kernel.secret', __FILE__);
-            $container->setAlias('test.sensiolabs.rich_model_forms.exception_handler.registry', new Alias('sensiolabs.rich_model_forms.exception_handler.registry', true));
         });
     }
 
