@@ -31,12 +31,14 @@ file that was distributed with this source code.',
             'location' => 'after_open',
         ],
         'ordered_imports' => true,
+        'php_unit_no_expectation_annotation' => false,
         'void_return' => true,
     ])
     ->setRiskyAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__.'/src')
+            ->in(__DIR__.'/tests')
             ->append([__FILE__])
     )
 ;

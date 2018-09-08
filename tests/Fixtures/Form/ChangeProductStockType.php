@@ -25,11 +25,11 @@ class ChangeProductStockType extends AbstractType
     {
         $builder
             ->add('stock', IntegerType::class)
-            ->setDataMapper(new class implements DataMapperInterface {
+            ->setDataMapper(new class() implements DataMapperInterface {
                 public function mapDataToForms($data, $forms): void
                 {
                     foreach ($forms as $form) {
-                        if ($form->getConfig()->getName() === 'stock') {
+                        if ('stock' === $form->getConfig()->getName()) {
                             $form->setData($data->currentStock());
                         }
                     }
@@ -38,12 +38,12 @@ class ChangeProductStockType extends AbstractType
                 public function mapFormsToData($forms, &$data): void
                 {
                     foreach ($forms as $form) {
-                        if ($form->getConfig()->getName() === 'stock') {
+                        if ('stock' === $form->getConfig()->getName()) {
                             $data->allocateStock($form->getData());
                         }
                     }
                 }
-            });
+            })
         ;
     }
 }

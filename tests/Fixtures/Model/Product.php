@@ -37,7 +37,7 @@ class Product
             throw new \InvalidArgumentException('The product name must not be empty.');
         }
 
-        if (strlen($name) < 10) {
+        if (\strlen($name) < 10) {
             throw new \InvalidArgumentException('The product name must have a length of 10 characters or more.');
         }
 
