@@ -37,7 +37,7 @@ class DataMapperTest extends TestCase
 {
     use ExceptionHandlerRegistryTrait;
 
-    public function testDataIsNotMappedToFormWithoutReadPropertyPathIfFormIsNotMapped()
+    public function testDataIsNotMappedToFormWithoutReadPropertyPathIfFormIsNotMapped(): void
     {
         $formBuilder = $this->createFormBuilder(ProductDataType::class);
         $formBuilder->get('name')->setMapped(false);
@@ -49,7 +49,7 @@ class DataMapperTest extends TestCase
         $this->assertSame('A way more fancy product', $form['name']->getData());
     }
 
-    public function testDataIsNotMappedToFormWithReadPropertyPathIfFormIsNotMapped()
+    public function testDataIsNotMappedToFormWithReadPropertyPathIfFormIsNotMapped(): void
     {
         $formBuilder = $this->createFormBuilder(CancelSubscriptionType::class);
         $formBuilder->get('cancellation_date')->setMapped(false);
@@ -61,7 +61,7 @@ class DataMapperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $form['cancellation_date']->getData());
     }
 
-    public function testDataOptionIsMappedToFormWithoutReadPropertyPathIfDataToBeMappedIsNull()
+    public function testDataOptionIsMappedToFormWithoutReadPropertyPathIfDataToBeMappedIsNull(): void
     {
         $formBuilder = $this->createFormBuilder(ProductDataType::class);
         $formBuilder->get('name')->setData('A way more fancy product');
@@ -72,7 +72,7 @@ class DataMapperTest extends TestCase
         $this->assertSame('A way more fancy product', $form['name']->getData());
     }
 
-    public function testDataOptionIsMappedToFormWithReadPropertyPathIfDataToBeMappedIsNull()
+    public function testDataOptionIsMappedToFormWithReadPropertyPathIfDataToBeMappedIsNull(): void
     {
         $formBuilder = $this->createFormBuilder(CancelSubscriptionType::class);
         $formBuilder->get('cancellation_date')->setData(new \DateTimeImmutable('2019-01-07'));
@@ -83,7 +83,7 @@ class DataMapperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $form['cancellation_date']->getData());
     }
 
-    public function testDataOptionIsMappedToFormWithoutReadPropertyPathIfDataToBeMappedIsEmptyArray()
+    public function testDataOptionIsMappedToFormWithoutReadPropertyPathIfDataToBeMappedIsEmptyArray(): void
     {
         $formBuilder = $this->createFormBuilder(ProductDataType::class, null, [
             'data_class' => null,
@@ -96,7 +96,7 @@ class DataMapperTest extends TestCase
         $this->assertSame('A way more fancy product', $form['name']->getData());
     }
 
-    public function testDataOptionIsMappedToFormWithReadPropertyPathIfDataToBeMappedIsEmptyArray()
+    public function testDataOptionIsMappedToFormWithReadPropertyPathIfDataToBeMappedIsEmptyArray(): void
     {
         $formBuilder = $this->createFormBuilder(CancelSubscriptionType::class, null, [
             'data_class' => null,
@@ -112,7 +112,7 @@ class DataMapperTest extends TestCase
     /**
      * @expectedException \Symfony\Component\Form\Exception\UnexpectedTypeException
      */
-    public function testMappingScalarDataToFormsIsRejected()
+    public function testMappingScalarDataToFormsIsRejected(): void
     {
         $form = $this->createForm(CancelSubscriptionType::class, null, [
             'data_class' => null,
@@ -120,14 +120,14 @@ class DataMapperTest extends TestCase
         $form->setData('foo');
     }
 
-    public function testDataForFieldsWithoutReadPropertyPathOptionAreStillMappedUsingDecoratedDataMapper()
+    public function testDataForFieldsWithoutReadPropertyPathOptionAreStillMappedUsingDecoratedDataMapper(): void
     {
         $form = $this->createForm(ProductDataType::class, new Product('A fancy product', Price::fromAmount(500)));
 
         $this->assertSame('A fancy product', $form['name']->getData());
     }
 
-    public function testDataToBeMappedIsReadUsingReadPropertyPathOption()
+    public function testDataToBeMappedIsReadUsingReadPropertyPathOption(): void
     {
         $cancellationDate = new \DateTimeImmutable('2018-07-01');
         $form = $this->createForm(CancelSubscriptionType::class, new Subscription($cancellationDate));
@@ -135,7 +135,7 @@ class DataMapperTest extends TestCase
         $this->assertEquals($cancellationDate, $form['cancellation_date']->getData());
     }
 
-    public function testSubmittedDataForFieldsWithoutWritePropertyPathOptionAreStillMappedUsingDecoratedDataMapper()
+    public function testSubmittedDataForFieldsWithoutWritePropertyPathOptionAreStillMappedUsingDecoratedDataMapper(): void
     {
         $product = new Product('A fancy product', Price::fromAmount(500));
         $form = $this->createForm(ProductDataType::class, $product);
@@ -146,7 +146,7 @@ class DataMapperTest extends TestCase
         $this->assertSame('A way more fancy product', $product->getName());
     }
 
-    public function testSubmittedDataForFieldsWithWritePropertyPathOptionAreMapped()
+    public function testSubmittedDataForFieldsWithWritePropertyPathOptionAreMapped(): void
     {
         $subscription = new Subscription(new \DateTimeImmutable('2018-07-01'));
         $form = $this->createForm(CancelSubscriptionType::class, $subscription);
@@ -161,7 +161,7 @@ class DataMapperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $subscription->cancelledFrom());
     }
 
-    public function testSubmittingNonMappedTypesDoesNotChangeUnderlyingData()
+    public function testSubmittingNonMappedTypesDoesNotChangeUnderlyingData(): void
     {
         $product = new Product('A fancy product', Price::fromAmount(500));
         $formBuilder = $this->createFormBuilder(ProductDataType::class, $product);
@@ -175,7 +175,7 @@ class DataMapperTest extends TestCase
         $this->assertSame('A fancy product', $product->getName());
     }
 
-    public function testSubmittingNonMappedTypesWithReadPropertyPathDoesNotChangeUnderlyingData()
+    public function testSubmittingNonMappedTypesWithReadPropertyPathDoesNotChangeUnderlyingData(): void
     {
         $subscription = new Subscription(new \DateTimeImmutable('2018-07-01'));
 
@@ -194,7 +194,7 @@ class DataMapperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2018-07-01'), $subscription->cancelledFrom());
     }
 
-    public function testSubmittedDataDependentWritePropertyPath()
+    public function testSubmittedDataDependentWritePropertyPath(): void
     {
         $subscription = new Subscription(new \DateTimeImmutable());
 
@@ -213,7 +213,7 @@ class DataMapperTest extends TestCase
         $this->assertFalse($subscription->isSuspended());
     }
 
-    public function testSubmittingValuesNotResolvingToWritePropertyPathsInvalidateTheForm()
+    public function testSubmittingValuesNotResolvingToWritePropertyPathsInvalidateTheForm(): void
     {
         $form = $this->createForm(PauseSubscriptionType::class, new Subscription(new \DateTimeImmutable()));
         $form->submit([
@@ -223,7 +223,7 @@ class DataMapperTest extends TestCase
         $this->assertFalse($form->isValid());
     }
 
-    public function testMismatchingArgumentTypesWillBeConvertedToErrors()
+    public function testMismatchingArgumentTypesWillBeConvertedToErrors(): void
     {
         $form = $this->createForm(ChangeProductStockType::class, new Product('A fancy product', Price::fromAmount(500)), [], [new ChangeProductStockTypeExtension(PropertyAccess::createPropertyAccessor())]);
         $form->submit([
@@ -236,7 +236,7 @@ class DataMapperTest extends TestCase
         $this->assertInstanceOf(\TypeError::class, $form->get('stock')->getErrors()[0]->getCause());
     }
 
-    public function testPropertyAccessInvalidArgumentExceptionsAreTreatedTheSameAsTypeErrors()
+    public function testPropertyAccessInvalidArgumentExceptionsAreTreatedTheSameAsTypeErrors(): void
     {
         $form = $this->createForm(TypeMismatchPriceChangeType::class, new Product('A fancy product', Price::fromAmount(500)));
         $form->submit([
@@ -253,7 +253,7 @@ class DataMapperTest extends TestCase
     /**
      * @expectedException \TypeError
      */
-    public function testNonArgumentTypeMismatchErrorsWillNotBeHandled()
+    public function testNonArgumentTypeMismatchErrorsWillNotBeHandled(): void
     {
         $form = $this->createForm(ChangeProductStockType::class, new ProductWithTypeError(), [
             'data_class' => ProductWithTypeError::class,
@@ -263,7 +263,7 @@ class DataMapperTest extends TestCase
         ]);
     }
 
-    public function testExceptionsWillBeConvertedToErrors()
+    public function testExceptionsWillBeConvertedToErrors(): void
     {
         $form = $this->createForm(ProductDataType::class, new Product('A fancy product', Price::fromAmount(500)));
         $form->submit([

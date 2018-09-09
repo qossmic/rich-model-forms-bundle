@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RichModelFormsExtensionTest extends KernelTestCase
 {
-    public function testServicesCanBeBuilt()
+    public function testServicesCanBeBuilt(): void
     {
         $container = $this->bootKernel()->getContainer();
 
@@ -30,7 +30,7 @@ class RichModelFormsExtensionTest extends KernelTestCase
         }
     }
 
-    public function testArgumentTypeMismatchExceptionHandlingStrategyIsRegistered()
+    public function testArgumentTypeMismatchExceptionHandlingStrategyIsRegistered(): void
     {
         $container = $this->bootKernel()->getContainer();
         $exceptionHandlerRegistry = $container->get('test.sensiolabs.rich_model_forms.exception_handler.registry');
@@ -38,7 +38,7 @@ class RichModelFormsExtensionTest extends KernelTestCase
         $this->assertInstanceOf(ArgumentTypeMismatchExceptionHandler::class, $exceptionHandlerRegistry->get('type_error'));
     }
 
-    public function testFallbackExceptionHandlingStrategyIsRegistered()
+    public function testFallbackExceptionHandlingStrategyIsRegistered(): void
     {
         $container = $this->bootKernel()->getContainer();
         $exceptionHandlerRegistry = $container->get('test.sensiolabs.rich_model_forms.exception_handler.registry');
@@ -49,7 +49,7 @@ class RichModelFormsExtensionTest extends KernelTestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testExceptionIsThrownIfExceptionHandlingStrategyIsNotKnown()
+    public function testExceptionIsThrownIfExceptionHandlingStrategyIsNotKnown(): void
     {
         $container = $this->bootKernel()->getContainer();
         $exceptionHandlerRegistry = $container->get('test.sensiolabs.rich_model_forms.exception_handler.registry');
@@ -57,7 +57,7 @@ class RichModelFormsExtensionTest extends KernelTestCase
         $exceptionHandlerRegistry->get('unknown');
     }
 
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         return Kernel::class;
     }

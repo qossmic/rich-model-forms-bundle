@@ -29,12 +29,12 @@ class RichModelFormsTypeExtensionTest extends TestCase
 
     private $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->extension = new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor(), $this->createExceptionHandlerRegistry());
     }
 
-    public function testNoDataMapperWillBeSetIfNoneWasConfigured()
+    public function testNoDataMapperWillBeSetIfNoneWasConfigured(): void
     {
         $formBuilder = (new FormFactoryBuilder())->getFormFactory()->createBuilder(FormType::class, null, ['compound' => false]);
         $this->extension->buildForm($formBuilder, []);
@@ -42,7 +42,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->assertNull($formBuilder->getDataMapper());
     }
 
-    public function testPreConfiguredDataMappersWillBeReplaced()
+    public function testPreConfiguredDataMappersWillBeReplaced(): void
     {
         $formBuilder = (new FormFactoryBuilder())->getFormFactory()->createBuilder();
         $this->extension->buildForm($formBuilder, []);
@@ -50,7 +50,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->assertInstanceOf(DataMapper::class, $formBuilder->getDataMapper());
     }
 
-    public function testReadPropertyPathAndWritePropertyPathAreBothNullByDefault()
+    public function testReadPropertyPathAndWritePropertyPathAreBothNullByDefault(): void
     {
         $resolver = new OptionsResolver();
         $this->extension->configureOptions($resolver);
@@ -65,7 +65,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
     /**
      * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
      */
-    public function testReadPropertyPathCannotBeConfiguredWithoutWritePropertyPath()
+    public function testReadPropertyPathCannotBeConfiguredWithoutWritePropertyPath(): void
     {
         $resolver = new OptionsResolver();
         $this->extension->configureOptions($resolver);
@@ -75,14 +75,14 @@ class RichModelFormsTypeExtensionTest extends TestCase
     /**
      * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
      */
-    public function testWritePropertyPathCannotBeConfiguredWithoutReadPropertyPath()
+    public function testWritePropertyPathCannotBeConfiguredWithoutReadPropertyPath(): void
     {
         $resolver = new OptionsResolver();
         $this->extension->configureOptions($resolver);
         $resolver->resolve(['write_property_path' => 'foo']);
     }
 
-    public function testReadPropertyPathAndWritePropertyPathCanBeConfigured()
+    public function testReadPropertyPathAndWritePropertyPathCanBeConfigured(): void
     {
         $resolver = new OptionsResolver();
         $this->extension->configureOptions($resolver);
@@ -100,7 +100,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
     /**
      * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
      */
-    public function testErrorHandlerMustReferenceExistingStrategies()
+    public function testErrorHandlerMustReferenceExistingStrategies(): void
     {
         $resolver = new OptionsResolver();
         $this->extension->configureOptions($resolver);
@@ -109,7 +109,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
         ]);
     }
 
-    public function testSingleErrorHandlerCanBeConfigured()
+    public function testSingleErrorHandlerCanBeConfigured(): void
     {
         $resolver = new OptionsResolver();
         $this->extension->configureOptions($resolver);
@@ -120,7 +120,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->assertSame(['type_error'], $resolvedOptions['exception_handling_strategy']);
     }
 
-    public function testItExtendsTheBaseFormType()
+    public function testItExtendsTheBaseFormType(): void
     {
         $this->assertSame(FormType::class, $this->extension->getExtendedType());
     }
