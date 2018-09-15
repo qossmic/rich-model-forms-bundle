@@ -16,6 +16,7 @@ namespace SensioLabs\RichModelForms\Extension;
 
 use SensioLabs\RichModelForms\DataMapper\DataMapper;
 use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry;
+use SensioLabs\RichModelForms\DataTransformer\ValueObjectTransformer;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -45,6 +46,10 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        if (null !== $options['factory']) {
+            $builder->addViewTransformer(new ValueObjectTransformer($this->propertyAccessor, $builder));
+        }
+
         if (null === $dataMapper = $builder->getDataMapper()) {
             return;
         }
@@ -58,7 +63,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
         $resolver->setAllowedTypes('read_property_path', ['string', 'null']);
 
         $resolver->setDefault('write_property_path', null);
-        $resolver->setAllowedTypes('write_property_path', ['string', 'null', 'Closure']);
+        $resolver->setAllowedTypes('write_property_path', ['string', 'null', \Closure::class]);
 
         $resolver->setNormalizer('read_property_path', function (Options $options, ?string $value) {
             if (null !== $value && null === $options['write_property_path']) {
@@ -81,6 +86,21 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
                 if (!$this->exceptionHandlerRegistry->has($strategy)) {
                     throw new InvalidConfigurationException(sprintf('The "%s" error handling strategy is not registered.', $strategy));
                 }
+            }
+
+            return $value;
+        });
+
+        $resolver->setDefault('factory', null);
+        $resolver->setAllowedTypes('factory', ['string', 'array', 'null', \Closure::class]);
+
+        $resolver->setNormalizer('factory', function (Options $options, $value) {
+            if (\is_string($value) && !class_exists($value)) {
+                throw new InvalidConfigurationException(sprintf('The configured value for the "factory" option is not a valid class name ("%s" given).', $value));
+            }
+
+            if (\is_array($value) && !\is_callable($value)) {
+                throw new InvalidConfigurationException(sprintf('An array used for the "factory" option must be a valid callable.', $value));
             }
 
             return $value;

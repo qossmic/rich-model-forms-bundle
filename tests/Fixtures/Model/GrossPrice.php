@@ -14,26 +14,37 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\Tests\Fixtures\Model;
 
-final class Price
+final class GrossPrice
 {
     private $amount;
+    private $taxRate;
 
-    public function __construct(int $amount)
+    public function __construct(int $amount, int $taxRate)
     {
         if ($amount < 0) {
             throw new \InvalidArgumentException(sprintf('A price cannot be less than 0 (%d given).', $amount));
         }
 
+        if (!\in_array($taxRate, [7, 19], true)) {
+            throw new \InvalidArgumentException(sprintf('The tax rate must be 7% or 19% (%d%% given).', $taxRate));
+        }
+
         $this->amount = $amount;
+        $this->taxRate = $taxRate;
     }
 
-    public static function fromAmount(int $amount): self
+    public static function withAmountAndTaxRate(int $amount, int $taxRate): self
     {
-        return new self($amount);
+        return new self($amount, $taxRate);
     }
 
     public function amount(): int
     {
         return $this->amount;
+    }
+
+    public function taxRate(): int
+    {
+        return $this->taxRate;
     }
 }
