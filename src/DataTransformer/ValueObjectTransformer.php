@@ -51,9 +51,7 @@ class ValueObjectTransformer implements DataTransformerInterface
 
     public function reverseTransform($value)
     {
-        if (null === $factory = $this->form->getFormConfig()->getOption('factory')) {
-            return $value;
-        }
+        $factory = $this->form->getFormConfig()->getOption('factory');
 
         if ($factory instanceof \Closure) {
             return $factory($value);
@@ -62,14 +60,16 @@ class ValueObjectTransformer implements DataTransformerInterface
         if (\is_string($factory)) {
             $factoryMethod = (new \ReflectionClass($factory))->getConstructor();
             $factoryMethodAsString = $factory.'::__construct';
-        } elseif (\is_array($factory)) {
+        } elseif (\is_array($factory) && is_callable($factory)) {
             $class = \is_object($factory[0]) ? \get_class($factory[0]) : $factory[0];
             $factoryMethod = (new \ReflectionMethod($class, $factory[1]));
             $factoryMethodAsString = $class.'::'.$factory[1];
+        } else {
+            return $value;
         }
 
         if (!$factoryMethod->isPublic()) {
-            throw new TransformationFailedException(sprintf('The factory method %s() is not public.', (string) $factoryMethodAsString));
+            throw new TransformationFailedException(sprintf('The factory method %s() is not public.', $factoryMethodAsString));
         }
 
         $arguments = [];
@@ -86,7 +86,7 @@ class ValueObjectTransformer implements DataTransformerInterface
             return new $factory(...$arguments);
         }
 
-        if (\is_array($factory)) {
+        if (\is_array($factory) && is_callable($factory)) {
             return $factory(...$arguments);
         }
     }

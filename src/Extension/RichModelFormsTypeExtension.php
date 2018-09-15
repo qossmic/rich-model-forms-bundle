@@ -100,7 +100,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
             }
 
             if (\is_array($value) && !\is_callable($value)) {
-                throw new InvalidConfigurationException(sprintf('An array used for the "factory" option must be a valid callable.', $value));
+                throw new InvalidConfigurationException('An array used for the "factory" option must be a valid callable.');
             }
 
             return $value;
