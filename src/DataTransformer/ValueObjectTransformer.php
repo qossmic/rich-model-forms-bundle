@@ -60,7 +60,7 @@ class ValueObjectTransformer implements DataTransformerInterface
         if (\is_string($factory)) {
             $factoryMethod = (new \ReflectionClass($factory))->getConstructor();
             $factoryMethodAsString = $factory.'::__construct';
-        } elseif (\is_array($factory) && is_callable($factory)) {
+        } elseif (\is_array($factory) && \is_callable($factory)) {
             $class = \is_object($factory[0]) ? \get_class($factory[0]) : $factory[0];
             $factoryMethod = (new \ReflectionMethod($class, $factory[1]));
             $factoryMethodAsString = $class.'::'.$factory[1];
@@ -86,7 +86,7 @@ class ValueObjectTransformer implements DataTransformerInterface
             return new $factory(...$arguments);
         }
 
-        if (\is_array($factory) && is_callable($factory)) {
+        if (\is_array($factory) && \is_callable($factory)) {
             return $factory(...$arguments);
         }
     }
