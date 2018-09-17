@@ -15,16 +15,18 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\Extension;
 
 use SensioLabs\RichModelForms\DataMapper\DataMapper;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry;
 use SensioLabs\RichModelForms\DataTransformer\ValueObjectTransformer;
+use SensioLabs\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
+use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use SensioLabs\RichModelForms\Instantiator\FormDataInstantiator;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
@@ -33,20 +35,18 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
 {
     private $propertyAccessor;
     private $exceptionHandlerRegistry;
-    private $translator;
-    private $translationDomain;
+    private $formExceptionHandler;
 
-    public function __construct(PropertyAccessorInterface $propertyAccessor, ExceptionHandlerRegistry $exceptionHandlerRegistry, TranslatorInterface $translator = null, string $translationDomain = null)
+    public function __construct(PropertyAccessorInterface $propertyAccessor, ExceptionHandlerRegistry $exceptionHandlerRegistry, FormExceptionHandler $formExceptionHandler)
     {
         $this->propertyAccessor = $propertyAccessor;
         $this->exceptionHandlerRegistry = $exceptionHandlerRegistry;
-        $this->translator = $translator;
-        $this->translationDomain = $translationDomain;
+        $this->formExceptionHandler = $formExceptionHandler;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if (null !== $options['factory']) {
+        if (null !== $options['factory'] && $options['immutable']) {
             $builder->addViewTransformer(new ValueObjectTransformer($this->propertyAccessor, $builder));
         }
 
@@ -54,7 +54,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
             return;
         }
 
-        $builder->setDataMapper(new DataMapper($dataMapper, $this->propertyAccessor, $this->exceptionHandlerRegistry, $this->translator, $this->translationDomain));
+        $builder->setDataMapper(new DataMapper($dataMapper, $this->propertyAccessor, $this->formExceptionHandler));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -121,6 +121,44 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
 
             if (\is_array($value) && !\is_callable($value)) {
                 throw new InvalidConfigurationException('An array used for the "factory" option must be a valid callable.');
+            }
+
+            return $value;
+        });
+
+        $resolver->setDefault('immutable', false);
+        $resolver->setAllowedTypes('immutable', 'bool');
+        $resolver->setNormalizer('immutable', function (Options $options, $value) {
+            if ($value && null === $options['factory']) {
+                throw new InvalidConfigurationException('Immutable objects require a configured factory.');
+            }
+
+            return $value;
+        });
+
+        $resolver->setNormalizer('data_class', function (Options $options, $value) {
+            if (!$options['immutable'] && null !== $options['factory'] && \is_string($options['factory'])) {
+                return $options['factory'];
+            }
+
+            return $value;
+        });
+
+        $resolver->setNormalizer('empty_data', function (Options $options, $value) {
+            if (null !== $options['factory']) {
+                return function (FormInterface $form) use ($options) {
+                    if ($options['immutable']) {
+                        // the view data of value objects is represented by an array, a dedicated view transformer
+                        // will create the object representation during reverse transformation
+                        return [];
+                    }
+
+                    try {
+                        return (new FormDataInstantiator($options['factory'], $form))->instantiateObject();
+                    } catch (\Throwable $e) {
+                        $this->formExceptionHandler->handleException($form, $form->getData(), $e);
+                    }
+                };
             }
 
             return $value;

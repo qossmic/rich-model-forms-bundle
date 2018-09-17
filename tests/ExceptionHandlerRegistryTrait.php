@@ -14,9 +14,9 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\Tests;
 
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ArgumentTypeMismatchExceptionHandler;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\FallbackExceptionHandler;
+use SensioLabs\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
+use SensioLabs\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
+use SensioLabs\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 trait ExceptionHandlerRegistryTrait

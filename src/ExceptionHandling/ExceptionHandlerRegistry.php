@@ -12,7 +12,7 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\DataMapper\ExceptionHandler;
+namespace SensioLabs\RichModelForms\ExceptionHandling;
 
 use Psr\Container\ContainerInterface;
 

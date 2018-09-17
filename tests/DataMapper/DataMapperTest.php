@@ -15,6 +15,7 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\Tests\DataMapper;
 
 use PHPUnit\Framework\TestCase;
+use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
@@ -369,8 +370,9 @@ class DataMapperTest extends TestCase
 
     private function createFormBuilder(string $type, $data = null, array $options = [], array $additionalExtensions = []): FormBuilderInterface
     {
+        $exceptionHandlerRegistry = $this->createExceptionHandlerRegistry();
         $formFactory = (new FormFactoryBuilder())
-            ->addTypeExtension(new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor(), $this->createExceptionHandlerRegistry()))
+            ->addTypeExtension(new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor(), $exceptionHandlerRegistry, new FormExceptionHandler($exceptionHandlerRegistry)))
             ->addTypeExtensions($additionalExtensions)
             ->getFormFactory();
 

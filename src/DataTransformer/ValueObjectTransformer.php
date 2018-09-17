@@ -14,8 +14,8 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\DataTransformer;
 
+use SensioLabs\RichModelForms\Instantiator\ViewDataInstantiator;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
@@ -55,44 +55,7 @@ class ValueObjectTransformer implements DataTransformerInterface
 
     public function reverseTransform($value)
     {
-        $factory = $this->form->getFormConfig()->getOption('factory');
-
-        if ($factory instanceof \Closure) {
-            return $factory($value);
-        }
-
-        if (\is_string($factory)) {
-            $factoryMethod = (new \ReflectionClass($factory))->getConstructor();
-            $factoryMethodAsString = $factory.'::__construct';
-        } elseif (\is_array($factory) && \is_callable($factory)) {
-            $class = \is_object($factory[0]) ? \get_class($factory[0]) : $factory[0];
-            $factoryMethod = (new \ReflectionMethod($class, $factory[1]));
-            $factoryMethodAsString = $class.'::'.$factory[1];
-        } else {
-            return $value;
-        }
-
-        if (!$factoryMethod->isPublic()) {
-            throw new TransformationFailedException(sprintf('The factory method %s() is not public.', $factoryMethodAsString));
-        }
-
-        $arguments = [];
-
-        if (\is_array($value)) {
-            foreach ($factoryMethod->getParameters() as $parameter) {
-                $arguments[] = $value[$parameter->getName()] ?? null;
-            }
-        } else {
-            $arguments[] = $value;
-        }
-
-        if (\is_string($factory)) {
-            return new $factory(...$arguments);
-        }
-
-        if (\is_array($factory) && \is_callable($factory)) {
-            return $factory(...$arguments);
-        }
+        return (new ViewDataInstantiator($this->form, $value))->instantiateObject();
     }
 
     private function getPropertyValue(FormBuilderInterface $form, $object)

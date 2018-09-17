@@ -14,14 +14,10 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\DataMapper;
 
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ArgumentTypeMismatchExceptionHandler;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ChainExceptionHandler;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\GenericExceptionHandler;
+use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
@@ -30,17 +26,13 @@ final class DataMapper implements DataMapperInterface
 {
     private $dataMapper;
     private $propertyAccessor;
-    private $exceptionHandlerRegistry;
-    private $translator;
-    private $translationDomain;
+    private $formExceptionHandler;
 
-    public function __construct(DataMapperInterface $dataMapper, PropertyAccessorInterface $propertyAccessor, ExceptionHandlerRegistry $exceptionHandlerRegistry, TranslatorInterface $translator = null, string $translationDomain = null)
+    public function __construct(DataMapperInterface $dataMapper, PropertyAccessorInterface $propertyAccessor, FormExceptionHandler $formExceptionHandler)
     {
         $this->dataMapper = $dataMapper;
         $this->propertyAccessor = $propertyAccessor;
-        $this->exceptionHandlerRegistry = $exceptionHandlerRegistry;
-        $this->translator = $translator;
-        $this->translationDomain = $translationDomain;
+        $this->formExceptionHandler = $formExceptionHandler;
     }
 
     public function mapDataToForms($data, $forms): void
@@ -105,31 +97,7 @@ final class DataMapper implements DataMapperInterface
                     $this->propertyAccessor->setValue($data, $writePropertyPath, $form->getData());
                 }
             } catch (\Throwable $e) {
-                $exceptionHandlers = [];
-
-                if (null !== $form->getConfig()->getOption('expected_exception')) {
-                    foreach ($form->getConfig()->getOption('expected_exception') as $exceptionClass) {
-                        $exceptionHandlers[] = new GenericExceptionHandler($exceptionClass);
-                    }
-
-                    $exceptionHandlers[] = new ArgumentTypeMismatchExceptionHandler($this->translator, $this->translationDomain);
-                } else {
-                    foreach ($form->getConfig()->getOption('exception_handling_strategy') as $strategy) {
-                        $exceptionHandlers[] = $this->exceptionHandlerRegistry->get($strategy);
-                    }
-                }
-
-                if (1 === \count($exceptionHandlers)) {
-                    $exceptionHandler = reset($exceptionHandlers);
-                } else {
-                    $exceptionHandler = new ChainExceptionHandler($exceptionHandlers);
-                }
-
-                if (null !== $error = $exceptionHandler->getError($form, $data, $e)) {
-                    $form->addError($error);
-                } else {
-                    throw $e;
-                }
+                $this->formExceptionHandler->handleException($form, $data, $e);
             }
         }
     }
