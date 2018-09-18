@@ -77,9 +77,30 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
             return $value;
         });
 
-        $resolver->setDefault('exception_handling_strategy', ['type_error', 'fallback']);
+        $resolver->setDefault('expected_exception', null);
+        $resolver->setAllowedTypes('expected_exception', ['string', 'string[]', 'null']);
+        $resolver->setNormalizer('expected_exception', function (Options $options, $value) {
+            if (null !== $value) {
+                $value = (array) $value;
+            }
 
+            return $value;
+        });
+
+        $resolver->setDefault('exception_handling_strategy', null);
         $resolver->setNormalizer('exception_handling_strategy', function (Options $options, $value) {
+            if (null !== $value && null !== $options['expected_exception']) {
+                throw new InvalidConfigurationException('The "expected_exception" and "exception_handling_strategy" options cannot be used at the same time.');
+            }
+
+            if (null !== $options['expected_exception']) {
+                return null;
+            }
+
+            if (null === $value) {
+                $value = ['type_error', 'fallback'];
+            }
+
             $value = (array) $value;
 
             foreach ($value as $strategy) {
@@ -93,7 +114,6 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
 
         $resolver->setDefault('factory', null);
         $resolver->setAllowedTypes('factory', ['string', 'array', 'null', \Closure::class]);
-
         $resolver->setNormalizer('factory', function (Options $options, $value) {
             if (\is_string($value) && !class_exists($value)) {
                 throw new InvalidConfigurationException(sprintf('The configured value for the "factory" option is not a valid class name ("%s" given).', $value));

@@ -122,6 +122,28 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->assertSame(['type_error'], $resolvedOptions['exception_handling_strategy']);
     }
 
+    /**
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
+     */
+    public function testExpectedExceptionAndExceptionHandlingStrategyCannotBeUsedAtTheSameTime(): void
+    {
+        $resolver = new OptionsResolver();
+        $this->extension->configureOptions($resolver);
+        $resolver->resolve([
+            'expected_exception' => [\InvalidArgumentException::class, \LogicException::class],
+            'exception_handling_strategy' => 'type_error',
+        ]);
+    }
+
+    public function testDefaultExceptionHandlingStrategyWhenExpectedExceptionIsNotConfigured(): void
+    {
+        $resolver = new OptionsResolver();
+        $this->extension->configureOptions($resolver);
+        $resolvedOptions = $resolver->resolve();
+
+        $this->assertSame(['type_error', 'fallback'], $resolvedOptions['exception_handling_strategy']);
+    }
+
     public function testItExtendsTheBaseFormType(): void
     {
         $this->assertSame(FormType::class, $this->extension->getExtendedType());
