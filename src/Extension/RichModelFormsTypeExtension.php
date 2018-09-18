@@ -60,12 +60,12 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('read_property_path', null);
-        $resolver->setAllowedTypes('read_property_path', ['string', 'null']);
+        $resolver->setAllowedTypes('read_property_path', ['string', 'null', \Closure::class]);
 
         $resolver->setDefault('write_property_path', null);
         $resolver->setAllowedTypes('write_property_path', ['string', 'null', \Closure::class]);
 
-        $resolver->setNormalizer('read_property_path', function (Options $options, ?string $value) {
+        $resolver->setNormalizer('read_property_path', function (Options $options, $value) {
             if (null !== $value && null === $options['write_property_path']) {
                 throw new InvalidConfigurationException('Cannot use "read_property_path" without "write_property_path".');
             }
