@@ -36,6 +36,10 @@ class ValueObjectTransformer implements DataTransformerInterface
 
     public function transform($value)
     {
+        if (null === $value) {
+            return null;
+        }
+
         if ($this->form->getCompound()) {
             $viewData = [];
 

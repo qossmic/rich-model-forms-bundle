@@ -40,6 +40,16 @@ class ValueObjectTransformerTest extends TestCase
         $this->assertSame('500', $form->getViewData());
     }
 
+    public function testTransformNonComposedRootFormWithEmptyData(): void
+    {
+        $form = $this->createForm(PriceType::class, null, [
+            'factory' => Price::class,
+            'property_path' => 'amount',
+        ]);
+
+        $this->assertSame('', $form->getViewData());
+    }
+
     public function testTransformNonComposedRootFormToViewData(): void
     {
         $form = $this->createForm(PriceType::class, new Price(500), [
@@ -48,6 +58,16 @@ class ValueObjectTransformerTest extends TestCase
         ]);
 
         $this->assertSame('500', $form->getViewData());
+    }
+
+    public function testTransformComposedRootFormWithEmptyData(): void
+    {
+        $form = $this->createForm(GrossPriceType::class, null, [
+            'factory' => GrossPrice::class,
+        ]);
+
+        $this->assertSame('', $form->get('amount')->getViewData());
+        $this->assertSame('', $form->get('taxRate')->getViewData());
     }
 
     public function testTransformComposedRootFormToViewData(): void
