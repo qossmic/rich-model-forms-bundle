@@ -18,11 +18,13 @@ use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Form\CategoryType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockTypeExtension;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\PauseSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\TypeMismatchPriceChangeType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Model\Category;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Product;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\ProductWithTypeError;
@@ -133,6 +135,23 @@ class DataMapperTest extends TestCase
         $form = $this->createForm(CancelSubscriptionType::class, new Subscription($cancellationDate));
 
         $this->assertEquals($cancellationDate, $form['cancellation_date']->getData());
+    }
+
+    public function testDataToBeMappedIsReadWithClosureReadPropertyPath(): void
+    {
+        $foodCategory = new Category('food');
+        $form = $this->createForm(CategoryType::class, $foodCategory);
+
+        $this->assertSame('food', $form['name']->getData());
+        $this->assertNull($form['parent']->getData());
+
+        $vegetablesCategory = new Category('vegetables', $foodCategory);
+        $form = $this->createForm(CategoryType::class, $vegetablesCategory, [
+            'categories' => [$foodCategory],
+        ]);
+
+        $this->assertSame('vegetables', $form['name']->getData());
+        $this->assertSame($foodCategory, $form['parent']->getData());
     }
 
     public function testSubmittedDataForFieldsWithoutWritePropertyPathOptionAreStillMappedUsingDecoratedDataMapper(): void

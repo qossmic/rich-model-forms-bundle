@@ -55,7 +55,9 @@ final class DataMapper implements DataMapperInterface
         foreach ($forms as $form) {
             $readPropertyPath = $form->getConfig()->getOption('read_property_path');
 
-            if (!$isDataEmpty && null !== $readPropertyPath && $form->getConfig()->getMapped()) {
+            if (!$isDataEmpty && $readPropertyPath instanceof \Closure && $form->getConfig()->getMapped()) {
+                $form->setData($readPropertyPath($data));
+            } elseif (!$isDataEmpty && null !== $readPropertyPath && $form->getConfig()->getMapped()) {
                 $form->setData($this->propertyAccessor->getValue($data, $readPropertyPath));
             } elseif (null !== $readPropertyPath) {
                 $form->setData($form->getConfig()->getData());
@@ -89,7 +91,7 @@ final class DataMapper implements DataMapperInterface
                 // write-back is disabled if the form is not synchronized (transformation failed),
                 // if the form was not submitted and if the form is disabled (modification not allowed)
                 $forwardToWrappedDataMapper = true;
-            } elseif (\is_object($data) && $config->getByReference() && $form->getData() === $this->propertyAccessor->getValue($data, $readPropertyPath) && !$writePropertyPath instanceof \Closure) {
+            } elseif (\is_object($data) && $config->getByReference() && $form->getData() === ($readPropertyPath instanceof \Closure ? $readPropertyPath($data) : $this->propertyAccessor->getValue($data, $readPropertyPath)) && !$writePropertyPath instanceof \Closure) {
                 $forwardToWrappedDataMapper = true;
             }
 
