@@ -23,7 +23,7 @@ use Symfony\Component\Form\FormInterface;
  * Instances of this exception handler will transform exactly one type of exception (and all of its subtypes) into form
  * errors by extracting the exception's message and passing it to the new FormError instances.
  *
- * CAUTION: Since this listener reuses the exception messages when building form error these messages will eventually be
+ * CAUTION: Since this listener reuses the exception messages when building form errors these messages will eventually be
  * presented to the end user. Therefore, it should only be used for custom domain exceptions for which developers are
  * absolutely sure not to leak any sensitive information.
  *
