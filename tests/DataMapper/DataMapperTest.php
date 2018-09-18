@@ -296,6 +296,77 @@ class DataMapperTest extends TestCase
         $this->assertSame('The product name must have a length of 10 characters or more.', $form->get('name')->getErrors()[0]->getCause()->getMessage());
     }
 
+    public function testMatchingExpectedExceptionIsConvertedIntoFormError(): void
+    {
+        $form = $this->createForm(CategoryType::class, new Category('food'), [
+            'expected_name_exception' => \LengthException::class,
+        ]);
+        $form->submit([
+            'name' => 'fo',
+        ]);
+
+        $this->assertFalse($form->get('name')->isValid());
+        $this->assertSame('The name must have a length of at least three characters ("fo" given).', $form->get('name')->getErrors()[0]->getMessage());
+    }
+
+    /**
+     * @expectedException \LengthException
+     */
+    public function testNotMatchingExpectedExceptionsAreNotCaught(): void
+    {
+        $form = $this->createForm(CategoryType::class, new Category('food'), [
+            'expected_name_exception' => \InvalidArgumentException::class,
+        ]);
+        $form->submit([
+            'name' => 'fo',
+        ]);
+    }
+
+    public function testMismatchingArgumentTypesWillBeConvertedToErrorsWithConfiguredExpectedExceptions(): void
+    {
+        $form = $this->createForm(ChangeProductStockType::class, new Product('A fancy product', Price::fromAmount(500)), [
+            'expected_stock_exception' => \InvalidArgumentException::class,
+        ], [new ChangeProductStockTypeExtension()]);
+        $form->submit([
+            'stock' => '',
+        ]);
+
+        $this->assertFalse($form->get('stock')->isValid());
+        $this->assertCount(1, $form->get('stock')->getErrors());
+        $this->assertSame('This value should be of type integer.', $form->get('stock')->getErrors()[0]->getMessage());
+        $this->assertInstanceOf(\TypeError::class, $form->get('stock')->getErrors()[0]->getCause());
+    }
+
+    public function testPropertyAccessInvalidArgumentExceptionsAreTreatedTheSameAsTypeErrorsWithConfiguredExpectedExceptions(): void
+    {
+        $form = $this->createForm(TypeMismatchPriceChangeType::class, new Product('A fancy product', Price::fromAmount(500)), [
+            'expected_price_exception' => \DomainException::class,
+        ]);
+        $form->submit([
+            'price' => '750',
+        ]);
+
+        $this->assertFalse($form->get('price')->isValid());
+        $this->assertCount(1, $form->get('price')->getErrors());
+        $this->assertSame('This value should be of type SensioLabs\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
+        $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
+        $this->assertStringStartsWith('Expected argument of type "SensioLabs\RichModelForms\Tests\Fixtures\Model\Price", "integer" given', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+    }
+
+    /**
+     * @expectedException \TypeError
+     */
+    public function testNonArgumentTypeMismatchErrorsWillNotBeHandledWithConfiguredExpectedExceptions(): void
+    {
+        $form = $this->createForm(ChangeProductStockType::class, new ProductWithTypeError(), [
+            'data_class' => ProductWithTypeError::class,
+            'expected_stock_exception' => \InvalidArgumentException::class,
+        ], [new ChangeProductStockTypeExtension()]);
+        $form->submit([
+            'stock' => '5',
+        ]);
+    }
+
     private function createFormBuilder(string $type, $data = null, array $options = [], array $additionalExtensions = []): FormBuilderInterface
     {
         $formFactory = (new FormFactoryBuilder())

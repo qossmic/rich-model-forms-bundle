@@ -61,7 +61,7 @@ class Category
     private function validateName(string $name): void
     {
         if (\strlen($name) < 3) {
-            throw new \InvalidArgumentException(sprintf('The name must have a length of at least three characters ("%s" given).', $name));
+            throw new \LengthException(sprintf('The name must have a length of at least three characters ("%s" given).', $name));
         }
     }
 }

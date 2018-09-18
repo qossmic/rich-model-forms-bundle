@@ -14,8 +14,10 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\DataMapper;
 
+use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ArgumentTypeMismatchExceptionHandler;
 use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ChainExceptionHandler;
 use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegistry;
+use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\GenericExceptionHandler;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormError;
@@ -123,8 +125,16 @@ final class DataMapper implements DataMapperInterface
             } catch (\Throwable $e) {
                 $exceptionHandlers = [];
 
-                foreach ($form->getConfig()->getOption('exception_handling_strategy') as $strategy) {
-                    $exceptionHandlers[] = $this->exceptionHandlerRegistry->get($strategy);
+                if (null !== $form->getConfig()->getOption('expected_exception')) {
+                    foreach ($form->getConfig()->getOption('expected_exception') as $exceptionClass) {
+                        $exceptionHandlers[] = new GenericExceptionHandler($exceptionClass);
+                    }
+
+                    $exceptionHandlers[] = new ArgumentTypeMismatchExceptionHandler($this->translator, $this->translationDomain);
+                } else {
+                    foreach ($form->getConfig()->getOption('exception_handling_strategy') as $strategy) {
+                        $exceptionHandlers[] = $this->exceptionHandlerRegistry->get($strategy);
+                    }
                 }
 
                 if (1 === \count($exceptionHandlers)) {

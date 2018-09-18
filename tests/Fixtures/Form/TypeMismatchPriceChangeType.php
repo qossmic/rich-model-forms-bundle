@@ -19,12 +19,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TypeMismatchPriceChangeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $price = $builder->create('price', IntegerType::class)
+        $price = $builder->create('price', IntegerType::class, [
+                'expected_exception' => $options['expected_price_exception'],
+            ])
             ->addViewTransformer(new CallbackTransformer(
                 function ($value) {
                     if (!$value instanceof Price) {
@@ -39,5 +42,10 @@ class TypeMismatchPriceChangeType extends AbstractType
             ), true);
 
         $builder->add($price);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefault('expected_price_exception', null);
     }
 }
