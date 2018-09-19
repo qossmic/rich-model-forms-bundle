@@ -20,7 +20,6 @@ use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ExceptionHandlerRegist
 use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\GenericExceptionHandler;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -101,24 +100,7 @@ final class DataMapper implements DataMapperInterface
                 if ($forwardToWrappedDataMapper) {
                     $this->dataMapper->mapFormsToData([$form], $data);
                 } elseif ($writePropertyPath instanceof \Closure) {
-                    if (null !== $writePropertyPath = $writePropertyPath($form->getData())) {
-                        // The property accessor expects the method to accept exactly one argument for write access. Since
-                        // our write option here is chosen based on the submitted value we do not need to (and explicitly do
-                        // not want to) pass and value we use the property accessor's read operation which will call the
-                        // method without any argument.
-                        $this->propertyAccessor->getValue($data, $writePropertyPath);
-                    } else {
-                        $messageTemplate = $form->getConfig()->getOption('invalid_message') ?? 'This value is not valid.';
-                        $parameters = $form->getConfig()->getOption('invalid_message_parameters') ?? [];
-
-                        if (null !== $this->translator) {
-                            $message = $this->translator->trans($messageTemplate, $parameters, $this->translationDomain);
-                        } else {
-                            $message = strtr($messageTemplate, $parameters);
-                        }
-
-                        $form->addError(new FormError($message, $messageTemplate, $parameters));
-                    }
+                    $writePropertyPath($data, $form->getData());
                 } else {
                     $this->propertyAccessor->setValue($data, $writePropertyPath, $form->getData());
                 }

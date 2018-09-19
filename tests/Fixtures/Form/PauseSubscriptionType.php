@@ -31,13 +31,13 @@ class PauseSubscriptionType extends AbstractType
                     'paused' => false,
                 ],
                 'read_property_path' => 'isSuspended',
-                'write_property_path' => function ($data) {
-                    if (true === $data) {
-                        return 'reactivate';
-                    }
-
-                    if (false === $data) {
-                        return 'suspend';
+                'write_property_path' => function (Subscription $subscription, $submittedData): void {
+                    if (true === $submittedData) {
+                        $subscription->reactivate();
+                    } elseif (false === $submittedData) {
+                        $subscription->suspend();
+                    } else {
+                        throw new \LogicException('This value is not valid.');
                     }
                 },
             ])
