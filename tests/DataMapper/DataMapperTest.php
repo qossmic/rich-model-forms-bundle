@@ -232,7 +232,7 @@ class DataMapperTest extends TestCase
         $this->assertFalse($subscription->isSuspended());
     }
 
-    public function testSubmittingValuesNotResolvingToWritePropertyPathsInvalidateTheForm(): void
+    public function testSubmittingValuesTriggeringExceptionsInClosureWritePropertyPathsInvalidateForms(): void
     {
         $form = $this->createForm(PauseSubscriptionType::class, new Subscription(new \DateTimeImmutable()));
         $form->submit([
