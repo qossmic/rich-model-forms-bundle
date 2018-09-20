@@ -15,6 +15,7 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\Tests\Fixtures\Form;
 
 use SensioLabs\RichModelForms\DataMapper\DataMapper;
+use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,7 +27,7 @@ final class ChangeProductStockTypeExtension extends AbstractTypeExtension
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->setDataMapper(new DataMapper($builder->getDataMapper(), PropertyAccess::createPropertyAccessor(), $this->createExceptionHandlerRegistry()));
+        $builder->setDataMapper(new DataMapper($builder->getDataMapper(), PropertyAccess::createPropertyAccessor(), new FormExceptionHandler($this->createExceptionHandlerRegistry())));
     }
 
     public function getExtendedType(): string

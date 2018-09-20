@@ -12,7 +12,7 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\DataMapper\ExceptionHandler;
+namespace SensioLabs\RichModelForms\ExceptionHandling;
 
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;

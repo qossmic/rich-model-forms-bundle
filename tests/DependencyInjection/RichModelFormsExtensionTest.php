@@ -14,8 +14,8 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\Tests\DependencyInjection;
 
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\ArgumentTypeMismatchExceptionHandler;
-use SensioLabs\RichModelForms\DataMapper\ExceptionHandler\FallbackExceptionHandler;
+use SensioLabs\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
+use SensioLabs\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
 use SensioLabs\RichModelForms\Tests\Fixtures\DependencyInjection\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

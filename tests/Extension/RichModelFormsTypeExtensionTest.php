@@ -16,6 +16,7 @@ namespace SensioLabs\RichModelForms\Tests\Extension;
 
 use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\DataMapper\DataMapper;
+use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice;
@@ -33,7 +34,8 @@ class RichModelFormsTypeExtensionTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->extension = new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor(), $this->createExceptionHandlerRegistry());
+        $exceptionHandlerRegistry = $this->createExceptionHandlerRegistry();
+        $this->extension = new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor(), $exceptionHandlerRegistry, new FormExceptionHandler($exceptionHandlerRegistry));
     }
 
     public function testNoDataMapperWillBeSetIfNoneWasConfigured(): void
@@ -54,9 +56,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
 
     public function testReadPropertyPathAndWritePropertyPathAreBothNullByDefault(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolvedOptions = $resolver->resolve([]);
+        $resolvedOptions = $this->configureOptions()->resolve([]);
 
         $this->assertArrayHasKey('read_property_path', $resolvedOptions);
         $this->assertArrayHasKey('write_property_path', $resolvedOptions);
@@ -69,9 +69,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
      */
     public function testReadPropertyPathCannotBeConfiguredWithoutWritePropertyPath(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolver->resolve(['read_property_path' => 'foo']);
+        $this->configureOptions()->resolve(['read_property_path' => 'foo']);
     }
 
     /**
@@ -79,16 +77,12 @@ class RichModelFormsTypeExtensionTest extends TestCase
      */
     public function testWritePropertyPathCannotBeConfiguredWithoutReadPropertyPath(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolver->resolve(['write_property_path' => 'foo']);
+        $this->configureOptions()->resolve(['write_property_path' => 'foo']);
     }
 
     public function testReadPropertyPathAndWritePropertyPathCanBeConfigured(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolvedOptions = $resolver->resolve([
+        $resolvedOptions = $this->configureOptions()->resolve([
             'read_property_path' => 'foo',
             'write_property_path' => 'bar',
         ]);
@@ -104,18 +98,14 @@ class RichModelFormsTypeExtensionTest extends TestCase
      */
     public function testErrorHandlerMustReferenceExistingStrategies(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolver->resolve([
+        $this->configureOptions()->resolve([
             'exception_handling_strategy' => 'unknown',
         ]);
     }
 
     public function testSingleErrorHandlerCanBeConfigured(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolvedOptions = $resolver->resolve([
+        $resolvedOptions = $this->configureOptions()->resolve([
             'exception_handling_strategy' => 'type_error',
         ]);
 
@@ -127,9 +117,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
      */
     public function testExpectedExceptionAndExceptionHandlingStrategyCannotBeUsedAtTheSameTime(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolver->resolve([
+        $this->configureOptions()->resolve([
             'expected_exception' => [\InvalidArgumentException::class, \LogicException::class],
             'exception_handling_strategy' => 'type_error',
         ]);
@@ -137,9 +125,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
 
     public function testDefaultExceptionHandlingStrategyWhenExpectedExceptionIsNotConfigured(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolvedOptions = $resolver->resolve();
+        $resolvedOptions = $this->configureOptions()->resolve();
 
         $this->assertSame(['type_error', 'fallback'], $resolvedOptions['exception_handling_strategy']);
     }
@@ -154,9 +140,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
      */
     public function testFactoryStringsMustReferenceExistingClasses(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolver->resolve([
+        $this->configureOptions()->resolve([
             'factory' => __NAMESPACE__.'\\NotExistent',
         ]);
     }
@@ -166,18 +150,32 @@ class RichModelFormsTypeExtensionTest extends TestCase
      */
     public function testFactoryArraysMustBeCallables(): void
     {
-        $resolver = new OptionsResolver();
-        $this->extension->configureOptions($resolver);
-        $resolver->resolve([
+        $this->configureOptions()->resolve([
             'factory' => [GrossPrice::class, 'createGrossPrice'],
+        ]);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
+     */
+    public function testImmutableObjectsNeedFactories(): void
+    {
+        $this->configureOptions()->resolve([
+            'immutable' => true,
         ]);
     }
 
     private function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
+        $this->extension->buildForm($formBuilder, $this->configureOptions()->resolve($options));
+    }
+
+    private function configureOptions()
+    {
         $resolver = new OptionsResolver();
+        (new FormType())->configureOptions($resolver);
         $this->extension->configureOptions($resolver);
 
-        $this->extension->buildForm($formBuilder, $resolver->resolve($options));
+        return $resolver;
     }
 }

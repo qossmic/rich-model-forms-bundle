@@ -15,6 +15,7 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\Tests\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
+use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
@@ -35,6 +36,7 @@ class ValueObjectTransformerTest extends TestCase
     {
         $form = $this->createNamedForm('amount', PriceType::class, new Price(500), [
             'factory' => Price::class,
+            'immutable' => true,
         ]);
 
         $this->assertSame('500', $form->getViewData());
@@ -54,6 +56,7 @@ class ValueObjectTransformerTest extends TestCase
     {
         $form = $this->createForm(PriceType::class, new Price(500), [
             'factory' => Price::class,
+            'immutable' => true,
             'property_path' => 'amount',
         ]);
 
@@ -74,6 +77,7 @@ class ValueObjectTransformerTest extends TestCase
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
             'factory' => GrossPrice::class,
+            'immutable' => true,
         ]);
 
         $this->assertSame('500', $form->get('amount')->getViewData());
@@ -84,6 +88,7 @@ class ValueObjectTransformerTest extends TestCase
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
             'factory' => PrivateConstructorGrossType::class,
+            'immutable' => true,
         ]);
         $form->submit([
             'amount' => '650',
@@ -98,6 +103,7 @@ class ValueObjectTransformerTest extends TestCase
     {
         $form = $this->createForm(PriceType::class, new Price(500), [
             'factory' => Price::class,
+            'immutable' => true,
             'property_path' => 'amount',
         ]);
         $form->submit('650');
@@ -111,6 +117,7 @@ class ValueObjectTransformerTest extends TestCase
     {
         $form = $this->createForm(PriceType::class, new Price(500), [
             'factory' => [Price::class, 'fromAmount'],
+            'immutable' => true,
             'property_path' => 'amount',
         ]);
         $form->submit('650');
@@ -126,6 +133,7 @@ class ValueObjectTransformerTest extends TestCase
             'factory' => function (int $amount): Price {
                 return Price::fromAmount($amount);
             },
+            'immutable' => true,
             'property_path' => 'amount',
         ]);
         $form->submit('650');
@@ -139,6 +147,7 @@ class ValueObjectTransformerTest extends TestCase
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
             'factory' => GrossPrice::class,
+            'immutable' => true,
         ]);
         $form->submit([
             'amount' => '650',
@@ -156,6 +165,7 @@ class ValueObjectTransformerTest extends TestCase
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
             'factory' => [GrossPrice::class, 'withAmountAndTaxRate'],
+            'immutable' => true,
         ]);
         $form->submit([
             'amount' => '650',
@@ -175,6 +185,7 @@ class ValueObjectTransformerTest extends TestCase
             'factory' => function (array $values): GrossPrice {
                 return GrossPrice::withAmountAndTaxRate($values['amount'], $values['taxRate']);
             },
+            'immutable' => true,
         ]);
         $form->submit([
             'amount' => '650',
@@ -200,8 +211,10 @@ class ValueObjectTransformerTest extends TestCase
 
     private function createFormFactory(): FormFactoryInterface
     {
+        $exceptionHandlerRegistry = $this->createExceptionHandlerRegistry();
+
         return (new FormFactoryBuilder())
-            ->addTypeExtension(new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor(), $this->createExceptionHandlerRegistry()))
+            ->addTypeExtension(new RichModelFormsTypeExtension(PropertyAccess::createPropertyAccessor(), $exceptionHandlerRegistry, new FormExceptionHandler($exceptionHandlerRegistry)))
             ->getFormFactory();
     }
 }
