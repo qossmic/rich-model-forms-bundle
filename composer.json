@@ -19,7 +19,7 @@
         "psr/container": "^1.0",
         "symfony/config": "^3.4||^4.0",
         "symfony/dependency-injection": "^3.4||^4.0",
-        "symfony/form": "^3.4||^4.0",
+        "symfony/form": "^3.4.15||^4.1.4",
         "symfony/framework-bundle": "^3.4||^4.0",
         "symfony/http-kernel": "^3.4||^4.0",
         "symfony/options-resolver": "^3.4.4||^4.0.4",
