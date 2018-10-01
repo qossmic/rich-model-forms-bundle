@@ -22,8 +22,8 @@ Mapping Value Objects
 =====================
 
 When working with value objects, you have to pass all data the value object consists of as a whole to be sure that it
-is always in a valid and cannot be changed. This however means that every time a submitted form is mapped to your model,
-a new value object must be created instead of manipulating the existing data.
+is always in a valid state and cannot be changed. This however means that every time a submitted form is mapped to your
+model, a new value object must be created instead of manipulating the existing data.
 
 Therefore, besides configuring how to create new instances (see the `factory` option above) you also need to tell the
 form that the underlying model is immutable using the option with the same name:
