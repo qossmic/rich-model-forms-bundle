@@ -34,4 +34,9 @@ final class ChangeProductStockTypeExtension extends AbstractTypeExtension
     {
         return ChangeProductStockType::class;
     }
+
+    public static function getExtendedTypes(): iterable
+    {
+        return [ChangeProductStockType::class];
+    }
 }
