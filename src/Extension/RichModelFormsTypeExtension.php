@@ -15,6 +15,7 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\Extension;
 
 use SensioLabs\RichModelForms\DataMapper\DataMapper;
+use SensioLabs\RichModelForms\DataMapper\PropertyMapperInterface;
 use SensioLabs\RichModelForms\DataTransformer\ValueObjectTransformer;
 use SensioLabs\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
 use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
@@ -76,6 +77,9 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
 
             return $value;
         });
+
+        $resolver->setDefault('property_mapper', null);
+        $resolver->setAllowedTypes('property_mapper', [PropertyMapperInterface::class, 'null']);
 
         $resolver->setDefault('expected_exception', null);
         $resolver->setAllowedTypes('expected_exception', ['string', 'string[]', 'null']);

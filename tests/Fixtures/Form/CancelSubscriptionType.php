@@ -25,15 +25,16 @@ class CancelSubscriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('cancellation_date', DateType::class, [
-                'read_property_path' => 'cancelledFrom',
-                'write_property_path' => 'cancelFrom',
-            ])
+            ->add('cancellation_date', DateType::class, $options['cancellation_date_options'])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', Subscription::class);
+        $resolver->setDefault('cancellation_date_options', [
+            'read_property_path' => 'cancelledFrom',
+            'write_property_path' => 'cancelFrom',
+        ]);
     }
 }

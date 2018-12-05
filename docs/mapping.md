@@ -105,3 +105,40 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
     ;
 }
 ```
+
+Custom Property Mappers
+-----------------------
+
+Alternatively, you can also implement the `PropertyMapperInterface` and fully customize the mapping to your needs:
+
+```php
+// ...
+use SensioLabs\RichModelForms\DataMapper\PropertyMapperInterface;
+
+public function buildForm(FormBuilderInterface $builder, array $options): void
+{
+    $builder
+        ->add('state', ChoiceType::class, [
+            'choices' => [
+                'active' => true,
+                'paused' => false,
+            ],
+            'property_mapper' => new class() implements PropertyMapperInterface {
+                public function readPropertyValue($data)
+                {
+                    return $data->isSuspended();
+                }
+
+                public function writePropertyValue($data, $value): void
+                {
+                    if (true === $value) {
+                        $subscription->reactivate();
+                    } elseif (false === $value) {
+                        $subscription->suspend();
+                    }
+                }
+            },
+        ])
+    ;
+}
+```
