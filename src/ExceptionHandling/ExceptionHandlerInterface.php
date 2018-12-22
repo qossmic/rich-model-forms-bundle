@@ -30,7 +30,7 @@ use Symfony\Component\Form\FormInterface;
  *
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
  */
-interface ExceptionHandler
+interface ExceptionHandlerInterface
 {
     public function getError(FormInterface $form, $data, \Throwable $e): ?FormError;
 }

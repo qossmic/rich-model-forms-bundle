@@ -29,7 +29,7 @@ use Symfony\Component\Form\FormInterface;
  *
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
  */
-final class GenericExceptionHandler implements ExceptionHandler
+final class GenericExceptionHandler implements ExceptionHandlerInterface
 {
     private $handledExceptionClass;
 

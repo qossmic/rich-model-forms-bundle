@@ -28,12 +28,12 @@ use Symfony\Component\Form\FormInterface;
  *
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
  */
-final class ChainExceptionHandler implements ExceptionHandler
+final class ChainExceptionHandler implements ExceptionHandlerInterface
 {
     private $exceptionHandlers;
 
     /**
-     * @param ExceptionHandler[] $exceptionHandlers
+     * @param ExceptionHandlerInterface[] $exceptionHandlers
      */
     public function __construct(iterable $exceptionHandlers)
     {

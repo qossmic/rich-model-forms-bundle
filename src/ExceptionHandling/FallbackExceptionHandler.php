@@ -27,7 +27,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  *
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
  */
-final class FallbackExceptionHandler implements ExceptionHandler
+final class FallbackExceptionHandler implements ExceptionHandlerInterface
 {
     private $translator;
     private $translationDomain;
