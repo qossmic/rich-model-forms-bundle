@@ -22,7 +22,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
  */
-final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandler
+final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
 {
     private $translator;
     private $translationDomain;
