@@ -16,6 +16,9 @@ namespace SensioLabs\RichModelForms\Tests\Integration;
 
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\PauseSubscriptionType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Form\ShipOrderType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Model\Address;
+use SensioLabs\RichModelForms\Tests\Fixtures\Model\Order;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Subscription;
 
 class WritePropertyPathTest extends AbstractDataMapperTest
@@ -61,6 +64,68 @@ class WritePropertyPathTest extends AbstractDataMapperTest
             'state' => '',
         ]);
 
+        $this->assertFalse($form->isValid());
+    }
+
+    public function testMapMultipleSubmittedDataToSingleModelMethod(): void
+    {
+        $order = new Order();
+
+        $form = $this->createForm(ShipOrderType::class, $order);
+        $form->submit([
+            'address' => [
+                'street' => 'Balthasarstraße 79',
+                'zipcode' => 'D-50670',
+                'city' => 'Köln',
+            ],
+            'trackingNumber' => 'TX-12345',
+        ]);
+
+        $this->assertSame('TX-12345', $order->getTrackingNumber());
+        $this->assertInstanceOf(Address::class, $order->getShippingAddress());
+        $this->assertSame('Balthasarstraße 79', $order->getShippingAddress()->getStreet());
+        $this->assertSame('D-50670', $order->getShippingAddress()->getZipcode());
+        $this->assertSame('Köln', $order->getShippingAddress()->getCity());
+    }
+
+    public function testMapMultipleSubmittedDataToSingleModelMethodRequiresCallableMethodNames(): void
+    {
+        $form = $this->createForm(ShipOrderType::class, new Order(), [
+            'address_write_property_path' => 'shipTo',
+            'tracking_number_write_property_path' => 'shipTo',
+        ]);
+        $form->submit([
+            'address' => [
+                'street' => 'Balthasarstraße 79',
+                'zipcode' => 'D-50670',
+                'city' => 'Köln',
+            ],
+            'trackingNumber' => 'TX-12345',
+        ]);
+
+        $this->assertTrue($form->isSubmitted());
+        $this->assertFalse($form->isValid());
+    }
+
+    public function testMapMultipleSubmittedDataToSingleModelMethodRequiresObjectData(): void
+    {
+        $data = [];
+
+        $form = $this->createForm(ShipOrderType::class, $data, [
+            'address_read_property_path' => '[shipping_address]',
+            'tracking_number_read_property_path' => '[tracking_number]',
+            'data_class' => null,
+        ]);
+        $form->submit([
+            'address' => [
+                'street' => 'Balthasarstraße 79',
+                'zipcode' => 'D-50670',
+                'city' => 'Köln',
+            ],
+            'trackingNumber' => 'TX-12345',
+        ]);
+
+        $this->assertTrue($form->isSubmitted());
         $this->assertFalse($form->isValid());
     }
 }

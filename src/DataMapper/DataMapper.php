@@ -16,6 +16,7 @@ namespace SensioLabs\RichModelForms\DataMapper;
 
 use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use Symfony\Component\Form\DataMapperInterface;
+use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -75,6 +76,8 @@ final class DataMapper implements DataMapperInterface
             throw new UnexpectedTypeException($data, 'object, array or null');
         }
 
+        $writePropertyPaths = [];
+
         foreach ($forms as $form) {
             $forwardToWrappedDataMapper = false;
             $config = $form->getConfig();
@@ -111,10 +114,40 @@ final class DataMapper implements DataMapperInterface
                 } elseif ($propertyMapper instanceof PropertyMapperInterface) {
                     $propertyMapper->writePropertyValue($data, $form->getData());
                 } else {
-                    $this->propertyAccessor->setValue($data, $writePropertyPath, $form->getData());
+                    $writePropertyPaths[$writePropertyPath][] = $form;
                 }
             } catch (\Throwable $e) {
                 $this->formExceptionHandler->handleException($form, $data, $e);
+            }
+        }
+
+        /** @var string $writePropertyPath */
+        foreach ($writePropertyPaths as $writePropertyPath => $forms) {
+            try {
+                if (1 === \count($forms)) {
+                    $this->propertyAccessor->setValue($data, $writePropertyPath, reset($forms)->getData());
+                } elseif (!\is_object($data)) {
+                    throw new LogicException(sprintf('Mapping multiple forms to a single method requires the form data to be an object but is "%s".', \gettype($data)));
+                } else {
+                    $formData = [];
+
+                    foreach ($forms as $form) {
+                        $formData[$form->getName()] = $form->getData();
+                    }
+
+                    $method = new \ReflectionMethod(\get_class($data), $writePropertyPath);
+                    $arguments = [];
+
+                    foreach ($method->getParameters() as $parameter) {
+                        $arguments[] = $formData[$parameter->getName()];
+                    }
+
+                    $method->invokeArgs($data, $arguments);
+                }
+            } catch (\Throwable $e) {
+                foreach ($forms as $form) {
+                    $this->formExceptionHandler->handleException($form, $data, $e);
+                }
             }
         }
     }

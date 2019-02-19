@@ -4,6 +4,7 @@ CHANGELOG
 0.3.0
 -----
 
+* Added support for mapping several form fields to a single method of the underlying model.
 * Exceptions thrown during instantiating value objects are now caught and mapped back to the form as transformation
   failures.
 * [BC BREAK] The `ValueObjectTransformer` requires an `ExceptionHandlerRegistry` instance.
