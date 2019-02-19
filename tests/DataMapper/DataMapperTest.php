@@ -300,7 +300,7 @@ class DataMapperTest extends TestCase
 
         $this->assertFalse($form->get('stock')->isValid());
         $this->assertCount(1, $form->get('stock')->getErrors());
-        $this->assertSame('This value should be of type integer.', $form->get('stock')->getErrors()[0]->getMessage());
+        $this->assertSame(\PHP_VERSION_ID >= 70300 ? 'This value should be of type int.' : 'This value should be of type integer.', $form->get('stock')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(\TypeError::class, $form->get('stock')->getErrors()[0]->getCause());
     }
 
@@ -382,7 +382,7 @@ class DataMapperTest extends TestCase
 
         $this->assertFalse($form->get('stock')->isValid());
         $this->assertCount(1, $form->get('stock')->getErrors());
-        $this->assertSame('This value should be of type integer.', $form->get('stock')->getErrors()[0]->getMessage());
+        $this->assertSame(\PHP_VERSION_ID >= 70300 ? 'This value should be of type int.' : 'This value should be of type integer.', $form->get('stock')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(\TypeError::class, $form->get('stock')->getErrors()[0]->getCause());
     }
 
