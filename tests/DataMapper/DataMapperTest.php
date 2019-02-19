@@ -18,6 +18,7 @@ use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancellationDateMapper;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\CategoryType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
@@ -112,6 +113,22 @@ class DataMapperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $form['cancellation_date']->getData());
     }
 
+    public function testDataOptionIsMappedToFormWithPropertyMapperIfDataToBeMappedIsEmptyArray(): void
+    {
+        $formBuilder = $this->createFormBuilder(CancelSubscriptionType::class, null, [
+            'data_class' => null,
+            'cancellation_date_options' => [
+                'property_mapper' => new CancellationDateMapper(),
+            ],
+        ]);
+        $formBuilder->get('cancellation_date')->setData(new \DateTimeImmutable('2019-01-07'));
+
+        $form = $formBuilder->getForm();
+        $form->setData([]);
+
+        $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $form['cancellation_date']->getData());
+    }
+
     /**
      * @expectedException \Symfony\Component\Form\Exception\UnexpectedTypeException
      */
@@ -155,6 +172,18 @@ class DataMapperTest extends TestCase
         $this->assertSame($foodCategory, $form['parent']->getData());
     }
 
+    public function testDataToBeMappedIsReadUsingPropertyMapperOption(): void
+    {
+        $cancellationDate = new \DateTimeImmutable('2018-07-01');
+        $form = $this->createForm(CancelSubscriptionType::class, new Subscription($cancellationDate), [
+            'cancellation_date_options' => [
+                'property_mapper' => new CancellationDateMapper(),
+            ],
+        ]);
+
+        $this->assertEquals($cancellationDate, $form['cancellation_date']->getData());
+    }
+
     public function testSubmittedDataForFieldsWithoutWritePropertyPathOptionAreStillMappedUsingDecoratedDataMapper(): void
     {
         $product = new Product('A fancy product', Price::fromAmount(500));
@@ -170,6 +199,25 @@ class DataMapperTest extends TestCase
     {
         $subscription = new Subscription(new \DateTimeImmutable('2018-07-01'));
         $form = $this->createForm(CancelSubscriptionType::class, $subscription);
+        $form->submit([
+            'cancellation_date' => [
+                'year' => '2019',
+                'month' => '1',
+                'day' => '7',
+            ],
+         ]);
+
+        $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $subscription->cancelledFrom());
+    }
+
+    public function testSubmittedDataForFieldsWithPropertyMapperOptionAreMapped(): void
+    {
+        $subscription = new Subscription(new \DateTimeImmutable('2018-07-01'));
+        $form = $this->createForm(CancelSubscriptionType::class, $subscription, [
+            'cancellation_date_options' => [
+                'property_mapper' => new CancellationDateMapper(),
+            ],
+        ]);
         $form->submit([
             'cancellation_date' => [
                 'year' => '2019',
