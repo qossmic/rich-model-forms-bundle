@@ -26,7 +26,7 @@ class ChangeProductStockType extends AbstractType
     {
         $builder
             ->add('stock', IntegerType::class, [
-                'expected_exception' => $options['expected_stock_exception'],
+                'handle_exception' => $options['expected_stock_exception'],
             ])
             ->setDataMapper(new class() implements DataMapperInterface {
                 public function mapDataToForms($data, $forms): void

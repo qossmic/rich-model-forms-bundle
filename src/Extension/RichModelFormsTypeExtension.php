@@ -85,6 +85,25 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
         $resolver->setAllowedTypes('expected_exception', ['string', 'string[]', 'null']);
         $resolver->setNormalizer('expected_exception', function (Options $options, $value) {
             if (null !== $value) {
+                @trigger_error('The "expected_exception" option is deprecated since RichModelFormsBundle 0.2 and will be removed in 03. Use the "handle_exception" option instead.', E_USER_DEPRECATED);
+
+                $value = (array) $value;
+            }
+
+            return $value;
+        });
+        $resolver->setDefault('handle_exception', null);
+        $resolver->setAllowedTypes('handle_exception', ['string', 'string[]', 'null']);
+        $resolver->setNormalizer('handle_exception', function (Options $options, $value) {
+            if (null !== $value && null !== $options['expected_exception']) {
+                throw new InvalidConfigurationException('The "expected_exception" and "handle_exception" options cannot be used at the same time.');
+            }
+
+            if (null === $value && null !== $options['expected_exception']) {
+                return $options['expected_exception'];
+            }
+
+            if (null !== $value) {
                 $value = (array) $value;
             }
 
@@ -97,7 +116,11 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
                 throw new InvalidConfigurationException('The "expected_exception" and "exception_handling_strategy" options cannot be used at the same time.');
             }
 
-            if (null !== $options['expected_exception']) {
+            if (null !== $value && null !== $options['handle_exception']) {
+                throw new InvalidConfigurationException('The "handle_exception" and "exception_handling_strategy" options cannot be used at the same time.');
+            }
+
+            if (null !== $options['handle_exception']) {
                 return null;
             }
 

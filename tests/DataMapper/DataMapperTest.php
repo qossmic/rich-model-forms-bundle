@@ -359,6 +359,23 @@ class DataMapperTest extends TestCase
     }
 
     /**
+     * @group legacy
+     */
+    public function testMatchingExpectedExceptionIsConvertedIntoFormErrorUsingLegacyOptionName(): void
+    {
+        $form = $this->createForm(CategoryType::class, new Category('food'), [
+            'expected_name_exception' => \LengthException::class,
+            'legacy_exception_handling_option' => true,
+        ]);
+        $form->submit([
+            'name' => 'fo',
+        ]);
+
+        $this->assertFalse($form->get('name')->isValid());
+        $this->assertSame('The name must have a length of at least three characters ("fo" given).', $form->get('name')->getErrors()[0]->getMessage());
+    }
+
+    /**
      * @expectedException \LengthException
      */
     public function testNotMatchingExpectedExceptionsAreNotCaught(): void

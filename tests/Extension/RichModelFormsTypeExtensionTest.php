@@ -113,6 +113,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
     }
 
     /**
+     * @group legacy
      * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
      */
     public function testExpectedExceptionAndExceptionHandlingStrategyCannotBeUsedAtTheSameTime(): void
@@ -121,6 +122,41 @@ class RichModelFormsTypeExtensionTest extends TestCase
             'expected_exception' => [\InvalidArgumentException::class, \LogicException::class],
             'exception_handling_strategy' => 'type_error',
         ]);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
+     */
+    public function testHandleExceptionAndExceptionHandlingStrategyCannotBeUsedAtTheSameTime(): void
+    {
+        $this->configureOptions()->resolve([
+            'handle_exception' => [\InvalidArgumentException::class, \LogicException::class],
+            'exception_handling_strategy' => 'type_error',
+        ]);
+    }
+
+    /**
+     * @group legacy
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
+     */
+    public function testExpectedExceptionAndHandleExceptionCannotBeUsedAtTheSameTime(): void
+    {
+        $this->configureOptions()->resolve([
+            'expected_exception' => [\InvalidArgumentException::class, \LogicException::class],
+            'handle_exception' => [\InvalidArgumentException::class, \LogicException::class],
+        ]);
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testHandleExceptionValueDefaultsToExpectedExceptionValue(): void
+    {
+        $resolvedOptions = $this->configureOptions()->resolve([
+            'expected_exception' => [\InvalidArgumentException::class, \LogicException::class],
+        ]);
+
+        $this->assertSame([\InvalidArgumentException::class, \LogicException::class], $resolvedOptions['handle_exception']);
     }
 
     public function testDefaultExceptionHandlingStrategyWhenExpectedExceptionIsNotConfigured(): void

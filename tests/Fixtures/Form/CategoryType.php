@@ -25,12 +25,19 @@ class CategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $nameOptions = [
+            'read_property_path' => 'getName',
+            'write_property_path' => 'rename',
+        ];
+
+        if ($options['legacy_exception_handling_option']) {
+            $nameOptions['expected_exception'] = $options['expected_name_exception'];
+        } else {
+            $nameOptions['handle_exception'] = $options['expected_name_exception'];
+        }
+
         $builder
-            ->add('name', TextType::class, [
-                'expected_exception' => $options['expected_name_exception'],
-                'read_property_path' => 'getName',
-                'write_property_path' => 'rename',
-            ])
+            ->add('name', TextType::class, $nameOptions)
             ->add('parent', ChoiceType::class, [
                 'choices' => $options['categories'],
                 'read_property_path' => function (Category $category): ?Category {
@@ -49,5 +56,6 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefault('categories', []);
         $resolver->setDefault('expected_name_exception', null);
+        $resolver->setDefault('legacy_exception_handling_option', false);
     }
 }

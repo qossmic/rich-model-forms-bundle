@@ -32,8 +32,8 @@ class FormExceptionHandler
     {
         $exceptionHandlers = [];
 
-        if (null !== $form->getConfig()->getOption('expected_exception')) {
-            foreach ($form->getConfig()->getOption('expected_exception') as $exceptionClass) {
+        if (null !== $form->getConfig()->getOption('handle_exception')) {
+            foreach ($form->getConfig()->getOption('handle_exception') as $exceptionClass) {
                 $exceptionHandlers[] = new GenericExceptionHandler($exceptionClass);
             }
 
