@@ -201,6 +201,18 @@ class RichModelFormsTypeExtensionTest extends TestCase
         ]);
     }
 
+    /**
+     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
+     */
+    public function testImmutableObjectsDoNotWorkWithDataClasses(): void
+    {
+        $this->configureOptions()->resolve([
+            'data_class' => GrossPrice::class,
+            'factory' => GrossPrice::class,
+            'immutable' => true,
+        ]);
+    }
+
     private function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $this->extension->buildForm($formBuilder, $this->configureOptions()->resolve($options));
