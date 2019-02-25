@@ -164,6 +164,10 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
         });
 
         $resolver->setNormalizer('data_class', function (Options $options, $value) {
+            if (null !== $value && $options['immutable']) {
+                throw new InvalidConfigurationException('The "data_class" option cannot be used on immutable forms.');
+            }
+
             if (!$options['immutable'] && null !== $options['factory'] && \is_string($options['factory'])) {
                 return $options['factory'];
             }

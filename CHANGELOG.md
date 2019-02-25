@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.2.1
+-----
+
+* Raise an error when the `data_class` option is used and the `immutable` option is enabled.
+
 0.2.0
 -----
 
