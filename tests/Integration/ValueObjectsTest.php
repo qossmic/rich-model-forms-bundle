@@ -84,6 +84,18 @@ class ValueObjectsTest extends TestCase
         $this->assertSame('19', $form->get('taxRate')->getViewData());
     }
 
+    public function testTransformSkipsEmbeddedButtons(): void
+    {
+        $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
+            'factory' => GrossPrice::class,
+            'immutable' => true,
+            'include_button' => true,
+        ]);
+
+        $this->assertSame('500', $form->get('amount')->getViewData());
+        $this->assertSame('19', $form->get('taxRate')->getViewData());
+    }
+
     public function testTransformationFailedExceptionIsThrownWhenTheClassConstructorIsNotPublic(): void
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [

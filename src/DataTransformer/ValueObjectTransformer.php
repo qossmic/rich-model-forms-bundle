@@ -15,6 +15,7 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\DataTransformer;
 
 use SensioLabs\RichModelForms\Instantiator\ViewDataInstantiator;
+use Symfony\Component\Form\ButtonBuilder;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -44,6 +45,9 @@ class ValueObjectTransformer implements DataTransformerInterface
             $viewData = [];
 
             foreach ($this->form as $name => $child) {
+                if ($child instanceof ButtonBuilder) {
+                    continue;
+                }
                 $viewData[$name] = $this->getPropertyValue($child, $value);
             }
 
