@@ -12,7 +12,7 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Extension;
+namespace SensioLabs\RichModelForms\Tests\Unit\Extension;
 
 use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\DataMapper\DataMapper;
