@@ -32,7 +32,7 @@ class ValueObjectsTest extends TestCase
 {
     use ExceptionHandlerRegistryTrait;
 
-    public function testNonComposedRootFormDoesNotRequirePropertyPathToBeSetIfPropertyPathCanBeDerivedFromFormName(): void
+    public function testNonCompoundRootFormDoesNotRequirePropertyPathToBeSetIfPropertyPathCanBeDerivedFromFormName(): void
     {
         $form = $this->createNamedForm('amount', PriceType::class, new Price(500), [
             'factory' => Price::class,
@@ -42,17 +42,7 @@ class ValueObjectsTest extends TestCase
         $this->assertSame('500', $form->getViewData());
     }
 
-    public function testTransformNonComposedRootFormWithEmptyData(): void
-    {
-        $form = $this->createForm(PriceType::class, null, [
-            'factory' => Price::class,
-            'property_path' => 'amount',
-        ]);
-
-        $this->assertSame('', $form->getViewData());
-    }
-
-    public function testTransformNonComposedRootFormToViewData(): void
+    public function testTransformNonCompoundRootFormToViewData(): void
     {
         $form = $this->createForm(PriceType::class, new Price(500), [
             'factory' => Price::class,
@@ -63,17 +53,7 @@ class ValueObjectsTest extends TestCase
         $this->assertSame('500', $form->getViewData());
     }
 
-    public function testTransformComposedRootFormWithEmptyData(): void
-    {
-        $form = $this->createForm(GrossPriceType::class, null, [
-            'factory' => GrossPrice::class,
-        ]);
-
-        $this->assertSame('', $form->get('amount')->getViewData());
-        $this->assertSame('', $form->get('taxRate')->getViewData());
-    }
-
-    public function testTransformComposedRootFormToViewData(): void
+    public function testTransformCompoundRootFormToViewData(): void
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
             'factory' => GrossPrice::class,
@@ -111,7 +91,7 @@ class ValueObjectsTest extends TestCase
         $this->assertInstanceOf(TransformationFailedException::class, $form->getTransformationFailure());
     }
 
-    public function testReverseTransformNonComposedRootFormToNormDataUsingConstructor(): void
+    public function testReverseTransformNonCompoundRootFormToNormDataUsingConstructor(): void
     {
         $form = $this->createForm(PriceType::class, new Price(500), [
             'factory' => Price::class,
@@ -125,7 +105,7 @@ class ValueObjectsTest extends TestCase
         $this->assertSame(650, $price->amount());
     }
 
-    public function testReverseTransformNonComposedRootFormToNormDataUsingFactoryMethod(): void
+    public function testReverseTransformNonCompoundRootFormToNormDataUsingFactoryMethod(): void
     {
         $form = $this->createForm(PriceType::class, new Price(500), [
             'factory' => [Price::class, 'fromAmount'],
@@ -139,7 +119,7 @@ class ValueObjectsTest extends TestCase
         $this->assertSame(650, $price->amount());
     }
 
-    public function testReverseTransformNonComposedRootFormToNormDataUsingClosure(): void
+    public function testReverseTransformNonCompoundRootFormToNormDataUsingClosure(): void
     {
         $form = $this->createForm(PriceType::class, new Price(500), [
             'factory' => function (int $amount): Price {
@@ -155,7 +135,7 @@ class ValueObjectsTest extends TestCase
         $this->assertSame(650, $price->amount());
     }
 
-    public function testReverseTransformComposedRootFormToNormDataUsingConstructor(): void
+    public function testReverseTransformCompoundRootFormToNormDataUsingConstructor(): void
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
             'factory' => GrossPrice::class,
@@ -173,7 +153,7 @@ class ValueObjectsTest extends TestCase
         $this->assertSame(7, $grossPrice->taxRate());
     }
 
-    public function testReverseTransformComposedRootFormToNormDataUsingFactoryMethod(): void
+    public function testReverseTransformCompoundRootFormToNormDataUsingFactoryMethod(): void
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
             'factory' => [GrossPrice::class, 'withAmountAndTaxRate'],
@@ -191,7 +171,7 @@ class ValueObjectsTest extends TestCase
         $this->assertSame(7, $grossPrice->taxRate());
     }
 
-    public function testReverseTransformComposedRootFormToNormDataUsingClosure(): void
+    public function testReverseTransformCompoundRootFormToNormDataUsingClosure(): void
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
             'factory' => function (array $values): GrossPrice {
