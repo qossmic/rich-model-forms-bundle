@@ -26,7 +26,7 @@ final class GrossPrice
         }
 
         if (!\in_array($taxRate, [7, 19], true)) {
-            throw new \InvalidArgumentException(sprintf('The tax rate must be 7% or 19% (%d%% given).', $taxRate));
+            throw new \InvalidArgumentException(sprintf('The tax rate must be 7%% or 19%% (%d%% given).', $taxRate));
         }
 
         $this->amount = $amount;

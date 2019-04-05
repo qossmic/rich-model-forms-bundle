@@ -12,14 +12,14 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\DependencyInjection;
+namespace SensioLabs\RichModelForms\Tests\Integration;
 
 use SensioLabs\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
 use SensioLabs\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
 use SensioLabs\RichModelForms\Tests\Fixtures\DependencyInjection\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class RichModelFormsExtensionTest extends KernelTestCase
+class ServiceContainerTest extends KernelTestCase
 {
     public function testServicesCanBeBuilt(): void
     {

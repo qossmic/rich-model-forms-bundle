@@ -12,7 +12,7 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\DataTransformer;
+namespace SensioLabs\RichModelForms\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
@@ -28,7 +28,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class ValueObjectTransformerTest extends TestCase
+class ValueObjectsTest extends TestCase
 {
     use ExceptionHandlerRegistryTrait;
 
