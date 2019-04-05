@@ -4,7 +4,8 @@ CHANGELOG
 0.2.1
 -----
 
-* Raise an error when the `data_class` option is used and the `immutable` option is enabled.
+* Abstain from trying to map buttons to the data when creating value objects.
+* Raise an error when the `data_class` option is used while the `immutable` option is enabled.
 
 0.2.0
 -----
