@@ -37,6 +37,16 @@ class FormDataInstantiator extends ObjectInstantiator
 
     protected function getData()
     {
+        if ($this->isCompoundForm()) {
+            $data = [];
+
+            foreach ($this->form as $childForm) {
+                $data[$childForm->getConfig()->getName()] = $childForm->getData();
+            }
+
+            return $data;
+        }
+
         return $this->form->getData();
     }
 
