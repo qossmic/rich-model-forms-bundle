@@ -41,6 +41,20 @@ class FactoryTest extends AbstractDataMapperTest
         $this->assertSame('', $form->get('taxRate')->getViewData());
     }
 
+    public function testInitializeEmptyDataWithConstructorFactoryFromNonCompoundForm(): void
+    {
+        $form = $this->createForm(PriceType::class, null, [
+            'factory' => Price::class,
+            'property_path' => 'amount',
+        ]);
+        $form->submit('500');
+
+        $price = $form->getData();
+
+        $this->assertInstanceOf(Price::class, $price);
+        $this->assertSame(500, $price->amount());
+    }
+
     public function testInitializeEmptyDataWithConstructorFactoryFromCompoundForm(): void
     {
         $form = $this->createForm(GrossPriceType::class, null, [
@@ -58,6 +72,20 @@ class FactoryTest extends AbstractDataMapperTest
         $this->assertSame(7, $grossPrice->taxRate());
     }
 
+    public function testInitializeEmptyDataWithFactoryMethodFromNonCompoundForm(): void
+    {
+        $form = $this->createForm(PriceType::class, null, [
+            'factory' => [Price::class, 'fromAmount'],
+            'property_path' => 'amount',
+        ]);
+        $form->submit('500');
+
+        $price = $form->getData();
+
+        $this->assertInstanceOf(Price::class, $price);
+        $this->assertSame(500, $price->amount());
+    }
+
     public function testInitializeEmptyDataWithFactoryMethodFromCompoundForm(): void
     {
         $form = $this->createForm(GrossPriceType::class, null, [
@@ -73,6 +101,22 @@ class FactoryTest extends AbstractDataMapperTest
         $this->assertInstanceOf(GrossPrice::class, $grossPrice);
         $this->assertSame(500, $grossPrice->amount());
         $this->assertSame(7, $grossPrice->taxRate());
+    }
+
+    public function testInitializeEmptyDataWithClosureFactoryFromNonCompoundForm(): void
+    {
+        $form = $this->createForm(PriceType::class, null, [
+            'factory' => function ($viewData): Price {
+                return new Price($viewData);
+            },
+            'property_path' => 'amount',
+        ]);
+        $form->submit('500');
+
+        $price = $form->getData();
+
+        $this->assertInstanceOf(Price::class, $price);
+        $this->assertSame(500, $price->amount());
     }
 
     public function testInitializeEmptyDataWithClosureFactoryFromCompoundForm(): void
