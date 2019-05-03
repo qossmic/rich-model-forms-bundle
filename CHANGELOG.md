@@ -4,6 +4,7 @@ CHANGELOG
 0.2.1
 -----
 
+* Fix to actually use a configured factory when submitting non-compound forms.
 * Fixed passing submitted data to the configured factory for compound forms.
 * Abstain from trying to map buttons to the data when creating value objects.
 * Raise an error when the `data_class` option is used while the `immutable` option is enabled.
