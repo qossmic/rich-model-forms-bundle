@@ -19,6 +19,5 @@ CHANGELOG
 * The `expected_exception` option is deprecated and will be removed in 0.3. Use `handle_exception` instead.
 
 0.1.0
------
 
 Initial release of the bundle
