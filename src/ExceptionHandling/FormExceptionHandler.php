@@ -50,7 +50,7 @@ class FormExceptionHandler
             $exceptionHandler = new ChainExceptionHandler($exceptionHandlers);
         }
 
-        if (null !== $error = $exceptionHandler->getError($form, $data, $e)) {
+        if (null !== $error = $exceptionHandler->getError($form->getConfig(), $data, $e)) {
             $form->addError($error);
         } else {
             throw $e;

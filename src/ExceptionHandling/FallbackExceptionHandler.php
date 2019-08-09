@@ -14,8 +14,8 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\ExceptionHandling;
 
+use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -38,14 +38,14 @@ final class FallbackExceptionHandler implements ExceptionHandlerInterface
         $this->translationDomain = $translationDomain;
     }
 
-    public function getError(FormInterface $form, $data, \Throwable $e): ?FormError
+    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?FormError
     {
         if (!$e instanceof \Exception) {
             return null;
         }
 
-        $messageTemplate = $form->getConfig()->getOption('invalid_message') ?? 'This value is not valid.';
-        $parameters = $form->getConfig()->getOption('invalid_message_parameters') ?? [];
+        $messageTemplate = $formConfig->getOption('invalid_message') ?? 'This value is not valid.';
+        $parameters = $formConfig->getOption('invalid_message_parameters') ?? [];
 
         if (null !== $this->translator) {
             $message = $this->translator->trans($messageTemplate, $parameters, $this->translationDomain);

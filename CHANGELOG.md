@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+0.3.0
+-----
+
+* [BC BREAK] the first argument's type of the `ExceptionHandlerInterface::getError()` method has been changed from
+  `FormInterface` to `FormConfigInterface`
+
 0.2.1
 -----
 

@@ -14,8 +14,8 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\ExceptionHandling;
 
+use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -33,7 +33,7 @@ final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInte
         $this->translationDomain = $translationDomain;
     }
 
-    public function getError(FormInterface $form, $data, \Throwable $e): ?FormError
+    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?FormError
     {
         if ($e instanceof \TypeError) {
             // we are not interested in type errors that are not related to argument type mismatches
