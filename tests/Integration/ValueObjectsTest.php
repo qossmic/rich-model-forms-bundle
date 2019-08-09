@@ -191,6 +191,22 @@ class ValueObjectsTest extends TestCase
         $this->assertSame(7, $grossPrice->taxRate());
     }
 
+    public function testReverseTransformCatchesTypeErrors(): void
+    {
+        $form = $this->createForm(GrossPriceType::class, null, [
+            'factory' => GrossPrice::class,
+            'immutable' => true,
+        ]);
+        $form->submit([
+            'amount' => '',
+            'taxRate' => '7',
+        ]);
+
+        self::assertTrue($form->isSubmitted());
+        self::assertFalse($form->isSynchronized());
+        self::assertInstanceOf(TransformationFailedException::class, $form->getTransformationFailure());
+    }
+
     private function createForm(string $type, $data = null, array $options = []): FormInterface
     {
         return $this->createFormFactory()->createBuilder($type, $data, $options)->getForm();
