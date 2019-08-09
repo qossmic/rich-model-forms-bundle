@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormInterface;
  *
  * The execution of the handler chain will be stopped as soon as one of the handlers returns a form error object. Thus,
  * you need to make sure to give specialized exception handlers a higher priority (i.e. place them before more generic
- * handlers in the list that you pass as the argument to the constructor) than any generic handler. This ensure that
+ * handlers in the list that you pass as the argument to the constructor) than any generic handler. This ensures that
  * specialized handlers do their job first before the chain falls back to eventually process the more generic exception
  * handlers.
  *
