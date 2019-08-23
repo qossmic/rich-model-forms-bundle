@@ -6,6 +6,9 @@ CHANGELOG
 
 * [BC BREAK] the first argument's type of the `ExceptionHandlerInterface::getError()` method has been changed from
   `FormInterface` to `FormConfigInterface`
+* [BC BREAK] the return type of `ExceptionHandlerInterface::getError()` has been changed to `SensioLabs\RichModelForms\ExceptionHandling\Error`
+* [BC BREAK] a `TranslatorInterface` and the translation domain to be used must now be passed to the `FormExceptionHandler`
+  instead of passing to the individual `ExceptionHandlerInterface` implementations
 
 0.2.1
 -----

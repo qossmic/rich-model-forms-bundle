@@ -15,7 +15,6 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\ExceptionHandling;
 
 use Symfony\Component\Form\FormConfigInterface;
-use Symfony\Component\Form\FormError;
 
 /**
  * A generic exception handler that can transform arbitrary exceptions into form errors.
@@ -38,12 +37,12 @@ final class GenericExceptionHandler implements ExceptionHandlerInterface
         $this->handledExceptionClass = $handledExceptionClass;
     }
 
-    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?FormError
+    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
     {
         if (!$e instanceof $this->handledExceptionClass) {
             return null;
         }
 
-        return new FormError($e->getMessage());
+        return new Error($e, $e->getMessage());
     }
 }

@@ -14,7 +14,9 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\ExceptionHandling;
 
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
@@ -22,10 +24,14 @@ use Symfony\Component\Form\FormInterface;
 class FormExceptionHandler
 {
     private $exceptionHandlerRegistry;
+    private $translator;
+    private $translationDomain;
 
-    public function __construct(ExceptionHandlerRegistry $exceptionHandlerRegistry)
+    public function __construct(ExceptionHandlerRegistry $exceptionHandlerRegistry, TranslatorInterface $translator = null, string $translationDomain = null)
     {
         $this->exceptionHandlerRegistry = $exceptionHandlerRegistry;
+        $this->translator = $translator;
+        $this->translationDomain = $translationDomain;
     }
 
     public function handleException(FormInterface $form, $data, \Throwable $e): void
@@ -51,7 +57,13 @@ class FormExceptionHandler
         }
 
         if (null !== $error = $exceptionHandler->getError($form->getConfig(), $data, $e)) {
-            $form->addError($error);
+            if (null !== $this->translator) {
+                $message = $this->translator->trans($error->getMessageTemplate(), $error->getParameters(), $this->translationDomain);
+            } else {
+                $message = strtr($error->getMessageTemplate(), $error->getParameters());
+            }
+
+            $form->addError(new FormError($message, $error->getMessageTemplate(), $error->getParameters(), null, $error->getCause()));
         } else {
             throw $e;
         }

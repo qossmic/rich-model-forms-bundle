@@ -15,25 +15,14 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\ExceptionHandling;
 
 use Symfony\Component\Form\FormConfigInterface;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
  */
 final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
 {
-    private $translator;
-    private $translationDomain;
-
-    public function __construct(TranslatorInterface $translator = null, string $translationDomain = null)
-    {
-        $this->translator = $translator;
-        $this->translationDomain = $translationDomain;
-    }
-
-    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?FormError
+    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
     {
         if ($e instanceof \TypeError) {
             // we are not interested in type errors that are not related to argument type mismatches
@@ -50,34 +39,19 @@ final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInte
                 $pos = strpos($e->getMessage(), 'must implement interface ') + 25;
             }
 
-            $parameters = [
+            return new Error($e, 'This value should be of type {{ type }}.', [
                 '{{ type }}' => substr($e->getMessage(), $pos, strpos($e->getMessage(), ',', $pos) - $pos),
-            ];
-
-            return $this->buildFormError($e, $parameters);
+            ]);
         }
 
         // type errors that are triggered when the property accessor performs the write call are wrapped in an
         // InvalidArgumentException by the PropertyAccess component
         if ($e instanceof InvalidArgumentException) {
-            return $this->buildFormError($e, [
+            return new Error($e, 'This value should be of type {{ type }}.', [
                 '{{ type }}' => substr($e->getMessage(), 27, strpos($e->getMessage(), '",') - 27),
             ]);
         }
 
         return null;
-    }
-
-    private function buildFormError(\Throwable $e, array $parameters): FormError
-    {
-        $messageTemplate = 'This value should be of type {{ type }}.';
-
-        if (null !== $this->translator) {
-            $message = $this->translator->trans($messageTemplate, $parameters, $this->translationDomain);
-        } else {
-            $message = strtr($messageTemplate, $parameters);
-        }
-
-        return new FormError($message, $messageTemplate, $parameters, null, $e);
     }
 }

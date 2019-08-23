@@ -15,7 +15,6 @@ declare(strict_types = 1);
 namespace SensioLabs\RichModelForms\ExceptionHandling;
 
 use Symfony\Component\Form\FormConfigInterface;
-use Symfony\Component\Form\FormError;
 
 /**
  * Converts exceptions into form errors.
@@ -32,5 +31,5 @@ use Symfony\Component\Form\FormError;
  */
 interface ExceptionHandlerInterface
 {
-    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?FormError;
+    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error;
 }
