@@ -23,7 +23,8 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class FormExceptionHandler
 {
-    private $exceptionHandlerRegistry;
+    use ExceptionToErrorMapperTrait;
+
     private $translator;
     private $translationDomain;
 
@@ -36,27 +37,7 @@ class FormExceptionHandler
 
     public function handleException(FormInterface $form, $data, \Throwable $e): void
     {
-        $exceptionHandlers = [];
-
-        if (null !== $form->getConfig()->getOption('handle_exception')) {
-            foreach ($form->getConfig()->getOption('handle_exception') as $exceptionClass) {
-                $exceptionHandlers[] = new GenericExceptionHandler($exceptionClass);
-            }
-
-            $exceptionHandlers[] = $this->exceptionHandlerRegistry->get('type_error');
-        } else {
-            foreach ($form->getConfig()->getOption('exception_handling_strategy') as $strategy) {
-                $exceptionHandlers[] = $this->exceptionHandlerRegistry->get($strategy);
-            }
-        }
-
-        if (1 === \count($exceptionHandlers)) {
-            $exceptionHandler = reset($exceptionHandlers);
-        } else {
-            $exceptionHandler = new ChainExceptionHandler($exceptionHandlers);
-        }
-
-        if (null !== $error = $exceptionHandler->getError($form->getConfig(), $data, $e)) {
+        if (null !== $error = $this->mapExceptionToError($form->getConfig(), $data, $e)) {
             if (null !== $this->translator) {
                 $message = $this->translator->trans($error->getMessageTemplate(), $error->getParameters(), $this->translationDomain);
             } else {
