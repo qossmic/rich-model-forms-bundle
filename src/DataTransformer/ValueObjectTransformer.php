@@ -14,9 +14,12 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\DataTransformer;
 
+use SensioLabs\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
+use SensioLabs\RichModelForms\ExceptionHandling\ExceptionToErrorMapperTrait;
 use SensioLabs\RichModelForms\Instantiator\ViewDataInstantiator;
 use Symfony\Component\Form\ButtonBuilder;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
@@ -26,11 +29,15 @@ use Symfony\Component\PropertyAccess\PropertyPath;
  */
 class ValueObjectTransformer implements DataTransformerInterface
 {
+    use ExceptionToErrorMapperTrait;
+
     private $propertyAccessor;
     private $form;
+    private $exceptionToErrorMapper;
 
-    public function __construct(PropertyAccessorInterface $propertyAccessor, FormBuilderInterface $form)
+    public function __construct(ExceptionHandlerRegistry $exceptionHandlerRegistry, PropertyAccessorInterface $propertyAccessor, FormBuilderInterface $form)
     {
+        $this->exceptionHandlerRegistry = $exceptionHandlerRegistry;
         $this->propertyAccessor = $propertyAccessor;
         $this->form = $form;
     }
@@ -59,7 +66,17 @@ class ValueObjectTransformer implements DataTransformerInterface
 
     public function reverseTransform($value)
     {
-        return (new ViewDataInstantiator($this->form, $value))->instantiateObject();
+        try {
+            return (new ViewDataInstantiator($this->form, $value))->instantiateObject();
+        } catch (\Throwable $e) {
+            $error = $this->mapExceptionToError($this->form, $value, $e);
+
+            if (null !== $error) {
+                throw new TransformationFailedException(strtr($error->getMessageTemplate(), $error->getParameters()), 0, $e);
+            }
+
+            throw $e;
+        }
     }
 
     private function getPropertyValue(FormBuilderInterface $form, $object)

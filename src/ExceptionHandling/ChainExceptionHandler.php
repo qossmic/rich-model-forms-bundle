@@ -14,8 +14,7 @@ declare(strict_types = 1);
 
 namespace SensioLabs\RichModelForms\ExceptionHandling;
 
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormConfigInterface;
 
 /**
  * Delegates execution to a list of handlers, stopping after the first handler that transformed the exception.
@@ -40,10 +39,10 @@ final class ChainExceptionHandler implements ExceptionHandlerInterface
         $this->exceptionHandlers = $exceptionHandlers;
     }
 
-    public function getError(FormInterface $form, $data, \Throwable $e): ?FormError
+    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
     {
         foreach ($this->exceptionHandlers as $exceptionHandler) {
-            if (null !== $error = $exceptionHandler->getError($form, $data, $e)) {
+            if (null !== $error = $exceptionHandler->getError($formConfig, $data, $e)) {
                 return $error;
             }
         }

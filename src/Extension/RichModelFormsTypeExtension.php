@@ -48,7 +48,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (null !== $options['factory'] && ($options['immutable'] || !$builder->getCompound())) {
-            $builder->addViewTransformer(new ValueObjectTransformer($this->propertyAccessor, $builder));
+            $builder->addViewTransformer(new ValueObjectTransformer($this->exceptionHandlerRegistry, $this->propertyAccessor, $builder));
         }
 
         if (null === $dataMapper = $builder->getDataMapper()) {
