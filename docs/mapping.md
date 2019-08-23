@@ -44,6 +44,56 @@ class CategoryType extends AbstractType
 }
 ```
 
+Mapping Several Form Fields to a Single Method
+----------------------------------------------
+
+When a method that changes the state of your model requires more than one argument you need to pass the method name as
+is to the `write_property_path` option of all the form fields that should act as an argument:
+
+```php
+class Order
+{
+    private $shippingAddress;
+    private $trackingNumber;
+
+    public function ship(Address $address, string $trackingNumber): void
+    {
+        $this->shippingAddress = $address;
+        $this->trackingNumber = $trackingNumber;
+    }
+
+    // ...
+}
+```
+
+In this example, the `ship()` method requires two arguments, the address to ship to and the tracking number of the
+parcel service.
+
+The corresponding form type can now look like this:
+
+```php
+// ...
+
+class ShipOrderType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('address', AddressType::class, [
+                'read_property_path' => 'shippingAddress',
+                'write_property_path' => 'ship',
+            ])
+            ->add('trackingNumber', TextType::class, [
+                'read_property_path' => 'trackingNumber',
+                'write_property_path' => 'ship',
+            ])
+        ;
+    }
+
+    // ...
+}
+```
+
 Reading Data Based on the Model's State
 ---------------------------------------
 
