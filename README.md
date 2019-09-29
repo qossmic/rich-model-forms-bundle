@@ -26,3 +26,9 @@ The bundle currently supports the following use cases:
 * [Support for constructors with arguments and for value objects](docs/factory_value_object.md)
 
 * [Enhanced exception handling](docs/exception_handling.md)
+
+Resources
+---------
+
+* Video - [SymfonyCon Lisbon 2018: Symfony Form Rich Domain Models - Video](https://symfonycasts.com/screencast/symfonycon2018/symfony-forms-rich-domain-models)
+* Slide deck - [SymfonyCon Lisbon 2018: Symfony Form Rich Domain Models - Slides](https://speakerdeck.com/el_stoffel/using-symfony-forms-with-rich-domain-models)
