@@ -46,11 +46,10 @@ class ServiceContainerTest extends KernelTestCase
         $this->assertInstanceOf(FallbackExceptionHandler::class, $exceptionHandlerRegistry->get('fallback'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testExceptionIsThrownIfExceptionHandlingStrategyIsNotKnown(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $container = $this->bootKernel()->getContainer();
         $exceptionHandlerRegistry = $container->get('test.sensiolabs.rich_model_forms.exception_handler.registry');
 

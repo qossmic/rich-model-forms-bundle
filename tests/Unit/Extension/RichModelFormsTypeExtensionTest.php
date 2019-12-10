@@ -20,6 +20,7 @@ use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
 use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice;
+use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryBuilder;
@@ -64,19 +65,17 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->assertNull($resolvedOptions['write_property_path']);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
-     */
     public function testReadPropertyPathCannotBeConfiguredWithoutWritePropertyPath(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve(['read_property_path' => 'foo']);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
-     */
     public function testWritePropertyPathCannotBeConfiguredWithoutReadPropertyPath(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve(['write_property_path' => 'foo']);
     }
 
@@ -93,11 +92,10 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->assertSame('bar', $resolvedOptions['write_property_path']);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
-     */
     public function testErrorHandlerMustReferenceExistingStrategies(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve([
             'exception_handling_strategy' => 'unknown',
         ]);
@@ -114,21 +112,21 @@ class RichModelFormsTypeExtensionTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
      */
     public function testExpectedExceptionAndExceptionHandlingStrategyCannotBeUsedAtTheSameTime(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve([
             'expected_exception' => [\InvalidArgumentException::class, \LogicException::class],
             'exception_handling_strategy' => 'type_error',
         ]);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
-     */
     public function testHandleExceptionAndExceptionHandlingStrategyCannotBeUsedAtTheSameTime(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve([
             'handle_exception' => [\InvalidArgumentException::class, \LogicException::class],
             'exception_handling_strategy' => 'type_error',
@@ -137,10 +135,11 @@ class RichModelFormsTypeExtensionTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
      */
     public function testExpectedExceptionAndHandleExceptionCannotBeUsedAtTheSameTime(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve([
             'expected_exception' => [\InvalidArgumentException::class, \LogicException::class],
             'handle_exception' => [\InvalidArgumentException::class, \LogicException::class],
@@ -171,41 +170,37 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->assertSame(FormType::class, $this->extension->getExtendedType());
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
-     */
     public function testFactoryStringsMustReferenceExistingClasses(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve([
             'factory' => __NAMESPACE__.'\\NotExistent',
         ]);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
-     */
     public function testFactoryArraysMustBeCallables(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve([
             'factory' => [GrossPrice::class, 'createGrossPrice'],
         ]);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
-     */
     public function testImmutableObjectsNeedFactories(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve([
             'immutable' => true,
         ]);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidConfigurationException
-     */
     public function testImmutableObjectsDoNotWorkWithDataClasses(): void
     {
+        $this->expectException(InvalidConfigurationException::class);
+
         $this->configureOptions()->resolve([
             'data_class' => GrossPrice::class,
             'factory' => GrossPrice::class,
