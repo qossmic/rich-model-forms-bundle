@@ -52,14 +52,13 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
         $this->assertCount(1, $form->get('price')->getErrors());
         $this->assertSame('This value should be of type SensioLabs\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertStringStartsWith('Expected argument of type "SensioLabs\RichModelForms\Tests\Fixtures\Model\Price", "integer" given', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertRegExp('/^Expected argument of type "SensioLabs\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
-    /**
-     * @expectedException \TypeError
-     */
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandled(): void
     {
+        $this->expectException(\TypeError::class);
+
         $form = $this->createForm(ChangeProductStockType::class, new ProductWithTypeError(), [
             'data_class' => ProductWithTypeError::class,
         ]);
@@ -111,11 +110,10 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
         $this->assertSame('The name must have a length of at least three characters ("fo" given).', $form->get('name')->getErrors()[0]->getMessage());
     }
 
-    /**
-     * @expectedException \LengthException
-     */
     public function testNotMatchingExpectedExceptionsAreNotCaught(): void
     {
+        $this->expectException(\LengthException::class);
+
         $form = $this->createForm(CategoryType::class, new Category('food'), [
             'expected_name_exception' => \InvalidArgumentException::class,
         ]);
@@ -152,14 +150,13 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
         $this->assertCount(1, $form->get('price')->getErrors());
         $this->assertSame('This value should be of type SensioLabs\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertStringStartsWith('Expected argument of type "SensioLabs\RichModelForms\Tests\Fixtures\Model\Price", "integer" given', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertRegExp('/^Expected argument of type "SensioLabs\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
-    /**
-     * @expectedException \TypeError
-     */
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandledWithConfiguredExpectedExceptions(): void
     {
+        $this->expectException(\TypeError::class);
+
         $form = $this->createForm(ChangeProductStockType::class, new ProductWithTypeError(), [
             'data_class' => ProductWithTypeError::class,
             'expected_stock_exception' => \InvalidArgumentException::class,

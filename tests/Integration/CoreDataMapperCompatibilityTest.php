@@ -19,6 +19,7 @@ use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Product;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 class CoreDataMapperCompatibilityTest extends AbstractDataMapperTest
 {
@@ -36,11 +37,10 @@ class CoreDataMapperCompatibilityTest extends AbstractDataMapperTest
         $this->assertEquals(new \DateTimeImmutable('2019-01-07'), $form['cancellation_date']->getData());
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\UnexpectedTypeException
-     */
     public function testMappingScalarDataToFormsIsRejected(): void
     {
+        $this->expectException(UnexpectedTypeException::class);
+
         $form = $this->createForm(CancelSubscriptionType::class, null, [
             'data_class' => null,
         ]);
