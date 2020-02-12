@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.4.0
+-----
+
+* Allow to use the bundle with Symfony 5 components.
+
 0.3.0
 -----
 
