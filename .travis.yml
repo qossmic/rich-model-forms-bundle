@@ -16,11 +16,12 @@ env:
 matrix:
   include:
     - php: 7.1
+      env: PHPSTAN_CONFIG=phpstan-php-71.neon
     - php: 7.2
     - php: 7.3
     - php: 7.4
     - php: 7.1
-      env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable" PHPSTAN_CONFIG=phpstan-low.neon
+      env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable" PHPSTAN_CONFIG=phpstan-php-71.neon
     - php: 7.2
       env: COMPOSER_OPTIONS=""
 

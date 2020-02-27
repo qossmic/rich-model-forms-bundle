@@ -56,22 +56,7 @@ parameters:
 			path: src/ExceptionHandling/FormExceptionHandler.php
 
 		-
-			message: "#^Property SensioLabs\\\\RichModelForms\\\\ExceptionHandling\\\\FormExceptionHandler\\:\\:\\$translator has unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface as its type\\.$#"
-			count: 1
-			path: src/ExceptionHandling/FormExceptionHandler.php
-
-		-
-			message: "#^Parameter \\$translator of method SensioLabs\\\\RichModelForms\\\\ExceptionHandling\\\\FormExceptionHandler\\:\\:__construct\\(\\) has invalid typehint type Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
-			count: 1
-			path: src/ExceptionHandling/FormExceptionHandler.php
-
-		-
 			message: "#^Method SensioLabs\\\\RichModelForms\\\\ExceptionHandling\\\\FormExceptionHandler\\:\\:handleException\\(\\) has parameter \\$data with no typehint specified\\.$#"
-			count: 1
-			path: src/ExceptionHandling/FormExceptionHandler.php
-
-		-
-			message: "#^Call to method trans\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
 			count: 1
 			path: src/ExceptionHandling/FormExceptionHandler.php
 

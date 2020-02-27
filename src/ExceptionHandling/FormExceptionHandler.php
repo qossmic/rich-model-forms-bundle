@@ -16,7 +16,7 @@ namespace SensioLabs\RichModelForms\ExceptionHandling;
 
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
