@@ -1,0 +1,9 @@
+includes:
+    - phar://vendor/phpstan/phpstan/phpstan.phar/conf/config.levelmax.neon
+    - phpstan-baseline.neon
+
+parameters:
+    checkMissingIterableValueType: false
+    inferPrivatePropertyTypeFromConstructor: true
+    paths:
+        - src

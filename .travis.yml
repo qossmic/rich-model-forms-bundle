@@ -11,6 +11,7 @@ env:
   global:
     - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
     - COMPOSER_OPTIONS="--prefer-stable"
+    - PHPSTAN_CONFIG=phpstan.neon
 
 matrix:
   include:
@@ -19,7 +20,7 @@ matrix:
     - php: 7.3
     - php: 7.4
     - php: 7.1
-      env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable"
+      env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable" PHPSTAN_CONFIG=phpstan-low.neon
     - php: 7.2
       env: COMPOSER_OPTIONS=""
 
@@ -33,5 +34,5 @@ install:
 
 script:
   - vendor/bin/php-cs-fixer fix --diff --dry-run
-  - vendor/bin/phpstan analyze -l 6 src
+  - vendor/bin/phpstan analyze -c $PHPSTAN_CONFIG
   - vendor/bin/simple-phpunit

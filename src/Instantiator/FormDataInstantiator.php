@@ -23,6 +23,9 @@ class FormDataInstantiator extends ObjectInstantiator
 {
     private $form;
 
+    /**
+     * @param string|\Closure|callable $factory
+     */
     public function __construct($factory, FormInterface $form)
     {
         parent::__construct($factory);
