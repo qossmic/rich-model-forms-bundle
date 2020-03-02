@@ -33,7 +33,6 @@ class ValueObjectTransformer implements DataTransformerInterface
 
     private $propertyAccessor;
     private $form;
-    private $exceptionToErrorMapper;
 
     public function __construct(ExceptionHandlerRegistry $exceptionHandlerRegistry, PropertyAccessorInterface $propertyAccessor, FormBuilderInterface $form)
     {

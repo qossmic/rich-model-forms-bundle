@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.13",
-        "phpstan/phpstan": "^0.10.2",
+        "phpstan/phpstan": "^0.12.1",
         "symfony/phpunit-bridge": "^4.4||^5.0",
         "symfony/translation": "^4.4||^5.0"
     },

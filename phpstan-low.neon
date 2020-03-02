@@ -1,0 +1,24 @@
+includes:
+    - phpstan.neon
+
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method SensioLabs\\\\RichModelForms\\\\DataMapper\\\\DataMapper\\:\\:mapDataToForms\\(\\) has parameter \\$data with no typehint specified\\.$#"
+			count: 1
+			path: src/DataMapper/DataMapper.php
+
+		-
+			message: "#^Parameter \\#2 \\$forms of method Symfony\\\\Component\\\\Form\\\\DataMapperInterface\\:\\:mapDataToForms\\(\\) expects iterable\\<Symfony\\\\Component\\\\Form\\\\FormInterface\\>&Traversable, array\\<int, Symfony\\\\Component\\\\Form\\\\FormInterface\\> given\\.$#"
+			count: 1
+			path: src/DataMapper/DataMapper.php
+
+		-
+			message: "#^Method SensioLabs\\\\RichModelForms\\\\DataMapper\\\\DataMapper\\:\\:mapFormsToData\\(\\) has parameter \\$data with no typehint specified\\.$#"
+			count: 1
+			path: src/DataMapper/DataMapper.php
+
+		-
+			message: "#^Parameter \\#1 \\$forms of method Symfony\\\\Component\\\\Form\\\\DataMapperInterface\\:\\:mapFormsToData\\(\\) expects iterable\\<Symfony\\\\Component\\\\Form\\\\FormInterface\\>&Traversable, array\\<int, Symfony\\\\Component\\\\Form\\\\FormInterface\\> given\\.$#"
+			count: 1
+			path: src/DataMapper/DataMapper.php

@@ -24,6 +24,9 @@ class ViewDataInstantiator extends ObjectInstantiator
     private $form;
     private $viewData;
 
+    /**
+     * @param array<string,mixed> $viewData
+     */
     public function __construct(FormBuilderInterface $form, $viewData)
     {
         parent::__construct($form->getFormConfig()->getOption('factory'));

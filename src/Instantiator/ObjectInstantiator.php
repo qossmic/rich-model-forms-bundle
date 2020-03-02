@@ -23,11 +23,17 @@ abstract class ObjectInstantiator
 {
     private $factory;
 
+    /**
+     * @param string|\Closure|callable $factory
+     */
     public function __construct($factory)
     {
         $this->factory = $factory;
     }
 
+    /**
+     * @return object
+     */
     public function instantiateObject()
     {
         if ($this->factory instanceof \Closure) {
@@ -63,9 +69,7 @@ abstract class ObjectInstantiator
             return new $this->factory(...$arguments);
         }
 
-        if (\is_array($this->factory) && \is_callable($this->factory)) {
-            return ($this->factory)(...$arguments);
-        }
+        return ($this->factory)(...$arguments);
     }
 
     abstract protected function isCompoundForm(): bool;
