@@ -4,6 +4,7 @@ CHANGELOG
 0.5.0
 -----
 
+* Fixed compatibility with `symfony/translation` 5.0.
 * Dropped support for Symfony components < 4.4.
 
 0.4.0
