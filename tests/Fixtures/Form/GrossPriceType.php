@@ -19,6 +19,7 @@ use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -40,6 +41,12 @@ class GrossPriceType extends AbstractType
             ])
         ;
 
+        if ($options['extra_field']) {
+            $builder->add('extra_field', TextType::class, [
+                'mapped' => $options['map_extra_field'],
+            ]);
+        }
+
         if ($options['include_button']) {
             $builder->add('submit', SubmitType::class);
         }
@@ -48,6 +55,8 @@ class GrossPriceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', null);
+        $resolver->setDefault('extra_field', false);
         $resolver->setDefault('include_button', false);
+        $resolver->setDefault('map_extra_field', false);
     }
 }

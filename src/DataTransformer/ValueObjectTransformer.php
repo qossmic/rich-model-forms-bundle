@@ -54,6 +54,11 @@ class ValueObjectTransformer implements DataTransformerInterface
                 if ($child instanceof ButtonBuilder) {
                     continue;
                 }
+
+                if (!$child->getOption('mapped')) {
+                    continue;
+                }
+
                 $viewData[$name] = $this->getPropertyValue($child, $value);
             }
 

@@ -26,6 +26,8 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class ValueObjectsTest extends TestCase
@@ -89,6 +91,47 @@ class ValueObjectsTest extends TestCase
 
         $this->assertFalse($form->isSynchronized());
         $this->assertInstanceOf(TransformationFailedException::class, $form->getTransformationFailure());
+    }
+
+    public function testTransformDoesForwardPropertyAccessExceptions(): void
+    {
+        $this->expectException(NoSuchPropertyException::class);
+
+        if (class_exists(UninitializedPropertyException::class)) {
+            $this->expectExceptionMessage('Can\'t get a way to read the property "extra_field" in class "SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice".');
+        } else {
+            $this->expectExceptionMessage('Neither the property "extra_field" nor one of the methods "getExtraField()", "extraField()", "isExtraField()", "hasExtraField()", "__get()" exist and have public access in class "SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice');
+        }
+
+        $form = $this->createForm(GrossPriceType::class, null, [
+            'extra_field' => true,
+            'factory' => [GrossPrice::class, 'withAmountAndTaxRate'],
+            'immutable' => true,
+            'map_extra_field' => true,
+        ]);
+        $form->submit([
+            'amount' => '500',
+            'taxRate' => '7',
+            'extra_field' => 'test',
+        ]);
+    }
+
+    public function testTransformIgnoresNonMappedFields(): void
+    {
+        $form = $this->createForm(GrossPriceType::class, null, [
+            'extra_field' => true,
+            'factory' => [GrossPrice::class, 'withAmountAndTaxRate'],
+            'immutable' => true,
+            'map_extra_field' => false,
+        ]);
+        $form->submit([
+            'amount' => '500',
+            'taxRate' => '7',
+            'extra_field' => 'test',
+        ]);
+
+        $this->assertSame(500, $form->getData()->amount());
+        $this->assertSame(7, $form->getData()->taxRate());
     }
 
     public function testReverseTransformNonCompoundRootFormToNormDataUsingConstructor(): void
