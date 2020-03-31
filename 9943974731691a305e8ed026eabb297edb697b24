@@ -1,0 +1,100 @@
+---------------------------------------------------------------------------
+
+by KartaviK at 2020-03-27T18:30:44Z
+
+@xabbuh  I added tests, can you review, please)
+
+---------------------------------------------------------------------------
+
+by KartaviK at 2020-03-28T20:29:07Z
+
+Also i found another solution of this case.
+If use nested form for extra fields - exception will be not thrown.
+
+Simple example:
+(I use php7.4, so example will contain its features)
+User class:
+```php
+class User
+{
+    private int $id;
+    private string $name;
+    private string $email;
+
+    public function __construct(string $name, string $email)
+    {
+        $this->name = $name;
+        $this->email = $email;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function rename(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+}
+```
+
+ExtraForm:
+```php
+class ExtraForm extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->add('extra_field', TextType::class);
+    }
+}
+```
+
+UserForm:
+```php
+class UserForm extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name', TextType::class, [
+                'read_property_path' => fn(User $user) => $user->getName(),
+                'write_property_path' => fn(User $user, string $name) => $user->rename($name),
+            ])
+            ->add('email', EmailType::class, [
+                'read_property_path' => fn(User $user) => $user->getEmail(),
+                'write_property_path' => fn(User $user, string $email) => $user->setEmail($email),
+            ])
+            ->add('extra_form', ExtraForm::class, ['mapped' => false]) // Here 'mapped' option will work
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'factory' => fn(array $data) => new User($data['name'], $data['email']),
+        ]);
+    }
+}
+```
+
+In this case nested form will work by another strategy, as i can understand and `mapped` option will work properly
