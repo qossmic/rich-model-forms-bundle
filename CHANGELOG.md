@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.5.1
+-----
+
+* Fixed dealing with non-mapped fields when mapping to value objects (#81).
+
 0.5.0
 -----
 
