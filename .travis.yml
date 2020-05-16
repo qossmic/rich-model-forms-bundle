@@ -15,19 +15,21 @@ env:
 
 matrix:
   include:
-    - php: 7.1
-      env: PHPSTAN_CONFIG=phpstan-php-71.neon
-    - php: 7.2
     - php: 7.3
-    - php: 7.4
     - php: 7.1
       env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable" PHPSTAN_CONFIG=phpstan-php-71.neon
+    - php: 7.1
+      env: SYMFONY_REQUIRE="4.4.*" PHPSTAN_CONFIG=phpstan-php-71.neon
+    - php: 7.4
+      env: SYMFONY_REQUIRE="5.0.*"
+    - php: 7.4
+      env: SYMFONY_REQUIRE="5.1.*"
     - php: 7.2
       env: COMPOSER_OPTIONS=""
 
 before_install:
   - phpenv config-rm xdebug.ini
-  - if [ "$COMPOSER_OPTIONS" = "" ]; then composer config minimum-stability dev; fi
+  - composer global require --no-progress --no-scripts --no-plugins symfony/flex
 
 install:
   - composer update $COMPOSER_OPTIONS
