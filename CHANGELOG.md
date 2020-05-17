@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.6.0
+-----
+
+* Added handling for `TypeError` instances thrown for typed properties on PHP 7.4+.
+
 0.5.1
 -----
 

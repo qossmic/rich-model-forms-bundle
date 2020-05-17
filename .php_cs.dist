@@ -12,6 +12,15 @@
 
 declare(strict_types = 1);
 
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__.'/src')
+    ->in(__DIR__.'/tests')
+    ->append([__FILE__]);
+
+if (PHP_VERSION_ID < 70400) {
+    $finder->notPath('Dto/Product.php');
+}
+
 return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
@@ -35,10 +44,5 @@ file that was distributed with this source code.',
         'void_return' => true,
     ])
     ->setRiskyAllowed(true)
-    ->setFinder(
-        PhpCsFixer\Finder::create()
-            ->in(__DIR__.'/src')
-            ->in(__DIR__.'/tests')
-            ->append([__FILE__])
-    )
+    ->setFinder($finder)
 ;

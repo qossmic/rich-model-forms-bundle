@@ -18,8 +18,10 @@ use SensioLabs\RichModelForms\Tests\Fixtures\Form\CategoryType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockTypeExtension;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
+use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDtoType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Form\TypeMismatchPriceChangeType;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Category;
+use SensioLabs\RichModelForms\Tests\Fixtures\Model\Dto\Product as ProductDto;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\Product;
 use SensioLabs\RichModelForms\Tests\Fixtures\Model\ProductWithTypeError;
@@ -28,6 +30,27 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class ExceptionHandlingTest extends AbstractDataMapperTest
 {
+    /**
+     * @requires PHP >= 7.4
+     */
+    public function testMismatchingPropertyTypesWillBeConvertedToErrors(): void
+    {
+        $product = new ProductDto();
+        $product->name = 'A fancy product';
+        $product->description = 'This is a fancy product.';
+
+        $form = $this->createForm(ProductDtoType::class, $product);
+        $form->submit([
+            'name' => 'The new name',
+            'description' => '',
+        ]);
+
+        $this->assertTrue($form->get('name')->isValid());
+        $this->assertFalse($form->get('description')->isValid());
+        $this->assertSame('This value should be of type string.', $form->get('description')->getErrors()[0]->getMessage());
+        $this->assertInstanceOf(\TypeError::class, $form->get('description')->getErrors()[0]->getCause());
+    }
+
     public function testMismatchingArgumentTypesWillBeConvertedToErrors(): void
     {
         $form = $this->createForm(ChangeProductStockType::class, new Product('A fancy product', Price::fromAmount(500)), [], [new ChangeProductStockTypeExtension(PropertyAccess::createPropertyAccessor())]);

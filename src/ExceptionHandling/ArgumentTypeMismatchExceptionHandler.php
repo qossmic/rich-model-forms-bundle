@@ -25,23 +25,31 @@ final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInte
     public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
     {
         if ($e instanceof \TypeError) {
-            // we are not interested in type errors that are not related to argument type mismatches
-            if (0 !== strpos($e->getMessage(), 'Argument ')) {
-                return null;
+            if (0 === strpos($e->getMessage(), 'Argument ')) {
+                // code for extracting the expected type borrowed from the error handling in the Symfony PropertyAccess component
+                if (false !== $pos = strpos($e->getMessage(), 'must be of the type ')) {
+                    $pos += 20;
+                } elseif (false !== $pos = strpos($e->getMessage(), 'must be an instance of ')) {
+                    $pos += 23;
+                } else {
+                    $pos = strpos($e->getMessage(), 'must implement interface ') + 25;
+                }
+
+                return new Error($e, 'This value should be of type {{ type }}.', [
+                    '{{ type }}' => substr($e->getMessage(), $pos, strpos($e->getMessage(), ',', $pos) - $pos),
+                ]);
             }
 
-            // code for extracting the expected type borrowed from the error handling in the Symfony PropertyAccess component
-            if (false !== $pos = strpos($e->getMessage(), 'must be of the type ')) {
-                $pos += 20;
-            } elseif (false !== $pos = strpos($e->getMessage(), 'must be an instance of ')) {
-                $pos += 23;
-            } else {
-                $pos = strpos($e->getMessage(), 'must implement interface ') + 25;
+            if (0 === strpos($e->getMessage(), 'Typed property ')) {
+                $pos = strpos($e->getMessage(), 'must be ') + 8;
+
+                return new Error($e, 'This value should be of type {{ type }}.', [
+                    '{{ type }}' => substr($e->getMessage(), $pos, strpos($e->getMessage(), ',', $pos) - $pos),
+                ]);
             }
 
-            return new Error($e, 'This value should be of type {{ type }}.', [
-                '{{ type }}' => substr($e->getMessage(), $pos, strpos($e->getMessage(), ',', $pos) - $pos),
-            ]);
+            // we are not interested in type errors that are not related to argument type nor property type (PHP 7.4+) mismatches
+            return null;
         }
 
         // type errors that are triggered when the property accessor performs the write call are wrapped in an
