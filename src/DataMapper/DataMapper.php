@@ -18,6 +18,7 @@ use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -47,8 +48,13 @@ final class DataMapper implements DataMapperInterface
         $formsToBeMapped = [];
 
         foreach ($forms as $form) {
-            $readPropertyPath = $form->getConfig()->getOption('read_property_path');
-            $propertyMapper = $form->getConfig()->getOption('property_mapper');
+            $readPropertyPath = null;
+            $propertyMapper = null;
+
+            if (!$this->isImmutable($form)) {
+                $readPropertyPath = $form->getConfig()->getOption('read_property_path');
+                $propertyMapper = $form->getConfig()->getOption('property_mapper');
+            }
 
             if (!$isDataEmpty && $readPropertyPath instanceof \Closure && $form->getConfig()->getMapped()) {
                 $form->setData($readPropertyPath($data));
@@ -81,10 +87,15 @@ final class DataMapper implements DataMapperInterface
         foreach ($forms as $form) {
             $forwardToWrappedDataMapper = false;
             $config = $form->getConfig();
+            $readPropertyPath = null;
+            $propertyMapper = null;
 
-            $readPropertyPath = $config->getOption('read_property_path');
+            if (!$this->isImmutable($form)) {
+                $readPropertyPath = $form->getConfig()->getOption('read_property_path');
+                $propertyMapper = $form->getConfig()->getOption('property_mapper');
+            }
+
             $writePropertyPath = $config->getOption('write_property_path');
-            $propertyMapper = $form->getConfig()->getOption('property_mapper');
 
             if ($readPropertyPath instanceof \Closure) {
                 $previousValue = $readPropertyPath($data);
@@ -150,5 +161,16 @@ final class DataMapper implements DataMapperInterface
                 }
             }
         }
+    }
+
+    private function isImmutable(FormInterface $form): bool
+    {
+        do {
+            if ($form->getConfig()->getOption('immutable')) {
+                return true;
+            }
+        } while ($form = $form->getParent());
+
+        return false;
     }
 }
