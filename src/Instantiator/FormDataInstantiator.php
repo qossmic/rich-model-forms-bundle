@@ -55,6 +55,15 @@ class FormDataInstantiator extends ObjectInstantiator
 
     protected function getArgumentData(string $argument)
     {
+        if (!$this->form->has($argument)) {
+            foreach ($this->form as $childForm) {
+                $factoryArgument = $childForm->getConfig()->getOption('factory_argument');
+                if ((string) $factoryArgument === $argument) {
+                    return $childForm->getData();
+                }
+            }
+        }
+
         return $this->form->get($argument)->getData();
     }
 }

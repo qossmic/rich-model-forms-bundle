@@ -140,6 +140,8 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
 
             return $value;
         });
+        $resolver->setDefault('factory_argument', null);
+        $resolver->setAllowedTypes('factory_argument', ['null', 'string']);
 
         $resolver->setDefault('immutable', false);
         $resolver->setAllowedTypes('immutable', 'bool');
