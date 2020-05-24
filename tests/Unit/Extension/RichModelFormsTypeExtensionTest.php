@@ -65,20 +65,6 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->assertNull($resolvedOptions['write_property_path']);
     }
 
-    public function testReadPropertyPathCannotBeConfiguredWithoutWritePropertyPath(): void
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $this->configureOptions()->resolve(['read_property_path' => 'foo']);
-    }
-
-    public function testWritePropertyPathCannotBeConfiguredWithoutReadPropertyPath(): void
-    {
-        $this->expectException(InvalidConfigurationException::class);
-
-        $this->configureOptions()->resolve(['write_property_path' => 'foo']);
-    }
-
     public function testReadPropertyPathAndWritePropertyPathCanBeConfigured(): void
     {
         $resolvedOptions = $this->configureOptions()->resolve([
