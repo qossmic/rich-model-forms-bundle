@@ -1,0 +1,19 @@
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-05-23T20:19:12Z
+
+While looking into #82 I realised that there is a good use case where you only need a `read_property_path`: value objects where there is no `write_property_path`
+
+/cc @chr-hertel
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-05-23T20:49:52Z
+
+see #89 for the PR fixing support for read property paths with value objects
+
+---------------------------------------------------------------------------
+
+by chr-hertel at 2020-05-24T16:42:11Z
+
+why is this a standalone PR? only removing the validation is enough to enable the feature or is this coupled to #89 and should only be part of that?
