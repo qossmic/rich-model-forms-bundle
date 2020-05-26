@@ -22,7 +22,6 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\PropertyAccess\PropertyPath;
 
 /**
  * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
@@ -89,6 +88,12 @@ class ValueObjectTransformer implements DataTransformerInterface
             return $this->propertyAccessor->getValue($object, $form->getPropertyPath());
         }
 
-        return $this->propertyAccessor->getValue($object, new PropertyPath($form->getName()));
+        $readPropertyPath = $form->getFormConfig()->getOption('read_property_path') ?? $form->getName();
+
+        if ($readPropertyPath instanceof \Closure) {
+            return $readPropertyPath($object);
+        }
+
+        return $this->propertyAccessor->getValue($object, $readPropertyPath);
     }
 }

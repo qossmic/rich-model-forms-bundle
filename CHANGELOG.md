@@ -4,6 +4,7 @@ CHANGELOG
 0.6.0
 -----
 
+* Fixed using the `read_property_path` option with value objects.
 * Both the `read_property_path` and `write_property_path` options can now be used without
   configuring the other one.
 * Added handling for `TypeError` instances thrown for typed properties on PHP 7.4+.
