@@ -4,10 +4,12 @@ CHANGELOG
 0.6.0
 -----
 
-* Fixed using the `read_property_path` option with value objects.
+* Added a `factory_argument` allowing to use field names differing from the name of the actual
+  factory argument (#82).
+* Fixed using the `read_property_path` option with value objects (#89).
 * Both the `read_property_path` and `write_property_path` options can now be used without
-  configuring the other one.
-* Added handling for `TypeError` instances thrown for typed properties on PHP 7.4+.
+  configuring the other one (#88).
+* Added handling for `TypeError` instances thrown for typed properties on PHP 7.4+ (#85).
 
 0.5.1
 -----
