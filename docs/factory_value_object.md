@@ -18,6 +18,13 @@ manner. The value passed here can be any of the following:
 * Finally, the value can be a closure. In this case, the form data is passed as arguments to this anonymous function
   allowing for full flexibility on how to create the initial object.
 
+The `immutable` and `data_class` options are mutually exclusive, meaning you cannot set them both at the same time. If
+you do so, an `InvalidConfigurationException` will be thrown. This can be confusing when you don't specify a
+`data_class` in your form type. The underlying `Symfony\Component\Form\Extension\Core\Type\FormType` class will attempt
+to automatically set `data_class` when you pass an existing object when creating the form. You can prevent any
+confusion or mistakes by always explicitly setting `data_class` to `null` when you use the `immutable` option as shown
+in the example below.
+
 Mapping Value Objects
 =====================
 
@@ -37,6 +44,7 @@ class PriceType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $resolver->setDefault('data_class', null);
         $resolver->setDefault('factory', Price::class);
         $resolver->setDefault('immutable', true);
     }
