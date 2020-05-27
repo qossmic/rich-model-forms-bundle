@@ -1,0 +1,106 @@
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-04-11T16:37:44Z
+
+Thank you for proposing this change @dragosprotung. Can you explain why this change is necessary? Does it fix a bug that you encountered while using the bundle? If so, could you provide a small example that allows to reproduce it?
+
+---------------------------------------------------------------------------
+
+by dragosprotung at 2020-04-13T08:32:41Z
+
+The problem I am having is that the form field name is different than the name of the argument.
+If you look at my original example in the form the field is `id` but the argument name is `productId`.
+This means I have to somehow map them together. To do so, I want to use `property_path` option.
+Unfortunately this option is not used by the instantiator and data mapper.
+
+Please have a look at the tests included in this PR for further examples
+
+---------------------------------------------------------------------------
+
+by chr-hertel at 2020-04-15T09:53:24Z
+
+The feature proposal itself looks sensible to me. Only the naming of the option itself doesn't fit in this use case. Should we really reuse `property_path` here?
+
+Will have a look at the code later on.
+
+---------------------------------------------------------------------------
+
+by dragosprotung at 2020-04-15T12:31:42Z
+
+`property_path` is what you would typically use with Symfony forms when you want to define which property a field reads from and writes to, so to me reusing this seems intuitive.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-04-15T13:12:07Z
+
+Yes, I also think we have a bug here. I am not sure yet if the changes proposed here, are the right ways to fix it. But I will try to look into it in more details this week.
+
+---------------------------------------------------------------------------
+
+by chr-hertel at 2020-04-17T14:29:50Z
+
+I get why the option seems intuitive, but nevertheless the option `property_path` does not match the property name, but the path to read and write it. in this case we're not using the value as a mutator path, but to configure the argument name.
+i'd vote to use a new option, that exactly states what we need to configure, e.g. `factory_argument`
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-04-17T14:41:09Z
+
+Having looked at this again in more detail I agree with @chr-hertel here. Not only because of the confusion it may cause when we reuse the `property_path` option for mapping factory arguments, but also because doing so leads to a potential BC break if someone already uses it for reading and writing to/from different methods while having constructor arguments named like the form fields.
+
+In the meantime, you can work around this limitation by using a closure as the value of the `factory` option and map the data yourself as needed.
+
+---------------------------------------------------------------------------
+
+by dragosprotung at 2020-04-18T08:11:25Z
+
+I could easily change the option name. But do you see any other areas where improvements are needed ? I would like to work on this feature to have it merged.
+
+---------------------------------------------------------------------------
+
+by dragosprotung at 2020-05-16T12:02:57Z
+
+I want to change the option name. Should it be `factory_argument` like @chr-hertel proposed ?
+To me it also seems a good name.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-05-16T12:30:59Z
+
+I like `factory_argument` too. 👍
+
+---------------------------------------------------------------------------
+
+by dragosprotung at 2020-05-16T14:53:04Z
+
+Changed option from `property_path` to `factory_argument`
+
+---------------------------------------------------------------------------
+
+by chr-hertel at 2020-05-17T15:07:06Z
+
+Looks pretty good to me! :) thanks @dragosprotung :+1:
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-05-24T08:26:01Z
+
+@dragosprotung Don't worry about the failures for now. I discovered some more things we need to tweak in the bundle be able to fully implement this feature. I started with #88 and #89 and I will keep you updated here. Thank you for your work!
+
+---------------------------------------------------------------------------
+
+by dragosprotung at 2020-05-24T08:32:52Z
+
+@xabbuh All right, let me know. I only made a small change to fix PHPStan
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-05-26T14:26:35Z
+
+@dragosprotung After merging #89 I have rebased here and submitted dragosprotung/rich-model-forms-bundle#2 which tweaks the implementation a bit (I have mainly removed some changes that are no longer necessary).
+
+---------------------------------------------------------------------------
+
+by dragosprotung at 2020-05-26T20:14:56Z
+
+@xabbuh merged your tweaks. The build is green, it seems that Travis forgot to ping github
