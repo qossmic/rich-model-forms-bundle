@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormInterface;
 class FormDataInstantiator extends ObjectInstantiator
 {
     private $form;
+    private $formNameForArgument;
 
     /**
      * @param string|\Closure|callable $factory
@@ -31,6 +32,11 @@ class FormDataInstantiator extends ObjectInstantiator
         parent::__construct($factory);
 
         $this->form = $form;
+        $this->formNameForArgument = [];
+
+        foreach ($form as $name => $child) {
+            $this->formNameForArgument[$child->getConfig()->getOption('factory_argument') ?? $child->getName()] = $child->getName();
+        }
     }
 
     protected function isCompoundForm(): bool
@@ -55,15 +61,6 @@ class FormDataInstantiator extends ObjectInstantiator
 
     protected function getArgumentData(string $argument)
     {
-        if (!$this->form->has($argument)) {
-            foreach ($this->form as $childForm) {
-                $factoryArgument = $childForm->getConfig()->getOption('factory_argument');
-                if ((string) $factoryArgument === $argument) {
-                    return $childForm->getData();
-                }
-            }
-        }
-
-        return $this->form->get($argument)->getData();
+        return $this->form->get($this->formNameForArgument[$argument])->getData();
     }
 }
