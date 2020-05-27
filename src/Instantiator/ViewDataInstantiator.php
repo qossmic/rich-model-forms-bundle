@@ -23,6 +23,7 @@ class ViewDataInstantiator extends ObjectInstantiator
 {
     private $form;
     private $viewData;
+    private $formNameForArgument;
 
     /**
      * @param array<string,mixed> $viewData
@@ -33,6 +34,11 @@ class ViewDataInstantiator extends ObjectInstantiator
 
         $this->form = $form;
         $this->viewData = $viewData;
+        $this->formNameForArgument = [];
+
+        foreach ($form as $name => $child) {
+            $this->formNameForArgument[$child->getOption('factory_argument') ?? $child->getName()] = $child->getName();
+        }
     }
 
     protected function isCompoundForm(): bool
@@ -47,6 +53,6 @@ class ViewDataInstantiator extends ObjectInstantiator
 
     protected function getArgumentData(string $argument)
     {
-        return $this->viewData[$argument] ?? null;
+        return $this->viewData[$this->formNameForArgument[$argument]] ?? null;
     }
 }

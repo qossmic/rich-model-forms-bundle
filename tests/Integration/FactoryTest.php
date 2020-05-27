@@ -137,4 +137,22 @@ class FactoryTest extends AbstractDataMapperTest
         $this->assertSame(500, $grossPrice->amount());
         $this->assertSame(7, $grossPrice->taxRate());
     }
+
+    public function testInitializeCompoundFormWithPropertyPath(): void
+    {
+        $form = $this->createForm(GrossPriceType::class, null, [
+            'factory' => GrossPrice::class,
+            'data_class' => GrossPrice::class,
+            'tax_rate_field_name' => 'tax',
+            'tax_rate_field_options' => [
+                'factory_argument' => 'taxRate',
+            ],
+        ]);
+        $form->submit([
+            'amount' => '500',
+            'tax' => '7',
+        ]);
+
+        $this->assertEquals(new GrossPrice(500, 7), $form->getData());
+    }
 }
