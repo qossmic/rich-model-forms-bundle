@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.7.0
+-----
+
+* Allow the bundle to be used on PHP 8.
+
 0.6.0
 -----
 
