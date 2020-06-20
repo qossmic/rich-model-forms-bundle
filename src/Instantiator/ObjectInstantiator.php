@@ -36,10 +36,6 @@ abstract class ObjectInstantiator
      */
     public function instantiateObject()
     {
-        if ($this->factory instanceof \Closure) {
-            return ($this->factory)($this->getData());
-        }
-
         if (\is_string($this->factory)) {
             $factoryMethod = (new \ReflectionClass($this->factory))->getConstructor();
 
@@ -48,16 +44,20 @@ abstract class ObjectInstantiator
             }
 
             $factoryMethodAsString = $this->factory.'::__construct';
+            if (!$factoryMethod->isPublic()) {
+                throw new TransformationFailedException(sprintf('The factory method %s() is not public.', $factoryMethodAsString));
+            }
         } elseif (\is_array($this->factory) && \is_callable($this->factory)) {
             $class = \is_object($this->factory[0]) ? \get_class($this->factory[0]) : $this->factory[0];
             $factoryMethod = (new \ReflectionMethod($class, $this->factory[1]));
             $factoryMethodAsString = $class.'::'.$this->factory[1];
+            if (!$factoryMethod->isPublic()) {
+                throw new TransformationFailedException(sprintf('The factory method %s() is not public.', $factoryMethodAsString));
+            }
+        } elseif ($this->factory instanceof \Closure) {
+            $factoryMethod = new \ReflectionFunction($this->factory);
         } else {
             return $this->getData();
-        }
-
-        if (!$factoryMethod->isPublic()) {
-            throw new TransformationFailedException(sprintf('The factory method %s() is not public.', $factoryMethodAsString));
         }
 
         $arguments = [];
