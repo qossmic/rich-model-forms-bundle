@@ -24,7 +24,7 @@ abstract class ObjectInstantiator
     private $factory;
 
     /**
-     * @param string|\Closure|callable $factory
+     * @param class-string|\Closure|(callable&array) $factory
      */
     public function __construct($factory)
     {
@@ -74,7 +74,13 @@ abstract class ObjectInstantiator
 
     abstract protected function isCompoundForm(): bool;
 
+    /**
+     * @return mixed
+     */
     abstract protected function getData();
 
+    /**
+     * @return mixed
+     */
     abstract protected function getArgumentData(string $argument);
 }
