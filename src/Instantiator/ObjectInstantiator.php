@@ -42,6 +42,11 @@ abstract class ObjectInstantiator
 
         if (\is_string($this->factory)) {
             $factoryMethod = (new \ReflectionClass($this->factory))->getConstructor();
+
+            if (null === $factoryMethod) {
+                throw new TransformationFailedException(sprintf('The class "%s" used as a factory does not have a constructor.', $this->factory));
+            }
+
             $factoryMethodAsString = $this->factory.'::__construct';
         } elseif (\is_array($this->factory) && \is_callable($this->factory)) {
             $class = \is_object($this->factory[0]) ? \get_class($this->factory[0]) : $this->factory[0];

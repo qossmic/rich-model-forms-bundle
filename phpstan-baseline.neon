@@ -1,11 +1,1 @@
 parameters:
-	ignoreErrors:
-		-
-			message: "#^Cannot call method isPublic\\(\\) on ReflectionMethod\\|null\\.$#"
-			count: 1
-			path: src/Instantiator/ObjectInstantiator.php
-
-		-
-			message: "#^Cannot call method getParameters\\(\\) on ReflectionMethod\\|null\\.$#"
-			count: 1
-			path: src/Instantiator/ObjectInstantiator.php
