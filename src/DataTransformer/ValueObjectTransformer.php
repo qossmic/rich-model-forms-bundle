@@ -40,6 +40,11 @@ class ValueObjectTransformer implements DataTransformerInterface
         $this->form = $form;
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return string|array<string,string>|null
+     */
     public function transform($value)
     {
         if (null === $value) {
@@ -49,6 +54,7 @@ class ValueObjectTransformer implements DataTransformerInterface
         if ($this->form->getCompound()) {
             $viewData = [];
 
+            /** @var string $name */
             foreach ($this->form as $name => $child) {
                 if ($child instanceof ButtonBuilder) {
                     continue;
@@ -82,6 +88,11 @@ class ValueObjectTransformer implements DataTransformerInterface
         }
     }
 
+    /**
+     * @param object $object
+     *
+     * @return string
+     */
     private function getPropertyValue(FormBuilderInterface $form, $object)
     {
         if (null !== $form->getPropertyPath()) {
