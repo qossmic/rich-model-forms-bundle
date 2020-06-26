@@ -278,8 +278,8 @@ class ValueObjectsTest extends TestCase
     public function testReverseTransformCompoundRootFormToNormDataUsingClosure(): void
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
-            'factory' => function (array $values): GrossPrice {
-                return GrossPrice::withAmountAndTaxRate($values['amount'], $values['taxRate']);
+            'factory' => function (int $amount, int $taxRate): GrossPrice {
+                return GrossPrice::withAmountAndTaxRate($amount, $taxRate);
             },
             'immutable' => true,
         ]);
@@ -298,8 +298,8 @@ class ValueObjectsTest extends TestCase
     public function testReverseTransformCompoundRootFormToNormDataUsingClosureAndReadPropertyPath(): void
     {
         $form = $this->createForm(GrossPriceType::class, new GrossPrice(500, 19), [
-            'factory' => function (array $values): GrossPrice {
-                return GrossPrice::withAmountAndTaxRate($values['amount'], $values['tax']);
+            'factory' => function (int $amount, int $tax): GrossPrice {
+                return GrossPrice::withAmountAndTaxRate($amount, $tax);
             },
             'immutable' => true,
             'tax_rate_field_name' => 'tax',

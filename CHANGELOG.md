@@ -5,6 +5,10 @@ CHANGELOG
 -----
 
 * Allow the bundle to be used on PHP 8.
+* [BC BREAK] When closures (anonymous functions) are used for the `factory` option, the submitted
+  form data is no longer passed as an array, but each child form is passed as a single argument
+  instead (use the `factory_argument` option of the child forms if form names and argument names
+  of the closure differ).
 
 0.6.0
 -----

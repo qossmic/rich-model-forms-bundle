@@ -122,8 +122,8 @@ class FactoryTest extends AbstractDataMapperTest
     public function testInitializeEmptyDataWithClosureFactoryFromCompoundForm(): void
     {
         $form = $this->createForm(GrossPriceType::class, null, [
-            'factory' => function ($viewData): GrossPrice {
-                return new GrossPrice($viewData['amount'], $viewData['taxRate']);
+            'factory' => function (int $amount, int $taxRate): GrossPrice {
+                return new GrossPrice($amount, $taxRate);
             },
         ]);
         $form->submit([
