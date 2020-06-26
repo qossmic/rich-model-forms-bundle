@@ -1,0 +1,57 @@
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-06-21T07:06:36Z
+
+Thank you for working on this @vladyslavstartsev. The implementation looks quite good to me. Can you please have a look at the build failures (seems to be CS and PhpStan related)? And could you also add an entry to the changelog to describe the BC break that we will introduce with this change?
+
+---------------------------------------------------------------------------
+
+by vladyslavstartsev at 2020-06-21T11:30:16Z
+
+@xabbuh Done.
+
+By the way, it's related to other PR I think, but can you release 0.7.0 only after all phpstan errors (baseline) are resolved?
+
+---------------------------------------------------------------------------
+
+by vladyslavstartsev at 2020-06-21T17:54:00Z
+
+also I want to here feedback from @zmitic
+
+---------------------------------------------------------------------------
+
+by zmitic at 2020-06-21T18:09:44Z
+
+@vladyslavstartsev Thank you, I will take another look this week. Can't do it now as my code depends on different bundle (quick&dirty patch with no tests).
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-06-22T09:24:51Z
+
+@vladyslavstartsev Can you rebase here? I have made some changes to get rid of the PhpStan baseline entries.
+
+---------------------------------------------------------------------------
+
+by vladyslavstartsev at 2020-06-22T21:27:19Z
+
+@xabbuh done!
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-06-24T14:43:58Z
+
+@vladyslavstartsev The changes look very nice from my POV. 👍 I have just left some minor nitpicking comments.
+
+---------------------------------------------------------------------------
+
+by vladyslavstartsev at 2020-06-24T17:58:13Z
+
+thanks @xabbuh !
+
+Waiting for you @zmitic (not for a lot time, I want to see this feature in my code)
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2020-06-24T18:03:58Z
+
+If nothing serious pops up, I will probably merge this PR and tag a new release on Friday.
