@@ -73,7 +73,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
         $resolver->setAllowedTypes('expected_exception', ['string', 'string[]', 'null']);
         $resolver->setNormalizer('expected_exception', function (Options $options, $value) {
             if (null !== $value) {
-                @trigger_error('The "expected_exception" option is deprecated since RichModelFormsBundle 0.2 and will be removed in 03. Use the "handle_exception" option instead.', E_USER_DEPRECATED);
+                @trigger_error('The "expected_exception" option is deprecated since RichModelFormsBundle 0.2 and will be removed in 03. Use the "handle_exception" option instead.', \E_USER_DEPRECATED);
 
                 $value = (array) $value;
             }
