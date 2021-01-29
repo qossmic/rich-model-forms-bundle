@@ -1,0 +1,152 @@
+name: 'CI'
+
+on:
+  - 'push'
+  - 'pull_request'
+
+env:
+  SYMFONY_DEPRECATIONS_HELPER: 'weak'
+
+jobs:
+  cs-fixer:
+    name: 'PHP CS Fixer'
+
+    runs-on: 'ubuntu-latest'
+
+    strategy:
+      matrix:
+        php-version:
+          - '7.4'
+
+    steps:
+      - name: 'Check out'
+        uses: 'actions/checkout@v2'
+
+      - name: 'Set up PHP'
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '${{ matrix.php-version }}'
+          coverage: 'none'
+
+      - name: 'Get Composer cache directory'
+        id: 'composer-cache'
+        run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
+
+      - name: 'Cache dependencies'
+        uses: 'actions/cache@v2'
+        with:
+          path: '${{ steps.composer-cache.outputs.cache-dir }}'
+          key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
+          restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
+
+      - name: 'Install dependencies'
+        run: 'composer update --no-progress --prefer-stable'
+
+      - name: 'Check the code style'
+        run: 'vendor/bin/php-cs-fixer fix --diff --dry-run'
+
+  phpstan:
+    name: 'PhpStan'
+
+    runs-on: 'ubuntu-latest'
+
+    strategy:
+      matrix:
+        include:
+          - php-version: '7.1'
+            phpstan-config: 'phpstan-php-71.neon'
+          - php-version: '7.2'
+            phpstan-config: 'phpstan.neon'
+          - php-version: '7.3'
+            phpstan-config: 'phpstan.neon'
+          - php-version: '7.4'
+            phpstan-config: 'phpstan.neon'
+          - php-version: '8.0'
+            phpstan-config: 'phpstan.neon'
+
+    steps:
+      - name: 'Check out'
+        uses: 'actions/checkout@v2'
+
+      - name: 'Set up PHP'
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '${{ matrix.php-version }}'
+          coverage: 'none'
+
+      - name: 'Get Composer cache directory'
+        id: 'composer-cache'
+        run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
+
+      - name: 'Cache dependencies'
+        uses: 'actions/cache@v2'
+        with:
+          path: '${{ steps.composer-cache.outputs.cache-dir }}'
+          key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
+          restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
+
+      - name: 'Install dependencies'
+        run: 'composer update --no-progress --prefer-stable'
+
+      - name: 'Run PhpStan'
+        run: 'vendor/bin/phpstan analyze --no-progress -c $PHPSTAN_CONFIG'
+        env:
+          PHPSTAN_CONFIG: '${{ matrix.phpstan-config }}'
+
+  unit-tests:
+    name: 'PHPUnit'
+
+    runs-on: 'ubuntu-latest'
+
+    strategy:
+      matrix:
+        include:
+          - php-version: '7.1'
+            composer-options: '--prefer-stable'
+          - php-version: '7.1'
+            composer-options: '--prefer-lowest --prefer-stable'
+            symfony-version: '4.4.*'
+          - php-version: '7.3'
+            composer-options: '--prefer-stable'
+          - php-version: '7.2'
+          - php-version: '7.4'
+            composer-options: '--prefer-stable'
+            symfony-version: '5.0.*'
+          - php-version: '7.4'
+            composer-options: '--prefer-stable'
+            symfony-version: '5.1.*'
+
+    steps:
+      - name: 'Check out'
+        uses: 'actions/checkout@v2'
+
+      - name: 'Set up PHP'
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '${{ matrix.php-version }}'
+          coverage: 'none'
+
+      - name: 'Get Composer cache directory'
+        id: 'composer-cache'
+        run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
+
+      - name: 'Cache dependencies'
+        uses: 'actions/cache@v2'
+        with:
+          path: '${{ steps.composer-cache.outputs.cache-dir }}'
+          key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
+          restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
+
+      - name: 'Install dependencies'
+        env:
+          COMPOSER_OPTIONS: '${{ matrix.composer-options }}'
+          SYMFONY_REQUIRE: '${{ matrix.symfony-version }}'
+        run: |
+          composer global require --no-progress --no-scripts --no-plugins symfony/flex
+          composer update --no-progress $COMPOSER_OPTIONS
+
+      - name: 'Install PHPUnit'
+        run: 'vendor/bin/simple-phpunit install'
+
+      - name: 'Run tests'
+        run: 'vendor/bin/simple-phpunit'
