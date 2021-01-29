@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+0.8.0
+-----
+
+* Deprecated the `SensioLabs` namespace, use the equivalent classes from the `Qossmic` namespace
+  instead.
+
 0.7.1
 -----
 

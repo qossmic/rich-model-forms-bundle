@@ -12,14 +12,14 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Integration;
+namespace Qossmic\RichModelForms\Tests\Integration;
 
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\PauseSubscriptionType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\ShipOrderType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Address;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Order;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Subscription;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\PauseSubscriptionType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\ShipOrderType;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Address;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Order;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Subscription;
 
 class WritePropertyPathTest extends AbstractDataMapperTest
 {

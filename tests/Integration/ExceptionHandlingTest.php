@@ -12,19 +12,19 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Integration;
+namespace Qossmic\RichModelForms\Tests\Integration;
 
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\CategoryType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\ChangeProductStockTypeExtension;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDtoType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\TypeMismatchPriceChangeType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Category;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Dto\Product as ProductDto;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Product;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\ProductWithTypeError;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\CategoryType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\ChangeProductStockTypeExtension;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\ProductDataType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\ProductDtoType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\TypeMismatchPriceChangeType;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Category;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Dto\Product as ProductDto;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Product;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\ProductWithTypeError;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -73,9 +73,9 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
 
         $this->assertFalse($form->get('price')->isValid());
         $this->assertCount(1, $form->get('price')->getErrors());
-        $this->assertSame('This value should be of type SensioLabs\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
+        $this->assertSame('This value should be of type Qossmic\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertRegExp('/^Expected argument of type "SensioLabs\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertRegExp('/^Expected argument of type "Qossmic\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandled(): void
@@ -171,9 +171,9 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
 
         $this->assertFalse($form->get('price')->isValid());
         $this->assertCount(1, $form->get('price')->getErrors());
-        $this->assertSame('This value should be of type SensioLabs\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
+        $this->assertSame('This value should be of type Qossmic\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertRegExp('/^Expected argument of type "SensioLabs\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertRegExp('/^Expected argument of type "Qossmic\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandledWithConfiguredExpectedExceptions(): void

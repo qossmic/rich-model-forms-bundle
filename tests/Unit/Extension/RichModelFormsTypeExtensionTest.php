@@ -12,14 +12,14 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Unit\Extension;
+namespace Qossmic\RichModelForms\Tests\Unit\Extension;
 
 use PHPUnit\Framework\TestCase;
-use SensioLabs\RichModelForms\DataMapper\DataMapper;
-use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
-use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice;
+use Qossmic\RichModelForms\DataMapper\DataMapper;
+use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use Qossmic\RichModelForms\Extension\RichModelFormsTypeExtension;
+use Qossmic\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;

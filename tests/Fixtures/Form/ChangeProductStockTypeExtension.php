@@ -12,11 +12,11 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Fixtures\Form;
+namespace Qossmic\RichModelForms\Tests\Fixtures\Form;
 
-use SensioLabs\RichModelForms\DataMapper\DataMapper;
-use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use Qossmic\RichModelForms\DataMapper\DataMapper;
+use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use Qossmic\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;

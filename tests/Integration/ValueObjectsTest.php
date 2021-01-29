@@ -12,16 +12,16 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Integration;
+namespace Qossmic\RichModelForms\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
-use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\PriceType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
+use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use Qossmic\RichModelForms\Extension\RichModelFormsTypeExtension;
+use Qossmic\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\PriceType;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -113,9 +113,9 @@ class ValueObjectsTest extends TestCase
         $this->expectException(NoSuchPropertyException::class);
 
         if (class_exists(UninitializedPropertyException::class)) {
-            $this->expectExceptionMessage('Can\'t get a way to read the property "extra_field" in class "SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice".');
+            $this->expectExceptionMessage('Can\'t get a way to read the property "extra_field" in class "Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice".');
         } else {
-            $this->expectExceptionMessage('Neither the property "extra_field" nor one of the methods "getExtraField()", "extraField()", "isExtraField()", "hasExtraField()", "__get()" exist and have public access in class "SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice');
+            $this->expectExceptionMessage('Neither the property "extra_field" nor one of the methods "getExtraField()", "extraField()", "isExtraField()", "hasExtraField()", "__get()" exist and have public access in class "Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice');
         }
 
         $form = $this->createForm(GrossPriceType::class, null, [

@@ -12,11 +12,11 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Integration;
+namespace Qossmic\RichModelForms\Tests\Integration;
 
-use SensioLabs\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
-use SensioLabs\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
-use SensioLabs\RichModelForms\Tests\Fixtures\DependencyInjection\Kernel;
+use Qossmic\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
+use Qossmic\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
+use Qossmic\RichModelForms\Tests\Fixtures\DependencyInjection\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ServiceContainerTest extends KernelTestCase

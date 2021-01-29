@@ -12,15 +12,15 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Integration;
+namespace Qossmic\RichModelForms\Tests\Integration;
 
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\CategoryType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Category;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Product;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Subscription;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\CategoryType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\ProductDataType;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Category;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Product;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Subscription;
 
 class ReadPropertyPathTest extends AbstractDataMapperTest
 {

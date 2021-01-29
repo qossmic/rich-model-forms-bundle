@@ -12,7 +12,7 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Fixtures\DependencyInjection;
+namespace Qossmic\RichModelForms\Tests\Fixtures\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

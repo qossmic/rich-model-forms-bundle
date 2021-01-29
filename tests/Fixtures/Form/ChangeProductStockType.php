@@ -12,7 +12,7 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Fixtures\Form;
+namespace Qossmic\RichModelForms\Tests\Fixtures\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;

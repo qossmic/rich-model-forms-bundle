@@ -12,13 +12,13 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Integration;
+namespace Qossmic\RichModelForms\Tests\Integration;
 
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancellationDateMapper;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\ProductDataType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Product;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\CancellationDateMapper;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\ProductDataType;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Product;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 class CoreDataMapperCompatibilityTest extends AbstractDataMapperTest

@@ -12,11 +12,11 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests;
+namespace Qossmic\RichModelForms\Tests;
 
-use SensioLabs\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
-use SensioLabs\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
-use SensioLabs\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
+use Qossmic\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
+use Qossmic\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
+use Qossmic\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 trait ExceptionHandlerRegistryTrait

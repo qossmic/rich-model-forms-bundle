@@ -12,9 +12,9 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Fixtures\Form;
+namespace Qossmic\RichModelForms\Tests\Fixtures\Form;
 
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Subscription;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Subscription;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;

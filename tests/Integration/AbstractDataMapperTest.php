@@ -12,12 +12,12 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Integration;
+namespace Qossmic\RichModelForms\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use SensioLabs\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use SensioLabs\RichModelForms\Extension\RichModelFormsTypeExtension;
-use SensioLabs\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use Qossmic\RichModelForms\Extension\RichModelFormsTypeExtension;
+use Qossmic\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\Form\FormInterface;
