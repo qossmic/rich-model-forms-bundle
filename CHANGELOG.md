@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.7.1
+-----
+
+* Fixed compatibility with `symfony/form` 5.3.
+
 0.7.0
 -----
 
