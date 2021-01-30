@@ -3,8 +3,8 @@
 /*
  * This file is part of the RichModelFormsBundle package.
  *
- * (c) Christian Flothmann <christian.flothmann@sensiolabs.de>
- * (c) Christopher Hertel <christopher.hertel@sensiolabs.de>
+ * (c) Christian Flothmann <christian.flothmann@qossmic.com>
+ * (c) Christopher Hertel <mail@christopher-hertel.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,7 +18,7 @@ use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 
 /**
- * @author Christian Flothmann <christian.flothmann@sensiolabs.de>
+ * @author Christian Flothmann <christian.flothmann@qossmic.com>
  */
 final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
 {
