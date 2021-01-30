@@ -69,7 +69,7 @@ final class DataMapper implements DataMapperInterface
             }
         }
 
-        $this->dataMapper->mapDataToForms($data, $formsToBeMapped);
+        $this->dataMapper->mapDataToForms($data, new \ArrayIterator($formsToBeMapped));
     }
 
     public function mapFormsToData($forms, &$data): void
@@ -119,7 +119,7 @@ final class DataMapper implements DataMapperInterface
 
             try {
                 if ($forwardToWrappedDataMapper) {
-                    $this->dataMapper->mapFormsToData([$form], $data);
+                    $this->dataMapper->mapFormsToData(new \ArrayIterator([$form]), $data);
                 } elseif ($writePropertyPath instanceof \Closure) {
                     $writePropertyPath($data, $form->getData());
                 } elseif ($propertyMapper instanceof PropertyMapperInterface) {

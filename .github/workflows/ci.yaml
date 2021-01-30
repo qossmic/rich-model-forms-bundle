@@ -4,9 +4,6 @@ on:
   - 'push'
   - 'pull_request'
 
-env:
-  SYMFONY_DEPRECATIONS_HELPER: 'weak'
-
 jobs:
   cs-fixer:
     name: 'PHP CS Fixer'
@@ -52,17 +49,12 @@ jobs:
 
     strategy:
       matrix:
-        include:
-          - php-version: '7.1'
-            phpstan-config: 'phpstan-php-71.neon'
-          - php-version: '7.2'
-            phpstan-config: 'phpstan.neon'
-          - php-version: '7.3'
-            phpstan-config: 'phpstan.neon'
-          - php-version: '7.4'
-            phpstan-config: 'phpstan.neon'
-          - php-version: '8.0'
-            phpstan-config: 'phpstan.neon'
+        php-version:
+          - '7.1'
+          - '7.2'
+          - '7.3'
+          - '7.4'
+          - '8.0'
 
     steps:
       - name: 'Check out'
@@ -89,9 +81,7 @@ jobs:
         run: 'composer update --no-progress --prefer-stable'
 
       - name: 'Run PhpStan'
-        run: 'vendor/bin/phpstan analyze --no-progress -c $PHPSTAN_CONFIG'
-        env:
-          PHPSTAN_CONFIG: '${{ matrix.phpstan-config }}'
+        run: 'vendor/bin/phpstan analyze --no-progress'
 
   unit-tests:
     name: 'PHPUnit'
