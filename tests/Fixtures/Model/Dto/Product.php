@@ -12,7 +12,7 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Fixtures\Model\Dto;
+namespace Qossmic\RichModelForms\Tests\Fixtures\Model\Dto;
 
 class Product
 {

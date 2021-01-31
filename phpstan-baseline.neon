@@ -1,1 +1,97 @@
 parameters:
+	ignoreErrors:
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/DataMapper/DataMapper.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/DataMapper/PropertyMapperInterface.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/DataTransformer/ValueObjectTransformer.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/DependencyInjection/Compiler/RegisterExceptionHandlersPass.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/DependencyInjection/RichModelFormsExtension.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/ArgumentTypeMismatchExceptionHandler.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/ChainExceptionHandler.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/Error.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/ExceptionHandlerInterface.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/ExceptionHandlerRegistry.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/ExceptionToErrorMapperTrait.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/FallbackExceptionHandler.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/FormExceptionHandler.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/ExceptionHandling/GenericExceptionHandler.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/Extension/RichModelFormsTypeExtension.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/Instantiator/FormDataInstantiator.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/Instantiator/ObjectInstantiator.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/Instantiator/ViewDataInstantiator.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: src/Legacy/RichModelFormsBundle.php
+

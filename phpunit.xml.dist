@@ -5,8 +5,14 @@
     bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="RichModelFormsBundle test suite">
-            <directory>./tests</directory>
+        <testsuite name="legacy API">
+            <directory>./tests/Legacy</directory>
+        </testsuite>
+        <testsuite name="integration tests">
+            <directory>./tests/Integration</directory>
+        </testsuite>
+        <testsuite name="unit tests">
+            <directory>./tests/Unit</directory>
         </testsuite>
     </testsuites>
 

@@ -12,9 +12,9 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Fixtures\Form;
+namespace Qossmic\RichModelForms\Tests\Fixtures\Form;
 
-use SensioLabs\RichModelForms\DataMapper\PropertyMapperInterface;
+use Qossmic\RichModelForms\DataMapper\PropertyMapperInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>

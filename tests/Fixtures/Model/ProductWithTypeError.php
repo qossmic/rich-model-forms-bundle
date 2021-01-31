@@ -12,7 +12,7 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Fixtures\Model;
+namespace Qossmic\RichModelForms\Tests\Fixtures\Model;
 
 class ProductWithTypeError
 {

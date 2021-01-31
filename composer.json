@@ -22,6 +22,7 @@
         "symfony/form": "^4.4||^5.0",
         "symfony/framework-bundle": "^4.4||^5.0",
         "symfony/http-kernel": "^4.4||^5.0",
+        "symfony/deprecation-contracts": "^2.1",
         "symfony/options-resolver": "^4.4||^5.0",
         "symfony/property-access": "^4.4||^5.0"
     },
@@ -37,17 +38,18 @@
     },
     "autoload": {
         "psr-4": {
-            "SensioLabs\\RichModelForms\\": "src"
+            "Qossmic\\RichModelForms\\": "src/Qossmic",
+            "SensioLabs\\RichModelForms\\": "src/Legacy"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "SensioLabs\\RichModelForms\\Tests\\": "tests"
+            "Qossmic\\RichModelForms\\Tests\\": "tests"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.7-dev"
+            "dev-main": "0.8-dev"
         }
     }
 }

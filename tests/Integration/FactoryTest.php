@@ -12,12 +12,12 @@
 
 declare(strict_types = 1);
 
-namespace SensioLabs\RichModelForms\Tests\Integration;
+namespace Qossmic\RichModelForms\Tests\Integration;
 
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Form\PriceType;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\GrossPrice;
-use SensioLabs\RichModelForms\Tests\Fixtures\Model\Price;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
+use Qossmic\RichModelForms\Tests\Fixtures\Form\PriceType;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice;
+use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
 
 class FactoryTest extends AbstractDataMapperTest
 {
