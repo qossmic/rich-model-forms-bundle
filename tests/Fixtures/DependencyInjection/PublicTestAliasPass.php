@@ -25,12 +25,12 @@ final class PublicTestAliasPass implements CompilerPassInterface
         $testAliases = [];
 
         foreach ($container->getDefinitions() as $id => $definition) {
-            if (0 === strpos($id, 'sensiolabs.rich_model_forms.')) {
+            if (0 === strpos($id, 'qossmic.rich_model_forms.')) {
                 $container->setAlias('test.'.$id, new Alias($id, true));
                 $testAliases['test.'.$id] = $definition->getClass();
             }
         }
 
-        $container->setParameter('sensiolabs.rich_model_forms.test_service_aliases', $testAliases);
+        $container->setParameter('qossmic.rich_model_forms.test_service_aliases', $testAliases);
     }
 }

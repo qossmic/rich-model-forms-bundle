@@ -28,16 +28,27 @@ class RegisterExceptionHandlersPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition('sensiolabs.rich_model_forms.exception_handler.registry')) {
+        if (!$container->hasDefinition('qossmic.rich_model_forms.exception_handler.registry')) {
             return;
         }
 
-        $exceptionHandlerRegistry = $container->getDefinition('sensiolabs.rich_model_forms.exception_handler.registry');
+        $exceptionHandlerRegistry = $container->getDefinition('qossmic.rich_model_forms.exception_handler.registry');
 
         $exceptionHandlers = [];
         $strategies = [];
 
+        foreach ($container->findTaggedServiceIds('qossmic.rich_model_forms.exception_handler') as $id => $tag) {
+            $class = $container->getParameterBag()->resolveValue($container->getDefinition($id)->getClass());
+            $exceptionHandlers[$id] = new TypedReference($id, $class);
+
+            foreach ($tag as $attributes) {
+                $strategies[$attributes['strategy']] = $id;
+            }
+        }
+
         foreach ($container->findTaggedServiceIds('sensiolabs.rich_model_forms.exception_handler') as $id => $tag) {
+            trigger_deprecation('sensiolabs-de/rich-model-forms-bundle', '0.8', sprintf('The "sensiolabs.rich_model_forms.exception_handler" tag used by the service with the id "%s" is deprecated. Use the "qossmic.rich_model_forms.exception_handler" tag instead.', $id));
+
             $class = $container->getParameterBag()->resolveValue($container->getDefinition($id)->getClass());
             $exceptionHandlers[$id] = new TypedReference($id, $class);
 

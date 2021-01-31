@@ -7,3 +7,4 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     paths:
         - src
+    reportUnmatchedIgnoredErrors: false
