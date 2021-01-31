@@ -4,6 +4,7 @@
     "keywords": ["Symfony", "form", "forms", "bundle", "rich model", "DDD", "domain-driven design"],
     "type": "symfony-bundle",
     "license": "MIT",
+    "abandoned": "qossmic/rich-model-forms-bundle",
     "authors": [
         {
             "name": "Christian Flothmann",

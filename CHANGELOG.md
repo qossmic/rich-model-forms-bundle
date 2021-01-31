@@ -4,6 +4,8 @@ CHANGELOG
 0.8.0
 -----
 
+* The package is marked as abandoned and will no longer be maintained. Fix all deprecations and
+  depend on the `qossmic/rich-model-forms-bundle` package instead.
 * Deprecated the `SensioLabs` namespace, use the equivalent classes from the `Qossmic` namespace
   instead.
 
