@@ -25,7 +25,7 @@ class ServiceContainerTest extends KernelTestCase
     {
         $container = $this->bootKernel()->getContainer();
 
-        foreach ($container->getParameter('sensiolabs.rich_model_forms.test_service_aliases') as $id => $type) {
+        foreach ($container->getParameter('qossmic.rich_model_forms.test_service_aliases') as $id => $type) {
             $this->assertInstanceOf($type, $container->get($id));
         }
     }
@@ -33,7 +33,7 @@ class ServiceContainerTest extends KernelTestCase
     public function testArgumentTypeMismatchExceptionHandlingStrategyIsRegistered(): void
     {
         $container = $this->bootKernel()->getContainer();
-        $exceptionHandlerRegistry = $container->get('test.sensiolabs.rich_model_forms.exception_handler.registry');
+        $exceptionHandlerRegistry = $container->get('test.qossmic.rich_model_forms.exception_handler.registry');
 
         $this->assertInstanceOf(ArgumentTypeMismatchExceptionHandler::class, $exceptionHandlerRegistry->get('type_error'));
     }
@@ -41,7 +41,7 @@ class ServiceContainerTest extends KernelTestCase
     public function testFallbackExceptionHandlingStrategyIsRegistered(): void
     {
         $container = $this->bootKernel()->getContainer();
-        $exceptionHandlerRegistry = $container->get('test.sensiolabs.rich_model_forms.exception_handler.registry');
+        $exceptionHandlerRegistry = $container->get('test.qossmic.rich_model_forms.exception_handler.registry');
 
         $this->assertInstanceOf(FallbackExceptionHandler::class, $exceptionHandlerRegistry->get('fallback'));
     }
@@ -51,7 +51,7 @@ class ServiceContainerTest extends KernelTestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $container = $this->bootKernel()->getContainer();
-        $exceptionHandlerRegistry = $container->get('test.sensiolabs.rich_model_forms.exception_handler.registry');
+        $exceptionHandlerRegistry = $container->get('test.qossmic.rich_model_forms.exception_handler.registry');
 
         $exceptionHandlerRegistry->get('unknown');
     }

@@ -8,6 +8,10 @@ CHANGELOG
   depend on the `qossmic/rich-model-forms-bundle` package instead.
 * Deprecated the `SensioLabs` namespace, use the equivalent classes from the `Qossmic` namespace
   instead.
+* Deprecated all services whose id starts with `sensiolabs.`, use their equivalent ids starting
+  with `qossmic.` instead.
+* Deprecated the `sensiolabs.rich_model_forms.exception_handler` tag, use the `qossmic.rich_model_forms.exception_handler`
+  tag instead.
 
 0.7.1
 -----
