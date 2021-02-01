@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.9.0
+-----
+
+* The package has been renamed to `qossmic/rich-model-forms-bundle`.
+
 0.8.0
 -----
 

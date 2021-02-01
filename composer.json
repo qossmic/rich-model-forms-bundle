@@ -1,10 +1,9 @@
 {
-    "name": "sensiolabs-de/rich-model-forms-bundle",
+    "name": "qossmic/rich-model-forms-bundle",
     "description": "Provides additional data mapper options that ease the use of the Symfony Form component with rich models.",
     "keywords": ["Symfony", "form", "forms", "bundle", "rich model", "DDD", "domain-driven design"],
     "type": "symfony-bundle",
     "license": "MIT",
-    "abandoned": "qossmic/rich-model-forms-bundle",
     "authors": [
         {
             "name": "Christian Flothmann",
@@ -33,6 +32,9 @@
         "symfony/phpunit-bridge": "^4.4||^5.0",
         "symfony/translation": "^4.4||^5.0"
     },
+    "conflict": {
+        "sensiolabs-de/rich-model-forms-bundle": "0.8.*"
+    },
     "minimum-stability": "dev",
     "config": {
         "sort-packages": true
@@ -50,7 +52,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.8-dev"
+            "dev-main": "0.9-dev"
         }
     }
 }
