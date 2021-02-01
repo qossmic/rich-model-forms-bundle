@@ -10,7 +10,7 @@ Installation
 Use Composer to install the bundle:
 
 ```bash
-$ composer require sensiolabs-de/rich-model-forms-bundle
+$ composer require qossmic/rich-model-forms-bundle
 ```
 
 When using Symfony Flex, the bundle will be enabled automatically. Otherwise, you need to make sure that the bundle is
