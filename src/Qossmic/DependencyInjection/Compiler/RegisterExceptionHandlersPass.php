@@ -46,17 +46,6 @@ class RegisterExceptionHandlersPass implements CompilerPassInterface
             }
         }
 
-        foreach ($container->findTaggedServiceIds('sensiolabs.rich_model_forms.exception_handler') as $id => $tag) {
-            trigger_deprecation('sensiolabs-de/rich-model-forms-bundle', '0.8', sprintf('The "sensiolabs.rich_model_forms.exception_handler" tag used by the service with the id "%s" is deprecated. Use the "qossmic.rich_model_forms.exception_handler" tag instead.', $id));
-
-            $class = $container->getParameterBag()->resolveValue($container->getDefinition($id)->getClass());
-            $exceptionHandlers[$id] = new TypedReference($id, $class);
-
-            foreach ($tag as $attributes) {
-                $strategies[$attributes['strategy']] = $id;
-            }
-        }
-
         $exceptionHandlersLocator = ServiceLocatorTagPass::register($container, $exceptionHandlers);
         $exceptionHandlerRegistry->setArgument('$container', $exceptionHandlersLocator);
         $exceptionHandlerRegistry->setArgument('$strategies', $strategies);
