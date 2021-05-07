@@ -108,6 +108,9 @@ jobs:
           - php-version: '7.4'
             composer-options: '--prefer-stable'
             symfony-version: '5.2.*'
+          - php-version: '7.4'
+            composer-options: '--prefer-stable'
+            symfony-version: '5.3.*'
           - php-version: '8.0'
 
     steps:
