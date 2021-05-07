@@ -29,7 +29,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpstan/phpstan": "^0.12.4",
-        "symfony/phpunit-bridge": "^4.4||^5.0",
+        "symfony/phpunit-bridge": "^4.4.12||^5.2",
         "symfony/translation": "^4.4||^5.0"
     },
     "conflict": {

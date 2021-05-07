@@ -75,7 +75,7 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
         $this->assertCount(1, $form->get('price')->getErrors());
         $this->assertSame('This value should be of type Qossmic\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertRegExp('/^Expected argument of type "Qossmic\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertMatchesRegularExpression('/^Expected argument of type "Qossmic\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandled(): void
@@ -173,7 +173,7 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
         $this->assertCount(1, $form->get('price')->getErrors());
         $this->assertSame('This value should be of type Qossmic\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertRegExp('/^Expected argument of type "Qossmic\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertMatchesRegularExpression('/^Expected argument of type "Qossmic\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandledWithConfiguredExpectedExceptions(): void
