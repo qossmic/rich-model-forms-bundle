@@ -17,20 +17,20 @@
     "require": {
         "php": "^7.2||^8.0",
         "psr/container": "^1.0",
-        "symfony/config": "^4.4||^5.0||^6.0",
-        "symfony/dependency-injection": "^4.4||^5.0||^6.0",
-        "symfony/form": "^4.4||^5.0||^6.0",
-        "symfony/framework-bundle": "^4.4||^5.0||^6.0",
-        "symfony/http-kernel": "^4.4||^5.0||^6.0",
+        "symfony/config": "^4.4||^5.3||^6.0",
+        "symfony/dependency-injection": "^4.4||^5.3||^6.0",
+        "symfony/form": "^4.4||^5.3||^6.0",
+        "symfony/framework-bundle": "^4.4||^5.3||^6.0",
+        "symfony/http-kernel": "^4.4||^5.3||^6.0",
         "symfony/deprecation-contracts": "^2.1",
-        "symfony/options-resolver": "^4.4||^5.0||^6.0",
-        "symfony/property-access": "^4.4||^5.0||^6.0"
+        "symfony/options-resolver": "^4.4||^5.3||^6.0",
+        "symfony/property-access": "^4.4||^5.3||^6.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.4",
         "phpstan/phpstan": "^0.12.4",
-        "symfony/phpunit-bridge": "^4.4.12||^5.2",
-        "symfony/translation": "^4.4||^5.0||^6.0"
+        "symfony/phpunit-bridge": "^4.4.12||^5.3",
+        "symfony/translation": "^4.4||^5.3||^6.0"
     },
     "conflict": {
         "sensiolabs-de/rich-model-forms-bundle": "0.8.*"

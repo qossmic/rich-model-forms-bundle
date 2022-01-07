@@ -5,6 +5,7 @@ CHANGELOG
 -----
 
 * add Symfony 6 support
+* drop support for Symfony 5.0, 5.1, and 5.2
 * drop support for PHP 7.1
 
 0.1.0
