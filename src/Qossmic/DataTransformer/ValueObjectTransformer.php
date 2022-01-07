@@ -74,7 +74,7 @@ class ValueObjectTransformer implements DataTransformerInterface
     }
 
     /**
-     * @return mixed
+     * @return object
      */
     public function reverseTransform($value)
     {
