@@ -5,9 +5,6 @@
     bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="legacy API">
-            <directory>./tests/Legacy</directory>
-        </testsuite>
         <testsuite name="integration tests">
             <directory>./tests/Integration</directory>
         </testsuite>

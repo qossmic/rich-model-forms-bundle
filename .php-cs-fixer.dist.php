@@ -21,7 +21,7 @@ if (\PHP_VERSION_ID < 70400) {
     $finder->notPath('Dto/Product.php');
 }
 
-return PhpCsFixer\Config::create()
+$config = (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
@@ -49,5 +49,6 @@ file that was distributed with this source code.',
         'void_return' => true,
     ])
     ->setRiskyAllowed(true)
-    ->setFinder($finder)
-;
+    ->setFinder($finder);
+
+return $config;

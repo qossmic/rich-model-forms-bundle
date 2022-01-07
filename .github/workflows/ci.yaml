@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - '7.4'
+          - '8.1'
 
     steps:
       - name: 'Check out'
@@ -50,11 +50,11 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - '7.1'
           - '7.2'
           - '7.3'
           - '7.4'
           - '8.0'
+          - '8.1'
 
     steps:
       - name: 'Check out'
@@ -91,17 +91,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - php-version: '7.1'
-            composer-options: '--prefer-stable'
-          - php-version: '7.1'
+          - php-version: '7.2'
             composer-options: '--prefer-lowest --prefer-stable'
             symfony-version: '4.4.*'
+          - php-version: '7.2'
           - php-version: '7.3'
             composer-options: '--prefer-stable'
-          - php-version: '7.2'
-          - php-version: '7.4'
-            composer-options: '--prefer-stable'
-            symfony-version: '5.0.*'
           - php-version: '7.4'
             composer-options: '--prefer-stable'
             symfony-version: '5.1.*'
@@ -111,7 +106,21 @@ jobs:
           - php-version: '7.4'
             composer-options: '--prefer-stable'
             symfony-version: '5.3.*'
+          - php-version: '7.4'
+            composer-options: '--prefer-stable'
+            symfony-version: '5.4.*'
           - php-version: '8.0'
+            composer-options: '--prefer-stable'
+            symfony-version: '5.4.*'
+          - php-version: '8.0'
+            composer-options: '--prefer-stable'
+            symfony-version: '6.0.*'
+          - php-version: '8.1'
+            composer-options: '--prefer-stable'
+            symfony-version: '5.4.*'
+          - php-version: '8.1'
+            composer-options: '--prefer-stable'
+            symfony-version: '6.0.*'
 
     steps:
       - name: 'Check out'
