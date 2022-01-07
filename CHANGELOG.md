@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+0.2.0
+-----
+
+* add Symfony 6 support
+* drop support for PHP 7.1
+
 0.1.0
 -----
 
