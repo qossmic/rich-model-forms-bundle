@@ -62,7 +62,7 @@ class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
             return null;
         }
 
-        // type errors that are triggered when the property accessor performs the write call are wrapped in an
+        // type errors that are triggered when the property accessor performs the write-call are wrapped in an
         // InvalidArgumentException by the PropertyAccess component
         if ($e instanceof InvalidArgumentException) {
             return new Error($e, 'This value should be of type {{ type }}.', [
