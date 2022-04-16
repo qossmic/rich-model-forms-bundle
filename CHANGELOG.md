@@ -5,6 +5,7 @@ CHANGELOG
 -----
 
 * drop support for Symfony 5.3
+* drop support for PHP 7.2 and 7.3
 
 0.2.0
 -----
