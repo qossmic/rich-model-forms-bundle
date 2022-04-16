@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.3.0
+-----
+
+* drop support for Symfony 5.3
+
 0.2.0
 -----
 
