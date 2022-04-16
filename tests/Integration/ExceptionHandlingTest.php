@@ -48,7 +48,7 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
         $this->assertTrue($form->get('name')->isValid());
         $this->assertFalse($form->get('description')->isValid());
         $this->assertSame('This value should be of type string.', $form->get('description')->getErrors()[0]->getMessage());
-        $this->assertInstanceOf(\TypeError::class, $form->get('description')->getErrors()[0]->getCause());
+        $this->assertInstanceOf(InvalidArgumentException::class, $form->get('description')->getErrors()[0]->getCause());
     }
 
     public function testMismatchingArgumentTypesWillBeConvertedToErrors(): void
