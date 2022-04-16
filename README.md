@@ -1,6 +1,14 @@
 Rich Model Forms Bundle
 =======================
 
+[![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
+
+[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
+
+## A message to Russian 🇷🇺 people
+
+If you currently live in Russia, please read [this message](./ToRussianPeople.md).
+
 The Rich Model Forms Bundle enhances the [Symfony Form component](https://symfony.com/doc/current/forms.html) with
 useful options that ease the work with rich domain models.
 
