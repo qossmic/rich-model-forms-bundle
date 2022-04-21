@@ -31,10 +31,7 @@ abstract class ObjectInstantiator
         $this->factory = $factory;
     }
 
-    /**
-     * @return object
-     */
-    public function instantiateObject()
+    public function instantiateObject(): object
     {
         if (\is_string($this->factory)) {
             $factoryMethod = (new \ReflectionClass($this->factory))->getConstructor();

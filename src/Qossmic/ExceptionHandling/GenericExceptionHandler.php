@@ -32,8 +32,12 @@ use Symfony\Component\Form\FormConfigInterface;
  */
 class GenericExceptionHandler implements ExceptionHandlerInterface
 {
-    private $handledExceptionClass;
+    /** @var class-string */
+    private string $handledExceptionClass;
 
+    /**
+     * @param class-string $handledExceptionClass
+     */
     public function __construct(string $handledExceptionClass)
     {
         $this->handledExceptionClass = $handledExceptionClass;

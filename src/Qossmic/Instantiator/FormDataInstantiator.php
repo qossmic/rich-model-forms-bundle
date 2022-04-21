@@ -21,8 +21,9 @@ use Symfony\Component\Form\FormInterface;
  */
 class FormDataInstantiator extends ObjectInstantiator
 {
-    private $form;
-    private $formNameForArgument;
+    private FormInterface $form;
+    /** @var array<string,string> */
+    private array $formNameForArgument;
 
     /**
      * @param class-string|\Closure|(callable&array) $factory
@@ -34,7 +35,7 @@ class FormDataInstantiator extends ObjectInstantiator
         $this->form = $form;
         $this->formNameForArgument = [];
 
-        foreach ($form as $name => $child) {
+        foreach ($form as $child) {
             $this->formNameForArgument[$child->getConfig()->getOption('factory_argument') ?? $child->getName()] = $child->getName();
         }
     }

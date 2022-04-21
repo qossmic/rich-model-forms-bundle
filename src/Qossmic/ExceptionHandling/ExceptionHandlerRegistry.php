@@ -21,9 +21,13 @@ use Psr\Container\ContainerInterface;
  */
 class ExceptionHandlerRegistry
 {
-    private $container;
-    private $strategies;
+    private ContainerInterface $container;
+    /** @var array<string,string> */
+    private array $strategies;
 
+    /**
+     * @param array<string,string> $strategies
+     */
     public function __construct(ContainerInterface $container, array $strategies)
     {
         $this->container = $container;

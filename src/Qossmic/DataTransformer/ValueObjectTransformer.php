@@ -30,8 +30,8 @@ class ValueObjectTransformer implements DataTransformerInterface
 {
     use ExceptionToErrorMapperTrait;
 
-    private $propertyAccessor;
-    private $form;
+    private PropertyAccessorInterface $propertyAccessor;
+    private FormBuilderInterface $form;
 
     public function __construct(ExceptionHandlerRegistry $exceptionHandlerRegistry, PropertyAccessorInterface $propertyAccessor, FormBuilderInterface $form)
     {
@@ -43,7 +43,7 @@ class ValueObjectTransformer implements DataTransformerInterface
     /**
      * @param mixed $value
      *
-     * @return string|array<string,string>|null
+     * @return array<string,bool|int|string|null>|bool|int|string|null
      */
     public function transform($value)
     {
@@ -73,10 +73,7 @@ class ValueObjectTransformer implements DataTransformerInterface
         return $this->getPropertyValue($this->form, $value);
     }
 
-    /**
-     * @return object
-     */
-    public function reverseTransform($value)
+    public function reverseTransform($value): object
     {
         try {
             return (new ViewDataInstantiator($this->form, $value))->instantiateObject();
@@ -92,11 +89,9 @@ class ValueObjectTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param object $object
-     *
-     * @return string
+     * @return bool|int|string|null
      */
-    private function getPropertyValue(FormBuilderInterface $form, $object)
+    private function getPropertyValue(FormBuilderInterface $form, object $object)
     {
         if (null !== $form->getPropertyPath()) {
             return $this->propertyAccessor->getValue($object, $form->getPropertyPath());

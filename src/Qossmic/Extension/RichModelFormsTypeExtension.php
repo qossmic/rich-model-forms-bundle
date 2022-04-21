@@ -36,9 +36,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class RichModelFormsTypeExtension extends AbstractTypeExtension
 {
-    private $propertyAccessor;
-    private $exceptionHandlerRegistry;
-    private $formExceptionHandler;
+    private PropertyAccessorInterface $propertyAccessor;
+    private ExceptionHandlerRegistry $exceptionHandlerRegistry;
+    private FormExceptionHandler $formExceptionHandler;
 
     public function __construct(PropertyAccessorInterface $propertyAccessor, ExceptionHandlerRegistry $exceptionHandlerRegistry, FormExceptionHandler $formExceptionHandler)
     {
