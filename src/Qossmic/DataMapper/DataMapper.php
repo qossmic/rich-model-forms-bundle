@@ -28,9 +28,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class DataMapper implements DataMapperInterface
 {
-    private $dataMapper;
-    private $propertyAccessor;
-    private $formExceptionHandler;
+    private DataMapperInterface $dataMapper;
+    private PropertyAccessorInterface $propertyAccessor;
+    private FormExceptionHandler $formExceptionHandler;
 
     public function __construct(DataMapperInterface $dataMapper, PropertyAccessorInterface $propertyAccessor, FormExceptionHandler $formExceptionHandler)
     {

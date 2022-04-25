@@ -21,9 +21,9 @@ namespace Qossmic\RichModelForms\ExceptionHandling;
  */
 class Error
 {
-    private $cause;
-    private $messageTemplate;
-    private $parameters;
+    private \Throwable $cause;
+    private string $messageTemplate;
+    private array $parameters;
 
     public function __construct(\Throwable $cause, string $messageTemplate, array $parameters = [])
     {

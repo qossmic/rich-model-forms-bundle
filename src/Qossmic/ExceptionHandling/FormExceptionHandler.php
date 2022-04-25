@@ -25,8 +25,8 @@ class FormExceptionHandler
 {
     use ExceptionToErrorMapperTrait;
 
-    private $translator;
-    private $translationDomain;
+    private ?TranslatorInterface $translator;
+    private ?string $translationDomain;
 
     public function __construct(ExceptionHandlerRegistry $exceptionHandlerRegistry, TranslatorInterface $translator = null, string $translationDomain = null)
     {

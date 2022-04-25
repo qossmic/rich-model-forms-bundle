@@ -23,7 +23,7 @@ use Symfony\Component\Form\FormConfigInterface;
  */
 trait ExceptionToErrorMapperTrait
 {
-    private $exceptionHandlerRegistry;
+    private ExceptionHandlerRegistry $exceptionHandlerRegistry;
 
     /**
      * @param mixed $data

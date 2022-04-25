@@ -21,12 +21,14 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class ViewDataInstantiator extends ObjectInstantiator
 {
-    private $form;
+    private FormBuilderInterface $form;
+    /** @var array<string,mixed>|bool|int|string */
     private $viewData;
-    private $formNameForArgument;
+    /** @var array<string,string> */
+    private array $formNameForArgument;
 
     /**
-     * @param array<string,mixed> $viewData
+     * @param array<string,mixed>|bool|int|string $viewData
      */
     public function __construct(FormBuilderInterface $form, $viewData)
     {
@@ -36,7 +38,7 @@ class ViewDataInstantiator extends ObjectInstantiator
         $this->viewData = $viewData;
         $this->formNameForArgument = [];
 
-        foreach ($form as $name => $child) {
+        foreach ($form as $child) {
             $this->formNameForArgument[$child->getOption('factory_argument') ?? $child->getName()] = $child->getName();
         }
     }
@@ -53,6 +55,10 @@ class ViewDataInstantiator extends ObjectInstantiator
 
     protected function getArgumentData(string $argument)
     {
+        if (!\is_array($this->viewData)) {
+            return null;
+        }
+
         return $this->viewData[$this->formNameForArgument[$argument]] ?? null;
     }
 }
