@@ -73,7 +73,7 @@ class ValueObjectTransformer implements DataTransformerInterface
         return $this->getPropertyValue($this->form, $value);
     }
 
-    public function reverseTransform($value): object
+    public function reverseTransform($value): ?object
     {
         try {
             return (new ViewDataInstantiator($this->form, $value))->instantiateObject();
