@@ -21,6 +21,21 @@ use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
 
 class FactoryTest extends AbstractDataMapperTest
 {
+    public function testFactoryReturnsNull(): void
+    {
+        $form = $this->createForm(GrossPriceType::class, null, [
+            'factory' => function () {
+                return null;
+            },
+        ]);
+        $form->submit([
+            'amount' => '500',
+            'taxRate' => '7',
+        ]);
+
+        $this->assertNull($form->getData());
+    }
+
     public function testInitializeNonCompoundRootFormWithEmptyData(): void
     {
         $form = $this->createForm(PriceType::class, null, [
