@@ -38,6 +38,7 @@ class FallbackExceptionHandler implements ExceptionHandlerInterface
         $messageTemplate = $formConfig->getOption('invalid_message') ?? 'This value is not valid.';
         $parameters = $formConfig->getOption('invalid_message_parameters') ?? [];
 
+        /* @phpstan-ignore-next-line */
         return new Error($e, $messageTemplate, $parameters);
     }
 }

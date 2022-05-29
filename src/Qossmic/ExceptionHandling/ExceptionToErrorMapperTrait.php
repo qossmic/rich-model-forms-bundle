@@ -33,13 +33,17 @@ trait ExceptionToErrorMapperTrait
         $exceptionHandlers = [];
 
         if (null !== $formConfig->getOption('handle_exception')) {
+            /* @phpstan-ignore-next-line */
             foreach ($formConfig->getOption('handle_exception') as $exceptionClass) {
+                /* @phpstan-ignore-next-line */
                 $exceptionHandlers[] = new GenericExceptionHandler($exceptionClass);
             }
 
             $exceptionHandlers[] = $this->exceptionHandlerRegistry->get('type_error');
         } else {
+            /* @phpstan-ignore-next-line */
             foreach ($formConfig->getOption('exception_handling_strategy') as $strategy) {
+                /* @phpstan-ignore-next-line */
                 $exceptionHandlers[] = $this->exceptionHandlerRegistry->get($strategy);
             }
         }

@@ -54,6 +54,7 @@ abstract class ObjectInstantiator
         } elseif ($this->factory instanceof \Closure) {
             $factoryMethod = new \ReflectionFunction($this->factory);
         } else {
+            /* @phpstan-ignore-next-line */
             return $this->getData();
         }
 

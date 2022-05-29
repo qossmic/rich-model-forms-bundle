@@ -61,8 +61,10 @@ class DataMapper implements DataMapperInterface
             if (!$isDataEmpty && $readPropertyPath instanceof \Closure && $form->getConfig()->getMapped()) {
                 $form->setData($readPropertyPath($data));
             } elseif (!$isDataEmpty && null !== $readPropertyPath && $form->getConfig()->getMapped()) {
+                /* @phpstan-ignore-next-line */
                 $form->setData($this->propertyAccessor->getValue($data, $readPropertyPath));
             } elseif (!$isDataEmpty && null !== $propertyMapper) {
+                /* @phpstan-ignore-next-line */
                 $form->setData($propertyMapper->readPropertyValue($data));
             } elseif (null !== $readPropertyPath) {
                 $form->setData($form->getConfig()->getData());
@@ -102,8 +104,10 @@ class DataMapper implements DataMapperInterface
             if ($readPropertyPath instanceof \Closure) {
                 $previousValue = $readPropertyPath($data);
             } elseif (null !== $readPropertyPath) {
+                /* @phpstan-ignore-next-line */
                 $previousValue = $this->propertyAccessor->getValue($data, $readPropertyPath);
             } elseif (null !== $propertyMapper) {
+                /* @phpstan-ignore-next-line */
                 $previousValue = $propertyMapper->readPropertyValue($data);
             } else {
                 $previousValue = null;

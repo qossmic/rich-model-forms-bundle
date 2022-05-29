@@ -36,6 +36,7 @@ class FormDataInstantiator extends ObjectInstantiator
         $this->formNameForArgument = [];
 
         foreach ($form as $child) {
+            /* @phpstan-ignore-next-line */
             $this->formNameForArgument[$child->getConfig()->getOption('factory_argument') ?? $child->getName()] = $child->getName();
         }
     }
