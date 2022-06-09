@@ -5,6 +5,7 @@
  *
  * (c) Christian Flothmann <christian.flothmann@qossmic.com>
  * (c) Christopher Hertel <mail@christopher-hertel.de>
+ * (c) QOSSMIC GmbH <info@qossmic.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -34,6 +35,7 @@ $config = (new PhpCsFixer\Config())
 
 (c) Christian Flothmann <christian.flothmann@qossmic.com>
 (c) Christopher Hertel <mail@christopher-hertel.de>
+(c) QOSSMIC GmbH <info@qossmic.com>
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.',
