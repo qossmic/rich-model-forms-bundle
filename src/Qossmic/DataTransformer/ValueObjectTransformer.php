@@ -41,7 +41,7 @@ class ValueObjectTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param mixed $value
+     * @param object|null $value
      *
      * @return array<string,bool|int|string|null>|bool|int|string|null
      */
@@ -76,6 +76,7 @@ class ValueObjectTransformer implements DataTransformerInterface
     public function reverseTransform($value): ?object
     {
         try {
+            /* @phpstan-ignore-next-line */
             return (new ViewDataInstantiator($this->form, $value))->instantiateObject();
         } catch (\Throwable $e) {
             $error = $this->mapExceptionToError($this->form, $value, $e);
@@ -94,6 +95,7 @@ class ValueObjectTransformer implements DataTransformerInterface
     private function getPropertyValue(FormBuilderInterface $form, object $object)
     {
         if (null !== $form->getPropertyPath()) {
+            /* @phpstan-ignore-next-line */
             return $this->propertyAccessor->getValue($object, $form->getPropertyPath());
         }
 
@@ -103,6 +105,7 @@ class ValueObjectTransformer implements DataTransformerInterface
             return $readPropertyPath($object);
         }
 
+        /* @phpstan-ignore-next-line */
         return $this->propertyAccessor->getValue($object, $readPropertyPath);
     }
 }

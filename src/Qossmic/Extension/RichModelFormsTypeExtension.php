@@ -177,6 +177,7 @@ class RichModelFormsTypeExtension extends AbstractTypeExtension
                     }
 
                     try {
+                        /* @phpstan-ignore-next-line */
                         return (new FormDataInstantiator($options['factory'], $form))->instantiateObject();
                     } catch (\Throwable $e) {
                         $this->formExceptionHandler->handleException($form, $form->getData(), $e);
