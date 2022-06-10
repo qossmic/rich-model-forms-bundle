@@ -37,6 +37,9 @@ class Kernel extends BaseKernel
         $loader->load(function (ContainerBuilder $container): void {
             $container->addCompilerPass(new PublicTestAliasPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1000);
             $container->setParameter('kernel.secret', __FILE__);
+            $container->loadFromExtension('framework', [
+                'http_method_override' => false,
+            ]);
         });
     }
 
