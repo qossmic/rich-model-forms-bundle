@@ -25,7 +25,7 @@ abstract class ObjectInstantiator
     private $factory;
 
     /**
-     * @param class-string|\Closure|(callable&array) $factory
+     * @param mixed $factory
      */
     public function __construct($factory)
     {
@@ -34,7 +34,7 @@ abstract class ObjectInstantiator
 
     public function instantiateObject(): ?object
     {
-        if (\is_string($this->factory)) {
+        if (\is_string($this->factory) && class_exists($this->factory)) {
             $factoryMethod = (new \ReflectionClass($this->factory))->getConstructor();
 
             if (null === $factoryMethod) {
@@ -78,7 +78,13 @@ abstract class ObjectInstantiator
 
     abstract protected function isCompoundForm(): bool;
 
+    /**
+     * @return mixed
+     */
     abstract protected function getData();
 
+    /**
+     * @return mixed
+     */
     abstract protected function getArgumentData(string $argument);
 }
