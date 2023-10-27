@@ -18,10 +18,6 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/tests')
     ->append([__FILE__]);
 
-if (\PHP_VERSION_ID < 70400) {
-    $finder->notPath('Dto/Product.php');
-}
-
 $config = (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,

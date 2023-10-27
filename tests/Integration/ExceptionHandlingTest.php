@@ -61,7 +61,7 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
 
         $this->assertFalse($form->get('stock')->isValid());
         $this->assertCount(1, $form->get('stock')->getErrors());
-        $this->assertSame(\PHP_VERSION_ID >= 70300 ? 'This value should be of type int.' : 'This value should be of type integer.', $form->get('stock')->getErrors()[0]->getMessage());
+        $this->assertSame('This value should be of type int.', $form->get('stock')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(\TypeError::class, $form->get('stock')->getErrors()[0]->getCause());
     }
 
@@ -157,7 +157,7 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
 
         $this->assertFalse($form->get('stock')->isValid());
         $this->assertCount(1, $form->get('stock')->getErrors());
-        $this->assertSame(\PHP_VERSION_ID >= 70300 ? 'This value should be of type int.' : 'This value should be of type integer.', $form->get('stock')->getErrors()[0]->getMessage());
+        $this->assertSame('This value should be of type int.', $form->get('stock')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(\TypeError::class, $form->get('stock')->getErrors()[0]->getCause());
     }
 
