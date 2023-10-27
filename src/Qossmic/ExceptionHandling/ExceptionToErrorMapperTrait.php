@@ -26,9 +26,6 @@ trait ExceptionToErrorMapperTrait
 {
     private ExceptionHandlerRegistry $exceptionHandlerRegistry;
 
-    /**
-     * @param mixed $data
-     */
     private function mapExceptionToError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
     {
         $exceptionHandlers = [];
