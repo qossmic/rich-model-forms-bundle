@@ -26,7 +26,7 @@ class CancelSubscriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('cancellation_date', DateType::class, $options['cancellation_date_options'])
+            ->add('cancellation_date', DateType::class, $options['cancellation_date_options'] + ['widget' => 'choice'])
         ;
     }
 
