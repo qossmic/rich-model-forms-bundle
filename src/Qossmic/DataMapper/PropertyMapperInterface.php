@@ -20,7 +20,16 @@ namespace Qossmic\RichModelForms\DataMapper;
  */
 interface PropertyMapperInterface
 {
+    /**
+     * @param mixed $data
+     *
+     * @return mixed
+     */
     public function readPropertyValue($data);
 
+    /**
+     * @param mixed $data
+     * @param mixed $value
+     */
     public function writePropertyValue($data, $value): void;
 }

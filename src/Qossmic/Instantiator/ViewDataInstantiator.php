@@ -33,7 +33,6 @@ class ViewDataInstantiator extends ObjectInstantiator
      */
     public function __construct(FormBuilderInterface $form, $viewData)
     {
-        /* @phpstan-ignore-next-line */
         parent::__construct($form->getFormConfig()->getOption('factory'));
 
         $this->form = $form;

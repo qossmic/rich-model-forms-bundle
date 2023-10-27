@@ -39,6 +39,7 @@ class RegisterExceptionHandlersPass implements CompilerPassInterface
         $strategies = [];
 
         foreach ($container->findTaggedServiceIds('qossmic.rich_model_forms.exception_handler') as $id => $tag) {
+            /** @var class-string $class */
             $class = $container->getParameterBag()->resolveValue($container->getDefinition($id)->getClass());
             $exceptionHandlers[$id] = new TypedReference($id, $class);
 
