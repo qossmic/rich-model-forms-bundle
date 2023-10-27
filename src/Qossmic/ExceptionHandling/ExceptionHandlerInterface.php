@@ -32,8 +32,5 @@ use Symfony\Component\Form\FormConfigInterface;
  */
 interface ExceptionHandlerInterface
 {
-    /**
-     * @param mixed $data
-     */
     public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error;
 }
