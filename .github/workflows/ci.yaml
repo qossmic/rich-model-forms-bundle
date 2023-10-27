@@ -50,8 +50,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - '7.4'
-          - '8.0'
           - '8.1'
 
     steps:
@@ -89,12 +87,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - php-version: '7.4'
-            composer-options: '--prefer-lowest --prefer-stable'
-            symfony-version: '5.4.*'
-          - php-version: '8.0'
-            composer-options: '--prefer-stable'
-            symfony-version: '5.4.*'
           - php-version: '8.1'
             composer-options: '--prefer-stable'
             symfony-version: '5.4.*'

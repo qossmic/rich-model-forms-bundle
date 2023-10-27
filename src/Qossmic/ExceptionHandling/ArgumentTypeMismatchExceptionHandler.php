@@ -30,9 +30,7 @@ class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
         if ($e instanceof \TypeError) {
             if (0 === strpos($e->getMessage(), 'Argument ') || false !== strpos($e->getMessage(), 'Argument #')) {
                 // code for extracting the expected type borrowed from the error handling in the Symfony PropertyAccess component
-                if (\PHP_VERSION_ID < 80000 && false !== $pos = strpos($e->getMessage(), 'must be of the type ')) {
-                    $pos += 20;
-                } elseif (\PHP_VERSION_ID >= 80000 && false !== $pos = strpos($e->getMessage(), 'must be of type ')) {
+                if (false !== $pos = strpos($e->getMessage(), 'must be of type ')) {
                     $pos += 16;
                 } elseif (false !== $pos = strpos($e->getMessage(), 'must be an instance of ')) {
                     $pos += 23;
@@ -45,15 +43,7 @@ class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
                 ]);
             }
 
-            if (\PHP_VERSION_ID < 80000 && 0 === strpos($e->getMessage(), 'Typed property ')) {
-                $pos = strpos($e->getMessage(), 'must be ') + 8;
-
-                return new Error($e, 'This value should be of type {{ type }}.', [
-                    '{{ type }}' => substr($e->getMessage(), $pos, strpos($e->getMessage(), ',', $pos) - $pos),
-                ]);
-            }
-
-            if (\PHP_VERSION_ID >= 80000 && 0 === strpos($e->getMessage(), 'Cannot assign ') && false !== $pos = strpos($e->getMessage(), ' of type ')) {
+            if (0 === strpos($e->getMessage(), 'Cannot assign ') && false !== $pos = strpos($e->getMessage(), ' of type ')) {
                 return new Error($e, 'This value should be of type {{ type }}.', [
                     '{{ type }}' => substr($e->getMessage(), $pos + 9),
                 ]);
