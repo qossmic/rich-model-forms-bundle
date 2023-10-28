@@ -22,6 +22,8 @@ use Symfony\Component\DependencyInjection\TypedReference;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
+ *
+ * @internal
  */
 final class RegisterExceptionHandlersPass implements CompilerPassInterface
 {
