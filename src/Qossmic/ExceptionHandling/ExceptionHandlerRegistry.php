@@ -20,7 +20,7 @@ use Psr\Container\ContainerInterface;
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
  */
-class ExceptionHandlerRegistry
+final class ExceptionHandlerRegistry
 {
     private ContainerInterface $container;
     /** @var array<string,string> */

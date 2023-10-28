@@ -25,10 +25,8 @@ use Symfony\Component\Form\FormConfigInterface;
  * to the users. Thus, this handler should only be used as a fallback in a chain of error handlers.
  *
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
- *
- * @final
  */
-class FallbackExceptionHandler implements ExceptionHandlerInterface
+final class FallbackExceptionHandler implements ExceptionHandlerInterface
 {
     public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
     {

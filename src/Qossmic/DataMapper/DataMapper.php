@@ -24,10 +24,8 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
- *
- * @final
  */
-class DataMapper implements DataMapperInterface
+final class DataMapper implements DataMapperInterface
 {
     private DataMapperInterface $dataMapper;
     private PropertyAccessorInterface $propertyAccessor;

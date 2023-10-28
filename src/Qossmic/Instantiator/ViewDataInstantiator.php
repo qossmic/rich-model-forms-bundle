@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
  */
-class ViewDataInstantiator extends ObjectInstantiator
+final class ViewDataInstantiator extends ObjectInstantiator
 {
     private FormBuilderInterface $form;
     /** @var array<string,mixed>|bool|int|string */

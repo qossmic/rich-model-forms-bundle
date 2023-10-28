@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormInterface;
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
  */
-class FormDataInstantiator extends ObjectInstantiator
+final class FormDataInstantiator extends ObjectInstantiator
 {
     private FormInterface $form;
     /** @var array<string,string> */

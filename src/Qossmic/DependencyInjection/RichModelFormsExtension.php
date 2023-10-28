@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
  */
-class RichModelFormsExtension extends Extension
+final class RichModelFormsExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {

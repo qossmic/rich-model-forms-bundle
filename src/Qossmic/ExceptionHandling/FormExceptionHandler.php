@@ -22,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
  */
-class FormExceptionHandler
+final class FormExceptionHandler
 {
     use ExceptionToErrorMapperTrait;
 
