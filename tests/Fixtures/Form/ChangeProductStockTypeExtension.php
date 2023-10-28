@@ -31,11 +31,6 @@ final class ChangeProductStockTypeExtension extends AbstractTypeExtension
         $builder->setDataMapper(new DataMapper($builder->getDataMapper(), PropertyAccess::createPropertyAccessor(), new FormExceptionHandler($this->createExceptionHandlerRegistry())));
     }
 
-    public function getExtendedType(): string
-    {
-        return ChangeProductStockType::class;
-    }
-
     public static function getExtendedTypes(): iterable
     {
         return [ChangeProductStockType::class];
