@@ -29,7 +29,7 @@ final class FormDataInstantiator extends ObjectInstantiator
     /**
      * @param class-string|\Closure|(callable&array) $factory
      */
-    public function __construct($factory, FormInterface $form)
+    public function __construct(string|callable $factory, FormInterface $form)
     {
         parent::__construct($factory);
 
@@ -47,7 +47,7 @@ final class FormDataInstantiator extends ObjectInstantiator
         return $this->form->getConfig()->getCompound();
     }
 
-    protected function getData()
+    protected function getData(): mixed
     {
         if ($this->isCompoundForm()) {
             $data = [];
@@ -62,7 +62,7 @@ final class FormDataInstantiator extends ObjectInstantiator
         return $this->form->getData();
     }
 
-    protected function getArgumentData(string $argument)
+    protected function getArgumentData(string $argument): mixed
     {
         return $this->form->get($this->formNameForArgument[$argument])->getData();
     }

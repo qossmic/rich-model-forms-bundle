@@ -23,7 +23,7 @@ use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
  */
 final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
 {
-    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
+    public function getError(FormConfigInterface $formConfig, mixed $data, \Throwable $e): ?Error
     {
         if ($e instanceof \TypeError) {
             if (str_starts_with($e->getMessage(), 'Argument ') || str_contains($e->getMessage(), 'Argument #')) {

@@ -28,7 +28,7 @@ use Symfony\Component\Form\FormConfigInterface;
  */
 final class FallbackExceptionHandler implements ExceptionHandlerInterface
 {
-    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
+    public function getError(FormConfigInterface $formConfig, mixed $data, \Throwable $e): ?Error
     {
         if (!$e instanceof \Exception) {
             return null;

@@ -17,8 +17,8 @@ namespace Qossmic\RichModelForms\Tests\Fixtures\Model;
 
 class Order
 {
-    private $shippingAddress;
-    private $trackingNumber;
+    private ?Address $shippingAddress = null;
+    private ?string $trackingNumber = null;
 
     public function getShippingAddress(): ?Address
     {

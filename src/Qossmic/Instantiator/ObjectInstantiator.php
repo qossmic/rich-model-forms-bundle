@@ -22,12 +22,9 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
  */
 abstract class ObjectInstantiator
 {
-    private $factory;
+    private mixed $factory;
 
-    /**
-     * @param mixed $factory
-     */
-    public function __construct($factory)
+    public function __construct(mixed $factory)
     {
         $this->factory = $factory;
     }
@@ -78,13 +75,7 @@ abstract class ObjectInstantiator
 
     abstract protected function isCompoundForm(): bool;
 
-    /**
-     * @return mixed
-     */
-    abstract protected function getData();
+    abstract protected function getData(): mixed;
 
-    /**
-     * @return mixed
-     */
-    abstract protected function getArgumentData(string $argument);
+    abstract protected function getArgumentData(string $argument): mixed;
 }

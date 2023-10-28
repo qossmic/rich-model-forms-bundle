@@ -330,12 +330,12 @@ class ValueObjectsTest extends TestCase
         self::assertInstanceOf(TransformationFailedException::class, $form->getTransformationFailure());
     }
 
-    private function createForm(string $type, $data = null, array $options = []): FormInterface
+    private function createForm(string $type, mixed $data = null, array $options = []): FormInterface
     {
         return $this->createFormFactory()->createBuilder($type, $data, $options)->getForm();
     }
 
-    private function createNamedForm(string $name, string $type, $data = null, array $options = []): FormInterface
+    private function createNamedForm(string $name, string $type, mixed $data = null, array $options = []): FormInterface
     {
         return $this->createFormFactory()->createNamedBuilder($name, $type, $data, $options)->getForm();
     }

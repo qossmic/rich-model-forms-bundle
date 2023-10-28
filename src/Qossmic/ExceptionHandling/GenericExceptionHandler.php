@@ -42,7 +42,7 @@ final class GenericExceptionHandler implements ExceptionHandlerInterface
         $this->handledExceptionClass = $handledExceptionClass;
     }
 
-    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
+    public function getError(FormConfigInterface $formConfig, mixed $data, \Throwable $e): ?Error
     {
         if (!$e instanceof $this->handledExceptionClass) {
             return null;

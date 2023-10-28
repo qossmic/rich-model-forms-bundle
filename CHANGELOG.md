@@ -4,6 +4,11 @@ CHANGELOG
 0.4.0
 -----
 
+* [BC BREAK] add `mixed` return-type to the following methods:
+  * `ObjectInstantiator::getArgumentData()`
+  * `ObjectInstantiator::getData()`
+  * `PropertyMapperInterface::readPropertyValue()`
+  * `PropertyMapperInterface::writePropertyValue()`
 * [BC BREAK] mark the following classes as final:
   * `ArgumentTypeMismatchExceptionHandler`
   * `ChainExceptionHandler`

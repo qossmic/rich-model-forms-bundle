@@ -24,14 +24,14 @@ final class ViewDataInstantiator extends ObjectInstantiator
 {
     private FormBuilderInterface $form;
     /** @var array<string,mixed>|bool|int|string */
-    private $viewData;
+    private array|bool|int|string $viewData;
     /** @var array<string,string> */
     private array $formNameForArgument;
 
     /**
      * @param array<string,mixed>|bool|int|string $viewData
      */
-    public function __construct(FormBuilderInterface $form, $viewData)
+    public function __construct(FormBuilderInterface $form, array|bool|int|string $viewData)
     {
         parent::__construct($form->getFormConfig()->getOption('factory'));
 
@@ -50,12 +50,12 @@ final class ViewDataInstantiator extends ObjectInstantiator
         return $this->form->getFormConfig()->getCompound();
     }
 
-    protected function getData()
+    protected function getData(): array|bool|int|string
     {
         return $this->viewData;
     }
 
-    protected function getArgumentData(string $argument)
+    protected function getArgumentData(string $argument): mixed
     {
         if (!\is_array($this->viewData)) {
             return null;
