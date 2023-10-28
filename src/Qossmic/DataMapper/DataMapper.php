@@ -151,7 +151,7 @@ final class DataMapper implements DataMapperInterface
                         $formData[$form->getName()] = $form->getData();
                     }
 
-                    $method = new \ReflectionMethod(\get_class($data), $writePropertyPath);
+                    $method = new \ReflectionMethod($data::class, $writePropertyPath);
                     $arguments = [];
 
                     foreach ($method->getParameters() as $parameter) {

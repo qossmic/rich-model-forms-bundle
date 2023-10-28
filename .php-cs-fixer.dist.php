@@ -26,7 +26,6 @@ $config = (new PhpCsFixer\Config())
         'array_syntax' => ['syntax' => 'short'],
         'declare_equal_normalize' => ['space' => 'single'],
         'declare_strict_types' => true,
-        'get_class_to_class_keyword' => false,
         'header_comment' => [
             'header' => 'This file is part of the RichModelFormsBundle package.
 
@@ -43,7 +42,6 @@ file that was distributed with this source code.',
             'import_constants' => false,
             'import_functions' => false,
         ],
-        'no_superfluous_phpdoc_tags' => false,
         'ordered_imports' => true,
         'php_unit_no_expectation_annotation' => false,
         'void_return' => true,
