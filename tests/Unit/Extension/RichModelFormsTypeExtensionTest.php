@@ -154,7 +154,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
 
     public function testItExtendsTheBaseFormType(): void
     {
-        $this->assertSame(FormType::class, $this->extension->getExtendedType());
+        $this->assertSame([FormType::class], RichModelFormsTypeExtension::getExtendedTypes());
     }
 
     public function testFactoryStringsMustReferenceExistingClasses(): void
