@@ -4,6 +4,7 @@ CHANGELOG
 0.4.0
 -----
 
+* drop support for Symfony 5.4, 6.0, 6.1 and 6.2
 * drop support for PHP 7.4 and 8.0
 
 0.3.0

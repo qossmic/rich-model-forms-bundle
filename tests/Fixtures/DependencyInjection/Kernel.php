@@ -17,7 +17,6 @@ namespace Qossmic\RichModelForms\Tests\Fixtures\DependencyInjection;
 
 use Qossmic\RichModelForms\RichModelFormsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Symfony\Bundle\FrameworkBundle\Test\NotificationAssertionsTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -36,20 +35,15 @@ class Kernel extends BaseKernel
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(function (ContainerBuilder $container): void {
-            $frameworkConfig = [
+            $container->addCompilerPass(new PublicTestAliasPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1000);
+            $container->setParameter('kernel.secret', __FILE__);
+            $container->loadFromExtension('framework', [
+                'handle_all_throwables' => false,
                 'http_method_override' => false,
                 'php_errors' => [
                     'log' => false,
                 ],
-            ];
-
-            if (trait_exists(NotificationAssertionsTrait::class)) {
-                $frameworkConfig['handle_all_throwables'] = false;
-            }
-
-            $container->addCompilerPass(new PublicTestAliasPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1000);
-            $container->setParameter('kernel.secret', __FILE__);
-            $container->loadFromExtension('framework', $frameworkConfig);
+            ]);
         });
     }
 
