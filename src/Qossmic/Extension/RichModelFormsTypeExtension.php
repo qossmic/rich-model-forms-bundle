@@ -32,10 +32,8 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
- *
- * @final
  */
-class RichModelFormsTypeExtension extends AbstractTypeExtension
+final class RichModelFormsTypeExtension extends AbstractTypeExtension
 {
     private PropertyAccessorInterface $propertyAccessor;
     private ExceptionHandlerRegistry $exceptionHandlerRegistry;

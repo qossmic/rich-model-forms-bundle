@@ -28,10 +28,8 @@ use Symfony\Component\Form\FormConfigInterface;
  * absolutely sure not to leak any sensitive information.
  *
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
- *
- * @final
  */
-class GenericExceptionHandler implements ExceptionHandlerInterface
+final class GenericExceptionHandler implements ExceptionHandlerInterface
 {
     /** @var class-string */
     private string $handledExceptionClass;

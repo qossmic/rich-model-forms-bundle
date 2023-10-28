@@ -20,10 +20,8 @@ use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
- *
- * @final
  */
-class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
+final class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
 {
     public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
     {

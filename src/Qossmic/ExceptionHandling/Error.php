@@ -17,10 +17,8 @@ namespace Qossmic\RichModelForms\ExceptionHandling;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
- *
- * @final
  */
-class Error
+final class Error
 {
     private \Throwable $cause;
     private string $messageTemplate;

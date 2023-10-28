@@ -27,10 +27,8 @@ use Symfony\Component\Form\FormConfigInterface;
  * handlers.
  *
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
- *
- * @final
  */
-class ChainExceptionHandler implements ExceptionHandlerInterface
+final class ChainExceptionHandler implements ExceptionHandlerInterface
 {
     private iterable $exceptionHandlers;
 

@@ -27,7 +27,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
  */
-class ValueObjectTransformer implements DataTransformerInterface
+final class ValueObjectTransformer implements DataTransformerInterface
 {
     use ExceptionToErrorMapperTrait;
 

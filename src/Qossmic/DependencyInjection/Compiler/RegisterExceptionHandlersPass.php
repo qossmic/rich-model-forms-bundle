@@ -22,10 +22,8 @@ use Symfony\Component\DependencyInjection\TypedReference;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
- *
- * @final
  */
-class RegisterExceptionHandlersPass implements CompilerPassInterface
+final class RegisterExceptionHandlersPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

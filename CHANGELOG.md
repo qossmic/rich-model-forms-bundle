@@ -4,6 +4,21 @@ CHANGELOG
 0.4.0
 -----
 
+* [BC BREAK] mark the following classes as final:
+  * `ArgumentTypeMismatchExceptionHandler`
+  * `ChainExceptionHandler`
+  * `DataMapper`
+  * `Error`
+  * `ExceptionHandlerRegistry`
+  * `FallbackExceptionHandler`
+  * `FormDataInstantiator`
+  * `FormExceptionHandler`
+  * `GenericExceptionHandler`
+  * `RegisterExceptionHandlersPass`
+  * `RichModelFormsExtension`
+  * `RichModelFormsTypeExtension`
+  * `ValueObjectTransformer`
+  * `ViewDataInstantiator`
 * drop support for Symfony 5.4, 6.0, 6.1 and 6.2
 * drop support for PHP 7.4 and 8.0
 
