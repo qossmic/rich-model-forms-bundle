@@ -28,7 +28,6 @@ use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
-use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class ValueObjectsTest extends TestCase
@@ -112,12 +111,7 @@ class ValueObjectsTest extends TestCase
     public function testTransformDoesForwardPropertyAccessExceptions(): void
     {
         $this->expectException(NoSuchPropertyException::class);
-
-        if (class_exists(UninitializedPropertyException::class)) {
-            $this->expectExceptionMessage('Can\'t get a way to read the property "extra_field" in class "Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice".');
-        } else {
-            $this->expectExceptionMessage('Neither the property "extra_field" nor one of the methods "getExtraField()", "extraField()", "isExtraField()", "hasExtraField()", "__get()" exist and have public access in class "Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice');
-        }
+        $this->expectExceptionMessage('Can\'t get a way to read the property "extra_field" in class "Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice".');
 
         $form = $this->createForm(GrossPriceType::class, null, [
             'extra_field' => true,
