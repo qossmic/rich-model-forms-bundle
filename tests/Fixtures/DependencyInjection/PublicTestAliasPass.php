@@ -26,7 +26,7 @@ final class PublicTestAliasPass implements CompilerPassInterface
         $testAliases = [];
 
         foreach ($container->getDefinitions() as $id => $definition) {
-            if (0 === strpos($id, 'qossmic.rich_model_forms.')) {
+            if (str_starts_with($id, 'qossmic.rich_model_forms.')) {
                 $container->setAlias('test.'.$id, new Alias($id, true));
                 $testAliases['test.'.$id] = $definition->getClass();
             }
