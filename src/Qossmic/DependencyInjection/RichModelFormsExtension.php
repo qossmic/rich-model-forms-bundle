@@ -22,6 +22,8 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>
+ *
+ * @internal
  */
 final class RichModelFormsExtension extends Extension
 {

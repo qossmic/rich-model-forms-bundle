@@ -4,6 +4,10 @@ CHANGELOG
 0.4.0
 -----
 
+* the following classes are internal and can break BC at any time:
+  * `RegisterExceptionHandlersPass`
+  * `RichModelFormsExtension`
+  * `RichModelFormsTypeExtension`
 * [BC BREAK] add `mixed` return-type to the following methods:
   * `ObjectInstantiator::getArgumentData()`
   * `ObjectInstantiator::getData()`
@@ -19,9 +23,6 @@ CHANGELOG
   * `FormDataInstantiator`
   * `FormExceptionHandler`
   * `GenericExceptionHandler`
-  * `RegisterExceptionHandlersPass`
-  * `RichModelFormsExtension`
-  * `RichModelFormsTypeExtension`
   * `ValueObjectTransformer`
   * `ViewDataInstantiator`
 * drop support for Symfony 5.4, 6.0, 6.1 and 6.2
