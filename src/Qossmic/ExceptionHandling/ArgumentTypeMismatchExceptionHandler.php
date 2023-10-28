@@ -28,7 +28,7 @@ class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
     public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
     {
         if ($e instanceof \TypeError) {
-            if (0 === strpos($e->getMessage(), 'Argument ') || false !== strpos($e->getMessage(), 'Argument #')) {
+            if (str_starts_with($e->getMessage(), 'Argument ') || str_contains($e->getMessage(), 'Argument #')) {
                 // code for extracting the expected type borrowed from the error handling in the Symfony PropertyAccess component
                 if (false !== $pos = strpos($e->getMessage(), 'must be of type ')) {
                     $pos += 16;
@@ -43,7 +43,7 @@ class ArgumentTypeMismatchExceptionHandler implements ExceptionHandlerInterface
                 ]);
             }
 
-            if (0 === strpos($e->getMessage(), 'Cannot assign ') && false !== $pos = strpos($e->getMessage(), ' of type ')) {
+            if (str_starts_with($e->getMessage(), 'Cannot assign ') && false !== $pos = strpos($e->getMessage(), ' of type ')) {
                 return new Error($e, 'This value should be of type {{ type }}.', [
                     '{{ type }}' => substr($e->getMessage(), $pos + 9),
                 ]);
