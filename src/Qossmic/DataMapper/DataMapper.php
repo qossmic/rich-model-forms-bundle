@@ -38,7 +38,7 @@ final class DataMapper implements DataMapperInterface
         $this->formExceptionHandler = $formExceptionHandler;
     }
 
-    public function mapDataToForms($data, $forms): void
+    public function mapDataToForms(mixed $data, \Traversable $forms): void
     {
         $isDataEmpty = null === $data || [] === $data;
 
@@ -75,7 +75,7 @@ final class DataMapper implements DataMapperInterface
         $this->dataMapper->mapDataToForms($data, new \ArrayIterator($formsToBeMapped));
     }
 
-    public function mapFormsToData($forms, &$data): void
+    public function mapFormsToData(\Traversable $forms, mixed &$data): void
     {
         if (null === $data) {
             return;

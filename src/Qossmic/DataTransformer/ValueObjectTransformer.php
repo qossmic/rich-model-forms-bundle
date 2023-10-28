@@ -46,7 +46,7 @@ final class ValueObjectTransformer implements DataTransformerInterface
      *
      * @return array<string,bool|int|string|null>|bool|int|string|null
      */
-    public function transform($value)
+    public function transform(mixed $value): array|bool|int|string|null
     {
         if (null === $value) {
             return null;
@@ -74,7 +74,7 @@ final class ValueObjectTransformer implements DataTransformerInterface
         return $this->getPropertyValue($this->form, $value);
     }
 
-    public function reverseTransform($value): ?object
+    public function reverseTransform(mixed $value): ?object
     {
         try {
             /* @phpstan-ignore-next-line */
@@ -90,10 +90,7 @@ final class ValueObjectTransformer implements DataTransformerInterface
         }
     }
 
-    /**
-     * @return bool|int|string|null
-     */
-    private function getPropertyValue(FormBuilderInterface $form, object $object)
+    private function getPropertyValue(FormBuilderInterface $form, object $object): bool|int|string|null
     {
         if (null !== $form->getPropertyPath()) {
             /* @phpstan-ignore-next-line */

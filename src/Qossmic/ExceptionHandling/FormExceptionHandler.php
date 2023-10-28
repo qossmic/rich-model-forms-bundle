@@ -36,10 +36,7 @@ final class FormExceptionHandler
         $this->translationDomain = $translationDomain;
     }
 
-    /**
-     * @param mixed $data
-     */
-    public function handleException(FormInterface $form, $data, \Throwable $e): void
+    public function handleException(FormInterface $form, mixed $data, \Throwable $e): void
     {
         if (null !== $error = $this->mapExceptionToError($form->getConfig(), $data, $e)) {
             if (null !== $this->translator) {

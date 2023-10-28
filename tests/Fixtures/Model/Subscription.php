@@ -17,8 +17,8 @@ namespace Qossmic\RichModelForms\Tests\Fixtures\Model;
 
 class Subscription
 {
-    private $cancelledBy;
-    private $suspended = false;
+    private \DateTimeImmutable $cancelledBy;
+    private bool $suspended = false;
 
     public function __construct(\DateTimeInterface $cancellationDate)
     {

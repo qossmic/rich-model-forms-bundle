@@ -22,12 +22,12 @@ use Qossmic\RichModelForms\DataMapper\PropertyMapperInterface;
  */
 class CancellationDateMapper implements PropertyMapperInterface
 {
-    public function readPropertyValue($data)
+    public function readPropertyValue(mixed $data): mixed
     {
         return $data->cancelledFrom();
     }
 
-    public function writePropertyValue($data, $value): void
+    public function writePropertyValue(mixed $data, mixed $value): void
     {
         $data->cancelFrom($value);
     }

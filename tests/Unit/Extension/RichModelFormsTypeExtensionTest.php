@@ -32,7 +32,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
 {
     use ExceptionHandlerRegistryTrait;
 
-    private $extension;
+    private RichModelFormsTypeExtension $extension;
 
     protected function setUp(): void
     {
@@ -200,7 +200,7 @@ class RichModelFormsTypeExtensionTest extends TestCase
         $this->extension->buildForm($formBuilder, $this->configureOptions()->resolve($options));
     }
 
-    private function configureOptions()
+    private function configureOptions(): OptionsResolver
     {
         $resolver = new OptionsResolver();
         (new FormType())->configureOptions($resolver);

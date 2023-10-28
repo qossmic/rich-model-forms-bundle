@@ -40,7 +40,7 @@ final class ChainExceptionHandler implements ExceptionHandlerInterface
         $this->exceptionHandlers = $exceptionHandlers;
     }
 
-    public function getError(FormConfigInterface $formConfig, $data, \Throwable $e): ?Error
+    public function getError(FormConfigInterface $formConfig, mixed $data, \Throwable $e): ?Error
     {
         foreach ($this->exceptionHandlers as $exceptionHandler) {
             if (null !== $error = $exceptionHandler->getError($formConfig, $data, $e)) {

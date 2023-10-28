@@ -28,7 +28,7 @@ abstract class AbstractDataMapperTest extends TestCase
 {
     use ExceptionHandlerRegistryTrait;
 
-    protected function createFormBuilder(string $type, $data = null, array $options = [], array $additionalExtensions = []): FormBuilderInterface
+    protected function createFormBuilder(string $type, mixed $data = null, array $options = [], array $additionalExtensions = []): FormBuilderInterface
     {
         $exceptionHandlerRegistry = $this->createExceptionHandlerRegistry();
         $formFactory = (new FormFactoryBuilder())
@@ -39,7 +39,7 @@ abstract class AbstractDataMapperTest extends TestCase
         return $formFactory->createBuilder($type, $data, $options);
     }
 
-    protected function createForm(string $type, $data, array $options = [], array $additionalExtensions = []): FormInterface
+    protected function createForm(string $type, mixed $data, array $options = [], array $additionalExtensions = []): FormInterface
     {
         return $this->createFormBuilder($type, $data, $options, $additionalExtensions)->getForm();
     }
