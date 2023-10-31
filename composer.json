@@ -49,6 +49,9 @@
     "extra": {
         "branch-alias": {
             "dev-main": "0.3-dev"
+        },
+        "symfony": {
+            "require": "6.4.x-dev"
         }
     }
 }
