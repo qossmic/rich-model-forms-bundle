@@ -4,6 +4,7 @@ CHANGELOG
 0.4.0
 -----
 
+* add Symfony 7 support
 * the following classes are internal and can break BC at any time:
   * `RegisterExceptionHandlersPass`
   * `RichModelFormsExtension`
