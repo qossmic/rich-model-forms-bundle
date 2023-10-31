@@ -1,6 +1,3 @@
-includes:
-    - phar://vendor/phpstan/phpstan/phpstan.phar/conf/config.levelmax.neon
-
 parameters:
     checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false

@@ -50,22 +50,14 @@ jobs:
           php-version: '${{ matrix.php-version }}'
           coverage: 'none'
 
-      - name: 'Get Composer cache directory'
-        id: 'composer-cache'
-        run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
-
-      - name: 'Cache dependencies'
-        uses: 'actions/cache@v2'
-        with:
-          path: '${{ steps.composer-cache.outputs.cache-dir }}'
-          key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
-          restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
-
       - name: 'Install dependencies'
-        run: 'composer update --no-progress --prefer-stable'
+        uses: php-actions/composer@v6
 
       - name: 'Run PhpStan'
-        run: 'vendor/bin/phpstan analyze --no-progress'
+        uses: 'php-actions/phpstan@v3'
+        with:
+          configuration: 'phpstan.neon'
+          level: max
 
   tests:
     name: 'PHPUnit'
