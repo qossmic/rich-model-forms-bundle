@@ -25,22 +25,10 @@ jobs:
           php-version: '${{ matrix.php-version }}'
           coverage: 'none'
 
-      - name: 'Get Composer cache directory'
-        id: 'composer-cache'
-        run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
-
-      - name: 'Cache dependencies'
-        uses: 'actions/cache@v2'
-        with:
-          path: '${{ steps.composer-cache.outputs.cache-dir }}'
-          key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
-          restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
-
-      - name: 'Install dependencies'
-        run: 'composer update --no-progress --prefer-stable'
-
       - name: 'Check the code style'
-        run: 'vendor/bin/php-cs-fixer fix --diff --dry-run'
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: '--diff --dry-run'
 
   phpstan:
     name: 'PhpStan'
