@@ -17,16 +17,17 @@ jobs:
 
     steps:
       - name: 'Check out'
-        uses: 'actions/checkout@v2'
+        uses: 'actions/checkout@v4'
 
-      - name: 'Set up PHP'
-        uses: 'shivammathur/setup-php@v2'
+      - uses: actions/cache@v3
         with:
-          php-version: '${{ matrix.php-version }}'
-          coverage: 'none'
+          path: '.php-cs-fixer.cache'
+          key: '${{ runner.OS }}-${{ github.repository }}-phpcsfixer-${{ github.sha }}'
+          restore-keys: |
+            ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-
 
       - name: 'Check the code style'
-        uses: docker://oskarstark/php-cs-fixer-ga
+        uses: 'docker://oskarstark/php-cs-fixer-ga'
         with:
           args: '--diff --dry-run'
 
@@ -35,29 +36,24 @@ jobs:
 
     runs-on: 'ubuntu-latest'
 
-    strategy:
-      matrix:
-        php-version:
-          - '8.1'
-
     steps:
       - name: 'Check out'
-        uses: 'actions/checkout@v2'
+        uses: 'actions/checkout@v4'
 
-      - name: 'Set up PHP'
-        uses: 'shivammathur/setup-php@v2'
+      - name: 'Cache dependencies'
+        uses: 'actions/cache@v3'
         with:
-          php-version: '${{ matrix.php-version }}'
-          coverage: 'none'
+          path: '/tmp/composer-cache'
+          key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
 
       - name: 'Install dependencies'
-        uses: php-actions/composer@v6
+        uses: 'php-actions/composer@v6'
 
       - name: 'Run PhpStan'
         uses: 'php-actions/phpstan@v3'
         with:
           configuration: 'phpstan.neon'
-          level: max
+          level: 'max'
 
   tests:
     name: 'PHPUnit'
@@ -94,7 +90,7 @@ jobs:
 
     steps:
       - name: 'Check out'
-        uses: 'actions/checkout@v2'
+        uses: 'actions/checkout@v4'
 
       - name: 'Set up PHP'
         uses: 'shivammathur/setup-php@v2'
@@ -102,25 +98,42 @@ jobs:
           php-version: '${{ matrix.php-version }}'
           coverage: 'none'
 
-      - name: 'Get Composer cache directory'
-        id: 'composer-cache'
-        run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
-
       - name: 'Cache dependencies'
-        uses: 'actions/cache@v2'
+        uses: 'actions/cache@v3'
         with:
-          path: '${{ steps.composer-cache.outputs.cache-dir }}'
+          path: '/tmp/composer-cache'
           key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
-          restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
+
+      - name: 'Initialize the global Composer environment'
+        uses: 'php-actions/composer@v6'
+        with:
+          command: 'global init --license MIT'
+
+      - run: |
+          cat $HOME/.config/composer/composer.json
+
+      - name: 'Allow the Symfony Flex plugin'
+        uses: 'php-actions/composer@v6'
+        with:
+          command: 'global config --no-plugins allow-plugins.symfony/flex true'
+
+      - run: |
+          cat $HOME/.config/composer/composer.json
+
+      - name: 'Install Symfony Flex'
+        uses: 'php-actions/composer@v6'
+        with:
+          command: 'global require symfony/flex'
+
+      - run: |
+          cat composer.json
 
       - name: 'Install dependencies'
+        uses: 'php-actions/composer@v6'
         env:
-          COMPOSER_OPTIONS: '${{ matrix.composer-options }}'
           SYMFONY_REQUIRE: '${{ matrix.symfony-version }}'
-        run: |
-          composer global config --no-plugins allow-plugins.symfony/flex true
-          composer global require --no-progress --no-scripts --no-plugins symfony/flex
-          composer update --no-progress $COMPOSER_OPTIONS
+        with:
+          command: 'update --no-progress ${{ matrix.composer-options }}'
 
       - name: 'Install PHPUnit'
         run: 'vendor/bin/simple-phpunit install'
