@@ -27,8 +27,8 @@ class TypeMismatchPriceChangeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $price = $builder->create('price', IntegerType::class, [
-                'handle_exception' => $options['expected_price_exception'],
-            ])
+            'handle_exception' => $options['expected_price_exception'],
+        ])
             ->addViewTransformer(new CallbackTransformer(
                 function ($value) {
                     if (!$value instanceof Price) {

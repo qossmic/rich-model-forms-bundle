@@ -29,7 +29,7 @@ final class FormExceptionHandler
     private ?TranslatorInterface $translator;
     private ?string $translationDomain;
 
-    public function __construct(ExceptionHandlerRegistry $exceptionHandlerRegistry, TranslatorInterface $translator = null, string $translationDomain = null)
+    public function __construct(ExceptionHandlerRegistry $exceptionHandlerRegistry, ?TranslatorInterface $translator = null, ?string $translationDomain = null)
     {
         $this->exceptionHandlerRegistry = $exceptionHandlerRegistry;
         $this->translator = $translator;

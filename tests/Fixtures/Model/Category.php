@@ -20,7 +20,7 @@ class Category
     private $name;
     private $parent;
 
-    public function __construct(string $name, self $parent = null)
+    public function __construct(string $name, ?self $parent = null)
     {
         $this->validateName($name);
 
