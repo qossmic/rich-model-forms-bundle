@@ -23,11 +23,11 @@ final class GrossPrice
     public function __construct(int $amount, int $taxRate)
     {
         if ($amount < 0) {
-            throw new \InvalidArgumentException(sprintf('A price cannot be less than 0 (%d given).', $amount));
+            throw new \InvalidArgumentException(\sprintf('A price cannot be less than 0 (%d given).', $amount));
         }
 
         if (!\in_array($taxRate, [7, 19], true)) {
-            throw new \InvalidArgumentException(sprintf('The tax rate must be 7%% or 19%% (%d%% given).', $taxRate));
+            throw new \InvalidArgumentException(\sprintf('The tax rate must be 7%% or 19%% (%d%% given).', $taxRate));
         }
 
         $this->amount = $amount;

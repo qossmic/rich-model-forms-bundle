@@ -29,7 +29,7 @@ class GrossPriceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (null === $options['factory']) {
-            throw new InvalidConfigurationException(sprintf('The %s requires a configured value for the "factory" option.', self::class));
+            throw new InvalidConfigurationException(\sprintf('The %s requires a configured value for the "factory" option.', self::class));
         }
 
         $builder

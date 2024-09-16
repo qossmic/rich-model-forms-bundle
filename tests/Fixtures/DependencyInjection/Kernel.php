@@ -49,11 +49,11 @@ class Kernel extends BaseKernel
 
     public function getCacheDir(): string
     {
-        return sprintf('%s/RichModelForms/%d/cache', sys_get_temp_dir(), self::VERSION_ID);
+        return \sprintf('%s/RichModelForms/%d/cache', sys_get_temp_dir(), self::VERSION_ID);
     }
 
     public function getLogDir(): string
     {
-        return sprintf('%s/RichModelForms/%d/log', sys_get_temp_dir(), self::VERSION_ID);
+        return \sprintf('%s/RichModelForms/%d/log', sys_get_temp_dir(), self::VERSION_ID);
     }
 }
