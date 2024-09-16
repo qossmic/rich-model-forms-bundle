@@ -22,7 +22,7 @@ final class Price
     public function __construct(int $amount)
     {
         if ($amount < 0) {
-            throw new \InvalidArgumentException(sprintf('A price cannot be less than 0 (%d given).', $amount));
+            throw new \InvalidArgumentException(\sprintf('A price cannot be less than 0 (%d given).', $amount));
         }
 
         $this->amount = $amount;

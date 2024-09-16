@@ -123,7 +123,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
 
             foreach ($value as $strategy) {
                 if (!$this->exceptionHandlerRegistry->has($strategy)) {
-                    throw new InvalidConfigurationException(sprintf('The "%s" error handling strategy is not registered.', $strategy));
+                    throw new InvalidConfigurationException(\sprintf('The "%s" error handling strategy is not registered.', $strategy));
                 }
             }
 
@@ -134,7 +134,7 @@ final class RichModelFormsTypeExtension extends AbstractTypeExtension
         $resolver->setAllowedTypes('factory', ['string', 'array', 'null', \Closure::class]);
         $resolver->setNormalizer('factory', function (Options $options, $value) {
             if (\is_string($value) && !class_exists($value)) {
-                throw new InvalidConfigurationException(sprintf('The configured value for the "factory" option is not a valid class name ("%s" given).', $value));
+                throw new InvalidConfigurationException(\sprintf('The configured value for the "factory" option is not a valid class name ("%s" given).', $value));
             }
 
             if (\is_array($value) && !\is_callable($value)) {

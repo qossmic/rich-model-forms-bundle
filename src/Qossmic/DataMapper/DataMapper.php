@@ -143,7 +143,7 @@ final class DataMapper implements DataMapperInterface
                 if (1 === \count($forms)) {
                     $this->propertyAccessor->setValue($data, $writePropertyPath, reset($forms)->getData());
                 } elseif (!\is_object($data)) {
-                    throw new LogicException(sprintf('Mapping multiple forms to a single method requires the form data to be an object but is "%s".', \gettype($data)));
+                    throw new LogicException(\sprintf('Mapping multiple forms to a single method requires the form data to be an object but is "%s".', \gettype($data)));
                 } else {
                     $formData = [];
 

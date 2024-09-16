@@ -29,7 +29,7 @@ class ChangeProductStockType extends AbstractType
             ->add('stock', IntegerType::class, [
                 'handle_exception' => $options['expected_stock_exception'],
             ])
-            ->setDataMapper(new class() implements DataMapperInterface {
+            ->setDataMapper(new class implements DataMapperInterface {
                 public function mapDataToForms($data, $forms): void
                 {
                     foreach ($forms as $form) {
