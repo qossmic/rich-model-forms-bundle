@@ -13,12 +13,12 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Integration;
+namespace OpenSC\RichModelForms\Tests\Integration;
 
-use Qossmic\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\PriceType;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\PriceType;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\GrossPrice;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Price;
 
 class FactoryTest extends AbstractDataMapperTest
 {

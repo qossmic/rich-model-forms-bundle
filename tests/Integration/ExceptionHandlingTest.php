@@ -13,19 +13,19 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Integration;
+namespace OpenSC\RichModelForms\Tests\Integration;
 
-use Qossmic\RichModelForms\Tests\Fixtures\Form\CategoryType;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\ChangeProductStockTypeExtension;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\ProductDataType;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\ProductDtoType;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\TypeMismatchPriceChangeType;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Category;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Dto\Product as ProductDto;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Product;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\ProductWithTypeError;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\CategoryType;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\ChangeProductStockType;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\ChangeProductStockTypeExtension;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\ProductDataType;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\ProductDtoType;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\TypeMismatchPriceChangeType;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Category;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Dto\Product as ProductDto;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Price;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Product;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\ProductWithTypeError;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -74,9 +74,9 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
 
         $this->assertFalse($form->get('price')->isValid());
         $this->assertCount(1, $form->get('price')->getErrors());
-        $this->assertSame('This value should be of type Qossmic\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
+        $this->assertSame('This value should be of type OpenSC\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertMatchesRegularExpression('/^Expected argument of type "Qossmic\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertMatchesRegularExpression('/^Expected argument of type "OpenSC\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandled(): void
@@ -172,9 +172,9 @@ class ExceptionHandlingTest extends AbstractDataMapperTest
 
         $this->assertFalse($form->get('price')->isValid());
         $this->assertCount(1, $form->get('price')->getErrors());
-        $this->assertSame('This value should be of type Qossmic\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
+        $this->assertSame('This value should be of type OpenSC\RichModelForms\Tests\Fixtures\Model\Price.', $form->get('price')->getErrors()[0]->getMessage());
         $this->assertInstanceOf(InvalidArgumentException::class, $form->get('price')->getErrors()[0]->getCause());
-        $this->assertMatchesRegularExpression('/^Expected argument of type "Qossmic\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
+        $this->assertMatchesRegularExpression('/^Expected argument of type "OpenSC\\\\RichModelForms\\\\Tests\\\\Fixtures\\\\Model\\\\Price", "int(eger)?" given/', $form->get('price')->getErrors()[0]->getCause()->getMessage());
     }
 
     public function testNonArgumentTypeMismatchErrorsWillNotBeHandledWithConfiguredExpectedExceptions(): void

@@ -13,9 +13,9 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Fixtures\DependencyInjection;
+namespace OpenSC\RichModelForms\Tests\Fixtures\DependencyInjection;
 
-use Qossmic\RichModelForms\RichModelFormsBundle;
+use OpenSC\RichModelForms\RichModelFormsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;

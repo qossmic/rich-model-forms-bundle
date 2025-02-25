@@ -13,13 +13,13 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Integration;
+namespace OpenSC\RichModelForms\Tests\Integration;
 
-use Qossmic\RichModelForms\Tests\Fixtures\Form\CancellationDateMapper;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\ProductDataType;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Product;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\CancellationDateMapper;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\ProductDataType;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Price;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Product;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 class CoreDataMapperCompatibilityTest extends AbstractDataMapperTest

@@ -13,11 +13,11 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\DataTransformer;
+namespace OpenSC\RichModelForms\DataTransformer;
 
-use Qossmic\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
-use Qossmic\RichModelForms\ExceptionHandling\ExceptionToErrorMapperTrait;
-use Qossmic\RichModelForms\Instantiator\ViewDataInstantiator;
+use OpenSC\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
+use OpenSC\RichModelForms\ExceptionHandling\ExceptionToErrorMapperTrait;
+use OpenSC\RichModelForms\Instantiator\ViewDataInstantiator;
 use Symfony\Component\Form\ButtonBuilder;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

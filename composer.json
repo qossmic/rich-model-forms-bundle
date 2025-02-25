@@ -1,5 +1,5 @@
 {
-    "name": "qossmic/rich-model-forms-bundle",
+    "name": "opensc/rich-model-forms-bundle",
     "description": "Provides additional data mapper options that ease the use of the Symfony Form component with rich models.",
     "keywords": ["Symfony", "form", "forms", "bundle", "rich model", "DDD", "domain-driven design"],
     "type": "symfony-bundle",
@@ -38,12 +38,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Qossmic\\RichModelForms\\": "src/Qossmic"
+            "OpenSC\\RichModelForms\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Qossmic\\RichModelForms\\Tests\\": "tests"
+            "OpenSC\\RichModelForms\\Tests\\": "tests"
         }
     },
     "extra": {

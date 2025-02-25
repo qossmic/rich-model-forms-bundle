@@ -13,16 +13,16 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Integration;
+namespace OpenSC\RichModelForms\Tests\Integration;
 
+use OpenSC\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use OpenSC\RichModelForms\Extension\RichModelFormsTypeExtension;
+use OpenSC\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\PriceType;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\GrossPrice;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Price;
 use PHPUnit\Framework\TestCase;
-use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use Qossmic\RichModelForms\Extension\RichModelFormsTypeExtension;
-use Qossmic\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\GrossPriceType;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\PriceType;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Price;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -111,7 +111,7 @@ class ValueObjectsTest extends TestCase
     public function testTransformDoesForwardPropertyAccessExceptions(): void
     {
         $this->expectException(NoSuchPropertyException::class);
-        $this->expectExceptionMessage('Can\'t get a way to read the property "extra_field" in class "Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice".');
+        $this->expectExceptionMessage('Can\'t get a way to read the property "extra_field" in class "OpenSC\RichModelForms\Tests\Fixtures\Model\GrossPrice".');
 
         $form = $this->createForm(GrossPriceType::class, null, [
             'extra_field' => true,

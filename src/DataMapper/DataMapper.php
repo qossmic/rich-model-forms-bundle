@@ -13,9 +13,9 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\DataMapper;
+namespace OpenSC\RichModelForms\DataMapper;
 
-use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use OpenSC\RichModelForms\ExceptionHandling\FormExceptionHandler;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;

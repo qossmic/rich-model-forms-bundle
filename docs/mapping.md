@@ -163,7 +163,7 @@ Alternatively, you can also implement the `PropertyMapperInterface` and fully cu
 
 ```php
 // ...
-use Qossmic\RichModelForms\DataMapper\PropertyMapperInterface;
+use OpenSC\RichModelForms\DataMapper\PropertyMapperInterface;
 
 public function buildForm(FormBuilderInterface $builder, array $options): void
 {

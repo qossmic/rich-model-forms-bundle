@@ -13,7 +13,7 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Fixtures\Model;
+namespace OpenSC\RichModelForms\Tests\Fixtures\Model;
 
 class Product
 {

@@ -13,12 +13,12 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Integration;
+namespace OpenSC\RichModelForms\Tests\Integration;
 
+use OpenSC\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use OpenSC\RichModelForms\Extension\RichModelFormsTypeExtension;
+use OpenSC\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use PHPUnit\Framework\TestCase;
-use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use Qossmic\RichModelForms\Extension\RichModelFormsTypeExtension;
-use Qossmic\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\Form\FormInterface;

@@ -13,9 +13,9 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Fixtures\Form;
+namespace OpenSC\RichModelForms\Tests\Fixtures\Form;
 
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Dto\Product;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Dto\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

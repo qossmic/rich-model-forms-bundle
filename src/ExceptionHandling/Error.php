@@ -13,7 +13,7 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\ExceptionHandling;
+namespace OpenSC\RichModelForms\ExceptionHandling;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>

@@ -13,11 +13,11 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests;
+namespace OpenSC\RichModelForms\Tests;
 
-use Qossmic\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
-use Qossmic\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
-use Qossmic\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
+use OpenSC\RichModelForms\ExceptionHandling\ArgumentTypeMismatchExceptionHandler;
+use OpenSC\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
+use OpenSC\RichModelForms\ExceptionHandling\FallbackExceptionHandler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 trait ExceptionHandlerRegistryTrait

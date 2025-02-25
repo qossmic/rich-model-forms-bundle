@@ -13,11 +13,11 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Integration;
+namespace OpenSC\RichModelForms\Tests\Integration;
 
-use Qossmic\RichModelForms\Tests\Fixtures\Form\CancellationDateMapper;
-use Qossmic\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\Subscription;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\CancellationDateMapper;
+use OpenSC\RichModelForms\Tests\Fixtures\Form\CancelSubscriptionType;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\Subscription;
 
 class PropertyMapperTest extends AbstractDataMapperTest
 {
