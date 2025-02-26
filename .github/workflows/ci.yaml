@@ -41,13 +41,12 @@ jobs:
           coverage: 'none'
 
       - name: 'Install dependencies'
-        uses: php-actions/composer@v6
+        run: |
+          composer install
 
       - name: 'Run PhpStan'
-        uses: 'php-actions/phpstan@v3'
-        with:
-          configuration: 'phpstan.neon'
-          level: max
+        run: |
+          vendor/bin/phpstan analyze
 
   tests:
     name: 'PHPUnit'
