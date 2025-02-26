@@ -13,14 +13,14 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Unit\Extension;
+namespace OpenSC\RichModelForms\Tests\Unit\Extension;
 
+use OpenSC\RichModelForms\DataMapper\DataMapper;
+use OpenSC\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use OpenSC\RichModelForms\Extension\RichModelFormsTypeExtension;
+use OpenSC\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use OpenSC\RichModelForms\Tests\Fixtures\Model\GrossPrice;
 use PHPUnit\Framework\TestCase;
-use Qossmic\RichModelForms\DataMapper\DataMapper;
-use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use Qossmic\RichModelForms\Extension\RichModelFormsTypeExtension;
-use Qossmic\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
-use Qossmic\RichModelForms\Tests\Fixtures\Model\GrossPrice;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;

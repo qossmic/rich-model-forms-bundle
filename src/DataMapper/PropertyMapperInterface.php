@@ -13,7 +13,7 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\DataMapper;
+namespace OpenSC\RichModelForms\DataMapper;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>

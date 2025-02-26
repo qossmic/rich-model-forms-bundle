@@ -13,11 +13,11 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Fixtures\Form;
+namespace OpenSC\RichModelForms\Tests\Fixtures\Form;
 
-use Qossmic\RichModelForms\DataMapper\DataMapper;
-use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use Qossmic\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
+use OpenSC\RichModelForms\DataMapper\DataMapper;
+use OpenSC\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use OpenSC\RichModelForms\Tests\ExceptionHandlerRegistryTrait;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;

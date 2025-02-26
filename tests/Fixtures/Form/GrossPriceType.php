@@ -13,7 +13,7 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Fixtures\Form;
+namespace OpenSC\RichModelForms\Tests\Fixtures\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;

@@ -13,9 +13,9 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms;
+namespace OpenSC\RichModelForms;
 
-use Qossmic\RichModelForms\DependencyInjection\Compiler\RegisterExceptionHandlersPass;
+use OpenSC\RichModelForms\DependencyInjection\Compiler\RegisterExceptionHandlersPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

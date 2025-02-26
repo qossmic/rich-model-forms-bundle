@@ -13,14 +13,14 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Extension;
+namespace OpenSC\RichModelForms\Extension;
 
-use Qossmic\RichModelForms\DataMapper\DataMapper;
-use Qossmic\RichModelForms\DataMapper\PropertyMapperInterface;
-use Qossmic\RichModelForms\DataTransformer\ValueObjectTransformer;
-use Qossmic\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
-use Qossmic\RichModelForms\ExceptionHandling\FormExceptionHandler;
-use Qossmic\RichModelForms\Instantiator\FormDataInstantiator;
+use OpenSC\RichModelForms\DataMapper\DataMapper;
+use OpenSC\RichModelForms\DataMapper\PropertyMapperInterface;
+use OpenSC\RichModelForms\DataTransformer\ValueObjectTransformer;
+use OpenSC\RichModelForms\ExceptionHandling\ExceptionHandlerRegistry;
+use OpenSC\RichModelForms\ExceptionHandling\FormExceptionHandler;
+use OpenSC\RichModelForms\Instantiator\FormDataInstantiator;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;

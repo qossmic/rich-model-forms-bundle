@@ -13,7 +13,7 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Fixtures\DependencyInjection;
+namespace OpenSC\RichModelForms\Tests\Fixtures\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -26,12 +26,12 @@ final class PublicTestAliasPass implements CompilerPassInterface
         $testAliases = [];
 
         foreach ($container->getDefinitions() as $id => $definition) {
-            if (str_starts_with($id, 'qossmic.rich_model_forms.')) {
+            if (str_starts_with($id, 'opensc.rich_model_forms.')) {
                 $container->setAlias('test.'.$id, new Alias($id, true));
                 $testAliases['test.'.$id] = $definition->getClass();
             }
         }
 
-        $container->setParameter('qossmic.rich_model_forms.test_service_aliases', $testAliases);
+        $container->setParameter('opensc.rich_model_forms.test_service_aliases', $testAliases);
     }
 }

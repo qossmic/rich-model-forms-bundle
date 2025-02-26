@@ -13,9 +13,9 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Tests\Fixtures\Form;
+namespace OpenSC\RichModelForms\Tests\Fixtures\Form;
 
-use Qossmic\RichModelForms\DataMapper\PropertyMapperInterface;
+use OpenSC\RichModelForms\DataMapper\PropertyMapperInterface;
 
 /**
  * @author Christian Flothmann <christian.flothmann@qossmic.com>

@@ -13,7 +13,7 @@
 
 declare(strict_types = 1);
 
-namespace Qossmic\RichModelForms\Instantiator;
+namespace OpenSC\RichModelForms\Instantiator;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
